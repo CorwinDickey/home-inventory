@@ -86,5 +86,5 @@ APP.get('*', staticFiles)
 // LISTENER
 // ==============================================================
 APP.listen(PORT, () => {
-    console.log('M/EP server is up and running on port:', PORT)
+    console.log(DB_NAME + ' server is up and running on port:', PORT)
 })
