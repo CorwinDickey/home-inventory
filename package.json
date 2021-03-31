@@ -1,0 +1,27 @@
+{
+  "name": "home-inventory",
+  "version": "1.0.0",
+  "description": "A full stack application to help manage and view a home inventory.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install": "(cd front-end && npm install) && (cd back-end && npm install)",
+    "start": "concurrently \"cd front-end && npm run start\" \"cd back-end && npm run start\"",
+    "build": "concurrently \"cd front-end && npm run build\" \"cd back-end && npm run build\"",
+    "start:prod": "cd back-end && npm run start:prod",
+    "heroku-postbuild": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CorwinDickey/home-inventory.git"
+  },
+  "author": "Corwin Dickey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CorwinDickey/home-inventory/issues"
+  },
+  "homepage": "https://github.com/CorwinDickey/home-inventory#readme",
+  "dependencies": {
+    "concurrently": "^6.0.0"
+  }
+}
