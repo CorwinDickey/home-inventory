@@ -31,7 +31,7 @@ My final project with General Assembly is the app I wanted, not the app I had to
 - As a user, I want to upload pictures or other documents for a particular item.
 - As a user, I want to see (at a glance) the cumulative value of my items.
 - As a user, I want to see (at a glance) the value of my items by room.
-- As a user, I want to see (at a glance) the value of my items by room.
+- As a user, I want to see (at a glance) the value of my items by category.
 - As a user, I want to update and delete items.
 - As a user, I want to allow other people to view and add items, but not delete items I added.
 #### Stretch Goals
