@@ -26,7 +26,6 @@ My final project with General Assembly is the app I wanted, not the app I had to
 - As a user, I want to create rooms for items to go in.
 - As a user, I want to add items inside of rooms.
 - As a user, I want to add items outside of rooms.
-- As a user, I want to create categories for items to be in.
 - As a user, I want to add items inside of categories.
 - As a user, I want to add items outside of categories.
 - As a user, I want to upload pictures or other documents for a particular item.
@@ -38,3 +37,13 @@ My final project with General Assembly is the app I wanted, not the app I had to
 #### Stretch Goals
 - As a user, I want to have automated import/linking of my amazon account to add items as I buy them.
 - As a user, I want to export my data into a csv file.
+- As a user, I want to create categories for items to be in.
+- As a user, I want to create my own item category template forms.
+
+## Wireframes
+### Dashboard
+![dashboard](https://user-images.githubusercontent.com/62188881/113032930-0f02f880-9156-11eb-96f3-43fb0fc76a0d.png)
+### Add Item Multi-Page Form
+![add-item-p1](https://user-images.githubusercontent.com/62188881/113072097-cbc37c80-918b-11eb-8d02-7e32616b6866.png)
+![add-item-p2](https://user-images.githubusercontent.com/62188881/113082548-4eeecd80-91a0-11eb-8c34-ef78ea38fc06.png)
+![add-item p3](https://user-images.githubusercontent.com/62188881/113154620-cdc62380-91fd-11eb-9261-f400639a741f.png)
