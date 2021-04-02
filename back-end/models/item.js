@@ -2,11 +2,13 @@ const mongoose = require('mongoose')
 
 const itemSchema = mongoose.Schema({
     category: {
-        type: mongoose.Schema.Types.ObjectId,
+        // type: mongoose.Schema.Types.ObjectId,
+        type: Number,
         required: true
     },
     room: {
-        type: mongoose.Schema.Types.ObjectId
+        // type: mongoose.Schema.Types.ObjectId
+        type: Number
     },
     name: {
         type: String,
@@ -35,13 +37,16 @@ const itemSchema = mongoose.Schema({
         type: Number
     },
     pictures: {
-        type: mongoose.Schema.Types.Mixed
+        // type: mongoose.Schema.Types.Mixed
+        type: Number
     },
     documents: {
-        type: mongoose.Schema.Types.Mixed
+        // type: mongoose.Schema.Types.Mixed
+        type: Number
     },
     categoryData: {
-        type: mongoose.Schema.Types.ObjectId
+        // type: mongoose.Schema.Types.ObjectId
+        type: Number
     }
 })
 
