@@ -21,7 +21,7 @@ ITEM.post('/', (req, res) => {
 // READ ROUTES
 // ==============================================================
 ITEM.get('/:id', (req, res) => {
-    Item.fingOne({'_id': req.params.id}, (error, foundItem) => {
+    Item.findOne({'_id': req.params.id}, (error, foundItem) => {
         if(error) {
             res.status(400).json({ error: error.message })
         }
