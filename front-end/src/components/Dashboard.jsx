@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import AddItem from './AddItem'
 
 function Dashboard() {
     const [itemList, setItemList] = useState([])
@@ -21,6 +22,7 @@ function Dashboard() {
     return(
         <div>
             Testing deployment of react app
+            <AddItem />
             {itemList.map((item) => {
                 if (item) {
                     return (
