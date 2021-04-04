@@ -4,12 +4,11 @@ import AddItem from './AddItem'
 
 function Dashboard() {
     const [itemList, setItemList] = useState([])
-    const baseURL = process.env.REACT_APP_SERVER_URL
 
     useEffect(() => getItems(), itemList)
 
     function getItems() {
-        axios.get(baseURL + '/items')
+        axios.get('/items')
         .then(response => {
             console.log(response)
             setItemList(response.data)
