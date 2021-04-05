@@ -3,13 +3,13 @@
 // ==============================================================
 const bcrypt = require('bcrypt')
 const express = require('express')
-const user = express.Router()
-const User = require('../models/user')
+const users = express.Router()
+const User = require('../models/users')
 
 // ==============================================================
 // NEW USER ROUTE
 // ==============================================================
-user.post('/register', (req, res) => {
+users.post('/register', (req, res) => {
     const body = {
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
@@ -24,4 +24,4 @@ user.post('/register', (req, res) => {
 })
 
 
-module.exports = user
+module.exports = users

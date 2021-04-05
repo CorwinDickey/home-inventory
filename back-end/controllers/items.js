@@ -2,13 +2,13 @@
 // DEPENDENCIES
 // ==============================================================
 const express = require('express')
-const item = express.Router()
-const Item = require('../models/item')
+const items = express.Router()
+const Item = require('../models/items')
 
 // ==============================================================
 // CREATE ROUTE
 // ==============================================================
-item.post('/', (req, res) => {
+items.post('/', (req, res) => {
     Item.create(req.body, (error, createdItem) => {
         if(error) {
             res.status(400).json({ error: error.message })
@@ -20,7 +20,7 @@ item.post('/', (req, res) => {
 // ==============================================================
 // READ ROUTES
 // ==============================================================
-item.get('/:id', (req, res) => {
+items.get('/:id', (req, res) => {
     Item.findOne({'_id': req.params.id}, (error, foundItem) => {
         if(error) {
             res.status(400).json({ error: error.message })
@@ -29,7 +29,7 @@ item.get('/:id', (req, res) => {
     })
 })
 
-item.get('/', (req, res) => {
+items.get('/', (req, res) => {
     Item.find({}, (error, foundItems) => {
         if (error) {
             res.status(400).json({ error: error.message })
@@ -41,7 +41,7 @@ item.get('/', (req, res) => {
 // ==============================================================
 // DELETE ROUTE
 // ==============================================================
-item.delete('/:id', (req, res) => {
+items.delete('/:id', (req, res) => {
     Item.findByIdAndDelete(req.params.id, (error, deletedItem) => {
         if (error) {
             res.status(400).json({ error: error.message })
@@ -53,7 +53,7 @@ item.delete('/:id', (req, res) => {
 // ==============================================================
 // UPDATE ROUTE
 // ==============================================================
-item.put('/:id', (req, res) => {
+items.put('/:id', (req, res) => {
     Item.findByIdAndUpdate(req.params.id, req.body, { new: true }, (error, updatedItem) => {
         if (error) {
             res.status(400).json({ error: error.message })
@@ -62,4 +62,4 @@ item.put('/:id', (req, res) => {
     })
 })
 
-module.exports = item
+module.exports = items

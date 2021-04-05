@@ -46,11 +46,11 @@ APP.use((error, req, res, next) => {
 // ==============================================================
 // CONTROLLERS
 // ==============================================================
-const itemController = require('./controllers/item')
-const userController = require('./controllers/user')
+const itemsController = require('./controllers/items')
+const usersController = require('./controllers/users')
 
-APP.use('/items', itemController)
-APP.use('/user', userController)
+APP.use('/items', itemsController)
+APP.use('/users', usersController)
 
 // ==============================================================
 // DATABASE CONFIGURATION
