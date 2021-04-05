@@ -2,13 +2,13 @@
 // DEPENDENCIES
 // ==============================================================
 const express = require('express')
-const ITEM = express.Router()
+const item = express.Router()
 const Item = require('../models/item')
 
 // ==============================================================
 // CREATE ROUTE
 // ==============================================================
-ITEM.post('/', (req, res) => {
+item.post('/', (req, res) => {
     Item.create(req.body, (error, createdItem) => {
         if(error) {
             res.status(400).json({ error: error.message })
@@ -20,7 +20,7 @@ ITEM.post('/', (req, res) => {
 // ==============================================================
 // READ ROUTES
 // ==============================================================
-ITEM.get('/:id', (req, res) => {
+item.get('/:id', (req, res) => {
     Item.findOne({'_id': req.params.id}, (error, foundItem) => {
         if(error) {
             res.status(400).json({ error: error.message })
@@ -29,7 +29,7 @@ ITEM.get('/:id', (req, res) => {
     })
 })
 
-ITEM.get('/', (req, res) => {
+item.get('/', (req, res) => {
     Item.find({}, (error, foundItems) => {
         if (error) {
             res.status(400).json({ error: error.message })
@@ -41,7 +41,7 @@ ITEM.get('/', (req, res) => {
 // ==============================================================
 // DELETE ROUTE
 // ==============================================================
-ITEM.delete('/:id', (req, res) => {
+item.delete('/:id', (req, res) => {
     Item.findByIdAndDelete(req.params.id, (error, deletedItem) => {
         if (error) {
             res.status(400).json({ error: error.message })
@@ -53,7 +53,7 @@ ITEM.delete('/:id', (req, res) => {
 // ==============================================================
 // UPDATE ROUTE
 // ==============================================================
-ITEM.put('/:id', (req, res) => {
+item.put('/:id', (req, res) => {
     Item.findByIdAndUpdate(req.params.id, req.body, { new: true }, (error, updatedItem) => {
         if (error) {
             res.status(400).json({ error: error.message })
@@ -62,4 +62,4 @@ ITEM.put('/:id', (req, res) => {
     })
 })
 
-module.exports = ITEM
+module.exports = item

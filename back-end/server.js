@@ -47,7 +47,10 @@ APP.use((error, req, res, next) => {
 // CONTROLLERS
 // ==============================================================
 const itemController = require('./controllers/item')
+const userController = require('./controllers/user')
+
 APP.use('/items', itemController)
+APP.use('/user', userController)
 
 // ==============================================================
 // DATABASE CONFIGURATION
