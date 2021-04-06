@@ -3,7 +3,7 @@
 // ==============================================================
 const express = require('express')
 const items = express.Router()
-const Item = require('../models/items')
+const Item = require('../models/item')
 
 // ==============================================================
 // CREATE ROUTE

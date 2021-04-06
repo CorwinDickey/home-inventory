@@ -1,4 +1,4 @@
-const config = require('config.json')
+const config = require('../config.json')
 const jwt = require('express-jwt')
 const bcrypt = require('bcryptjs')
 

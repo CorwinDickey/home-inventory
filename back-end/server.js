@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const errorHandler = require('./middleware/error-handler')
-const MongoStore = require('connect-mongo')
+// const MongoStore = require('connect-mongo')
 const cors = require('cors')({
     origin: 'http://localhost:3000'
 })
@@ -38,6 +38,7 @@ APP.use(express.json())
 APP.use(bodyParser.urlencoded({ extended: false }))
 APP.use(bodyParser.json())
 APP.use(cookieParser())
+APP.use(errorHandler)
 
 
 APP.use((error, req, res, next) => {

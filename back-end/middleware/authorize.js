@@ -1,5 +1,5 @@
 const jwt = require('express-jwt')
-const { secret } = require('config.json')
+const { secret } = require('../config.json')
 const Account = require('../models/account')
 const RefreshToken = require('../models/refresh-token')
 

@@ -177,7 +177,7 @@ function createAccount(req, res, next) {
 }
 
 function updateSchema(req, res, next) {
-    const schema = Joi.object({
+    const schemaRules = Joi.object({
         email: Joi.string().required(),
         password: Joi.string().required(),
         firstName: Joi.string().required(),
