@@ -7,6 +7,21 @@ const Role = require('../utils/role')
 const Account = require('../models/account')
 const RefreshToken = require('../models/refresh-token')
 
+module.exports = {
+    authenticate,
+    refreshToken,
+    revokeToken,
+    register,
+    verifyEmail,
+    forgotPassword,
+    validateResetToken,
+    resetPassword,
+    getById,
+    createAccount,
+    updateAccount,
+    delete: _delete
+}
+
 async function authenticate({ email, password, ipAddress }) {
     const account = await Account.findOne({ email })
 
@@ -143,7 +158,7 @@ async function createAccount(params) {
     return basicDetails(account)
 }
 
-async function update(id, params) {
+async function updateAccount(id, params) {
     const account = await getAccount(id)
 
     if (params.email && account.email !== params.email && await Account.findOne({ email: params.email })) {
@@ -192,6 +207,10 @@ async function getRefreshToken(token) {
 
 function hash(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(10))
+}
+
+function generateJwtToken(account) {
+    return jwt.sign({ sub: account.id, id: account.id }, config.secret, { expiresIn: '15m'})
 }
 
 function generateRefreshToken(account, ipAddress) {
