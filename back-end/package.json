@@ -24,6 +24,7 @@
     "express": "^4.17.1",
     "express-jwt": "^6.0.0",
     "express-session": "^1.17.1",
+    "joi": "^17.4.0",
     "mongoose": "^5.12.3",
     "nodemailer": "^6.5.0",
     "path": "^0.12.7"
