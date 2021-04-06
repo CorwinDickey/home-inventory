@@ -1,6 +1,6 @@
 const config = require('config.json')
 const jwt = require('express-jwt')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 
 const sendEmail = require('../utils/send-email')
 const Role = require('../utils/role')

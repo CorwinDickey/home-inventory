@@ -3,6 +3,10 @@
 // ==============================================================
 const express = require('express')
 const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+const errorHandler = require('./middleware/error-handler')
+const MongoStore = require('connect-mongo')
 const cors = require('cors')({
     origin: 'http://localhost:3000'
 })
@@ -31,6 +35,10 @@ function allowCrossDomains(req, res, next) {
 APP.use(cors)
 APP.use(allowCrossDomains)
 APP.use(express.json())
+APP.use(bodyParser.urlencoded({ extended: false }))
+APP.use(bodyParser.json())
+APP.use(cookieParser())
+
 
 APP.use((error, req, res, next) => {
     res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
@@ -47,10 +55,10 @@ APP.use((error, req, res, next) => {
 // CONTROLLERS
 // ==============================================================
 const itemsController = require('./controllers/items')
-const usersController = require('./controllers/users')
+const accountsController = require('./controllers/accounts')
 
 APP.use('/items', itemsController)
-APP.use('/users', usersController)
+APP.use('/accounts', accountsController)
 
 // ==============================================================
 // DATABASE CONFIGURATION
