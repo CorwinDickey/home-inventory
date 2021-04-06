@@ -22,11 +22,11 @@ accounts.delete('/:id', authorize(), _delete)
 module.exports = accounts
 
 function authenticateSchema(req, res, next) {
-    const schema = Joi.object({
+    const authenticateSchema = Joi.object({
         email: Joi.string().required(),
         password: Joi.string().required()
     })
-    validateRequest(req, next, schema)
+    validateRequest(req, next, authenticateSchema)
 }
 
 function authenticate(req, res, next) {
@@ -52,10 +52,10 @@ function refreshToken(req, res, next) {
 }
 
 function revokeTokenSchema(req, res, next) {
-    const schema = Joi.object({
+    const revokeTokenSchema = Joi.object({
         token: Joi.string().empty('')
     })
-    validateRequest(req, next, schema)
+    validateRequest(req, next, revokeTokenSchema)
 }
 
 function revokeToken(req, res, next) {
@@ -76,7 +76,7 @@ function revokeToken(req, res, next) {
 }
 
 function registerSchema(req, res, next) {
-    const schema = Joi.object({
+    const registerSchema = Joi.object({
         email: Joi.string().required(),
         password: Joi.string().required(),
         firstName: Joi.string().required(),
@@ -84,7 +84,7 @@ function registerSchema(req, res, next) {
         acceptTerms: Joi.boolean().valid(true).required(),
         confirmPassword: Joi.string().valid(Joi.ref('password')).required()
     })
-    validateRequest(req, next, schema)
+    validateRequest(req, next, registerSchema)
 }
 
 function register(req, res, next) {
@@ -94,10 +94,10 @@ function register(req, res, next) {
 }
 
 function verifyEmailSchema(req, res, next) {
-    const schema = Joi.object({
+    const verifyEmailSchema = Joi.object({
         token: Joi.string().required()
     })
-    validateRequest(req, next, schema)
+    validateRequest(req, next, verifyEmailSchema)
 }
 
 function verifyEmail(req, res, next) {
@@ -107,10 +107,10 @@ function verifyEmail(req, res, next) {
 }
 
 function forgotPasswordSchema(req, res, next) {
-    const schema = Joi.object({
+    const forgotPasswordSchema = Joi.object({
         email: Joi.string().email().required()
     })
-    validateRequest(req, next, schema)
+    validateRequest(req, next, forgotPasswordSchema)
 }
 
 function forgotPassword(req, res, next) {
@@ -120,10 +120,10 @@ function forgotPassword(req, res, next) {
 }
 
 function validateResetTokenSchema(req, res, next) {
-    const schema = Joi.object({
+    const validateResetTokenSchema = Joi.object({
         token: Joi.string().required()
     })
-    validateRequest(req, next, schema)
+    validateRequest(req, next, validateResetTokenSchema)
 }
 
 function validateResetToken(req, res, next) {
@@ -133,12 +133,12 @@ function validateResetToken(req, res, next) {
 }
 
 function resetPasswordSchema(req, res, next) {
-    const schema = Joi.object({
+    const resetPasswordSchema = Joi.object({
         token: Joi.string().required(),
         password: Joi.string().min(8).required(),
         confirmPassword: Joi.string().valid(Joi.ref('password')).required()
     })
-    validateRequest(req, next, schema)
+    validateRequest(req, next, resetPasswordSchema)
 }
 
 function resetPassword(req, res, next) {
@@ -158,7 +158,7 @@ function getById(req, res, next) {
 }
 
 function createSchema(req, res, next) {
-    const schema = Joi.object({
+    const createSchema = Joi.object({
         email: Joi.string().required(),
         password: Joi.string().required(),
         firstName: Joi.string().required(),
@@ -167,7 +167,7 @@ function createSchema(req, res, next) {
         confirmPassword: Joi.string().valid(Joi.ref('password')).required(),
         role: Joi.string().valid(Role.Owner, Role.User).required()
     })
-    validateRequest(req, next, schema)
+    validateRequest(req, next, createSchema)
 }
 
 function createAccount(req, res, next) {
@@ -177,21 +177,20 @@ function createAccount(req, res, next) {
 }
 
 function updateSchema(req, res, next) {
-    const schemaRules = Joi.object({
-        email: Joi.string().required(),
-        password: Joi.string().required(),
-        firstName: Joi.string().required(),
-        lastName: Joi.string().required(),
-        acceptTerms: Joi.boolean().valid(true).required(),
-        confirmPassword: Joi.string().valid(Joi.ref('password')).required()
-    })
+    const schemaRules = {
+        email: Joi.string().empty(''),
+        firstName: Joi.string().empty(''),
+        lastName: Joi.string().empty(''),
+        password: Joi.string().min(8).empty(''),
+        confirmPassword: Joi.string().valid(Joi.ref('password')).empty('')
+    }
 
     if (req.user.role === Role.Owner) {
         schemaRules.role = Joi.string().valid(Role.Owner, Role.User).empty('')
     }
 
-    const schema = Joi.object(schemaRules).with('password', 'confirmPassword')
-    validateRequest(req, next, schema)
+    const updateSchema = Joi.object(schemaRules).with('password', 'confirmPassword')
+    validateRequest(req, next, updateSchema)
 }
 
 function updateAccount(req, res, next) {

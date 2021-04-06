@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const accountSchema = mongoose.Schema({
+const accountSchema = new mongoose.Schema({
     email: {
         type: String,
         unique: true,
@@ -28,7 +28,7 @@ const accountSchema = mongoose.Schema({
     verificationToken: {
         type: String
     },
-    verifiedDate: {
+    verified: {
         type: Date
     },
     resetToken: {
@@ -45,7 +45,7 @@ const accountSchema = mongoose.Schema({
     updated: Date
 })
 
-accountSchema.virtual('isVerified').get(() => {
+accountSchema.virtual('isVerified').get(function () {
     return !!(this.verified || this.passwordReset)
 })
 

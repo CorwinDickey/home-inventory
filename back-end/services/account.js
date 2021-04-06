@@ -1,6 +1,8 @@
 const config = require('../config.json')
-const jwt = require('express-jwt')
+const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
+const crypto = require('crypto')
+const mongoose = require('mongoose')
 
 const sendEmail = require('../utils/send-email')
 const Role = require('../utils/role')
@@ -26,7 +28,7 @@ async function authenticate({ email, password, ipAddress }) {
     const account = await Account.findOne({ email })
 
     if (!account || !account.isVerified || !bcrypt.compareSync(password, account.password)) {
-        throw 'Email or password in incorrect'
+        throw 'Email or password is incorrect'
     }
 
     const jwtToken = generateJwtToken(account)
@@ -74,11 +76,11 @@ async function register(params, origin) {
         return await sendAlreadyRegisteredEmail(params.email, origin)
     }
 
-    const account = new account(params)
+    const account = new Account(params)
 
     const isFirstAccount = (await Account.countDocuments({})) === 0
     account.role = isFirstAccount ? Role.Owner : Role.User
-    account.varificationToken = randomTokenString()
+    account.verificationToken = randomTokenString()
 
     account.password = hash(params.password)
 
@@ -98,7 +100,8 @@ async function verifyEmail({ token }) {
 }
 
 async function forgotPassword({ email }, origin) {
-    const account = Account.findOne({ email })
+    const account = await Account.findOne({ email })
+    console.log(account)
 
     if (!account) {
         return
@@ -148,7 +151,7 @@ async function createAccount(params) {
         throw 'Email "' + params.email + '" is already registered'
     }
 
-    const account = Account.create(params)
+    const account = new Account(params)
     account.verified = Date.now()
 
     account.password = hash(params.password)
@@ -214,7 +217,7 @@ function generateJwtToken(account) {
 }
 
 function generateRefreshToken(account, ipAddress) {
-    return RefreshToken.create({
+    return new RefreshToken({
         account: account.id,
         token: randomTokenString(),
         expires: new Date(Date.now() + 7*24*60*60*1000),
@@ -257,7 +260,7 @@ async function sendVerificationEmail(account, origin) {
         message = `<p>Please click the link below to verify your email address:</p>
                    <p><a href="${verifyUrl}">${verifyUrl}</a></p>`
     } else {
-        message = `<p>Please use the below token to verify your email address with the <code>/account/verify-email</code> api route:</p>
+        message = `<p>Please use the below token to verify your email address with the <code>/accounts/verify-email</code> api route:</p>
                    <p><code>${account.verificationToken}</code></p>`
     }
 
@@ -273,9 +276,9 @@ async function sendVerificationEmail(account, origin) {
 async function sendAlreadyRegisteredEmail(email, origin) {
     let message
     if (origin) {
-        message = `<p>If you don't know your password please visit the <a href="${origin}/account/forgot-password">forgot password</a> page.</p>`
+        message = `<p>If you don't know your password please visit the <a href="${origin}/accounts/forgot-password">forgot password</a> page.</p>`
     } else{
-        message = `<p>If you don't know your password you can reset it via the <code>/account/forgot-password</code> api route.</p>`
+        message = `<p>If you don't know your password you can reset it via the <code>/accounts/forgot-password</code> api route.</p>`
     }
 
     await sendEmail({
@@ -294,7 +297,7 @@ async function sendPasswordResetEmail(account, origin) {
         message = `<p>Please click the below link to reset your password, the link will be valid for 1 day:</p>
                    <p><a href="${resetUrl}">${resetUrl}</a></p>` 
     } else {
-        message = `<p>Please use the below token to reset your password with the <code>/account/reset-password</code> api route:</p>
+        message = `<p>Please use the below token to reset your password with the <code>/accounts/reset-password</code> api route:</p>
                    <p><code>${account.resetToken.token}</code></p>`
     }
 

@@ -3,7 +3,7 @@
 // ==============================================================
 const express = require('express')
 const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
+// const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const errorHandler = require('./middleware/error-handler')
 // const MongoStore = require('connect-mongo')
@@ -35,8 +35,8 @@ function allowCrossDomains(req, res, next) {
 APP.use(cors)
 APP.use(allowCrossDomains)
 APP.use(express.json())
-APP.use(bodyParser.urlencoded({ extended: false }))
-APP.use(bodyParser.json())
+// APP.use(bodyParser.urlencoded({ extended: false }))
+// APP.use(bodyParser.json())
 APP.use(cookieParser())
 APP.use(errorHandler)
 

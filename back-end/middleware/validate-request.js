@@ -1,4 +1,4 @@
-function validateRequest(req, res, schema) {
+function validateRequest(req, next, schema) {
     const options = {
         abortEarly: false,
         allowUnknown: true,
