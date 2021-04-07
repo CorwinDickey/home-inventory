@@ -1,17 +1,22 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 
-import { accountService } from '../services/account'
+import { accountService } from '../../services/account'
 
-import Dashboard from './Dashboard'
+import Dashboard from '../Dashboard'
 
-function Routes(props) {
-    const user = props.user
+function AuthRoutes() {
+    const user = accountService.userValue
+
+    if(!user) {
+        return null
+    }
 
     return (
         <div>
             <Switch>
-                <Route path='/' exact
+                <Route
+                    path='/' exact
                     render={(props) => (
                         <Dashboard {...props} />
                     )}
@@ -21,4 +26,4 @@ function Routes(props) {
     )
 }
 
-export default Routes
+export default AuthRoutes

@@ -1,11 +1,11 @@
 import React from 'react'
 
-import Login from './account/Login'
+import UnauthRoutes from './UnauthRoutes'
 
 function UnauthApp() {
     return (
         <div>
-            <Login />
+            <UnauthRoutes />
         </div>
     )
 }

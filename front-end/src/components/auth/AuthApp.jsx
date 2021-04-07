@@ -2,9 +2,9 @@ import React , { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import axios from 'axios'
 
-import { accountService } from '../services/account'
-import Nav from './Nav'
-import Routes from './Routes'
+import { accountService } from '../../services/account'
+import Nav from '../Nav'
+import AuthRoutes from './AuthRoutes'
 
 function AuthApp() {
     const [user, setUser] = useState({})
@@ -29,8 +29,8 @@ function AuthApp() {
 
     return (
         <div>
-            <Nav user={user}/>
-            <Routes user={user}/>
+            <Nav />
+            <AuthRoutes />
         </div>
     )
 }
