@@ -17,11 +17,7 @@ function ForgotPassword() {
             .required('Email is required')
     })
 
-    const { register, handleSubmit, control, reset } = useForm({
-        resolver: yupResolver(validationSchema)
-    })
-
-    function onSubmit({ email }, { setSubmitting }) {
+    function handleSubmit({ email }, { setSubmitting }) {
         alertService.clear()
         accountService.forgotPassword(email)
             .then(() => alertService.success('Please check your email for password reset instructions'))
@@ -30,7 +26,7 @@ function ForgotPassword() {
     }
 
     return (
-        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
             {({ errors, touched, isSubmitting }) => (
                 <Form>
                     <h3 className='card-header'>Forgot Password</h3>
