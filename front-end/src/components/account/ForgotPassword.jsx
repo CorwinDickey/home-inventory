@@ -33,7 +33,7 @@ function ForgotPassword() {
                     <div className='card-body'>
                         <div className='form-group'>
                             <label>Email</label>
-                            <Field name='email' type='text' className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
+                            <Field name='email' type='text' />
                             <ErrorMessage name='email' component='div' className='invalid-feedback' />
                         </div>
                         <div className='form-row'>
