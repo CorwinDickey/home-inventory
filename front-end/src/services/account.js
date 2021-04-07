@@ -25,8 +25,10 @@ export const accountService = {
     get userValue () { return userSubject.value }
 }
 
+const route = '/accounts'
+
 function login(email, password) {
-    return axios.post('/accounts/authenticate', { email, password })
+    return axios.post(route + '/authenticate', { email, password })
         .then(user => {
             userSubject.next(user)
             startRefreshTokenTimer()
@@ -35,14 +37,14 @@ function login(email, password) {
 }
 
 function logout() {
-    axios.post('/accounts/revoke-token', {})
+    axios.post(route + '/revoke-token', {})
     stopRefreshTokenTimer()
     userSubject.next(null)
-    history.push('/accounts/login')
+    history.push(route + '/login')
 }
 
 function refreshToken() {
-    return axios.post('/accounts/refresh-token', {})
+    return axios.post(route + '/refresh-token', {})
         .then(user => {
             userSubject.next(user)
             startRefreshTokenTimer()
@@ -51,35 +53,35 @@ function refreshToken() {
 }
 
 function register(params) {
-    return axios.post('/accounts/register', params)
+    return axios.post(route + '/register', params)
 }
 
 function verifyEmail(token) {
-    return axios.post('/accounts/verify-email', { token })
+    return axios.post(route + '/verify-email', { token })
 }
 
 function forgotPassword(email) {
-    return axios.post('/accounts/forgot-password', { email })
+    return axios.post(route + '/forgot-password', { email })
 }
 
 function validateResetToken(token) {
-    return axios.post('/accounts/validate-reset-token', { token })
+    return axios.post(route + '/validate-reset-token', { token })
 }
 
 function resetPassword({ token, password, confirmPassword }) {
-    return axios.post('/accounts/reset-password', { token, password, confirmPassword })
+    return axios.post(route + '/reset-password', { token, password, confirmPassword })
 }
 
 function getById(id) {
-    return axios.get('/accounts/' + id)
+    return axios.get(route + '/' + id)
 }
 
 function createAccount(params) {
-    return axios.post('/accounts', params)
+    return axios.post(route, params)
 }
 
 function updateAccount(id, params) {
-    return axios.put('/accounts/' + id, params)
+    return axios.put(route + '/' + id, params)
         .then(user => {
             if (user.id === userSubject.value.id) {
                 user = {
@@ -93,7 +95,7 @@ function updateAccount(id, params) {
 }
 
 function _delete(id) {
-    return axios.delete('/accounts/' + id)
+    return axios.delete(route + '/' + id)
         .then(x => {
             if (id === userSubject.value.id) {
                 logout()
