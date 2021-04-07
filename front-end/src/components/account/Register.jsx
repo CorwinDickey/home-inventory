@@ -87,7 +87,7 @@ function Register({ history }) {
                                 {isSubmitting && <span className='spinner-border spinner-border-sm'></span>}
                                 Register
                             </button>
-                            <Link to='/login'>Cancel</Link>
+                            <Link to='login'>Cancel</Link>
                         </div>
                     </div>
                 </Form>
