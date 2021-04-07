@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 
+import { Role } from '../utils/role'
 import { accountService } from '../services/account'
 
 function Nav(props) {
@@ -18,7 +19,6 @@ function Nav(props) {
                 {user.role === Role.Owner && 
                     <NavLink to ='/owner'>Owner</NavLink>
                 }
-                <Profile />
                 <a onClick={accountService.logout}>Logout</a>
             </nav>
         </div>

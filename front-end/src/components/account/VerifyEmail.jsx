@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import queryString from 'query-string'
 
-import accountService from '../../services/account'
-import alertService from '../../services/alert'
+import { accountService } from '../../services/account'
+import { alertService } from '../../services/alert'
 
 function VerifyEmail({ history }) {
     const EmailStatus = {

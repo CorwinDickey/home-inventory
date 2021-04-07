@@ -9,7 +9,7 @@ export const alertService = {
     success,
     error,
     info,
-    warn,
+    warning,
     alert,
     clear
 }

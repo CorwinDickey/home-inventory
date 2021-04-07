@@ -15,7 +15,7 @@ const defaultProps = {
 }
 
 function Alert({ sev, fade }) {
-    const [alert, setAlerts] = useState([])
+    const [alerts, setAlerts] = useState([])
 
     useEffect(() => {
         const subscription = alertService.onAlert(sev)
