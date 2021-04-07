@@ -1,10 +1,7 @@
 import { BehaviorSubject } from 'rxjs'
 import axios from 'axios'
 
-import config from 'config'
 import history from '../utils/history'
-
-
 
 const userSubject = new BehaviorSubject(null)
 
