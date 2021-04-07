@@ -5,14 +5,12 @@ import {
     TextField
 } from '@material-ui/core'
 
-
-const initialState = {
-    category: '',
-    room: '',
-    name: ''
-}
-
 function AddItem() {
+    const initialState = {
+        category: '',
+        room: '',
+        name: ''
+    }
     const [state, setState] = useState(initialState)
     const [categories, setCategories] = useState({})
     const [rooms, setRooms] = useState({})
