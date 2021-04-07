@@ -3,13 +3,8 @@ import { NavLink } from 'react-router-dom'
 
 import { accountService } from '../services/account'
 
-function Nav() {
-    const [user, setUser] = useState({})
-
-    useEffect(() => {
-        const subscription = accountService.user.subscribe(x => setUser(x))
-        return subscription.unsubscribe
-    }, [])
+function Nav(props) {
+    const user = props.user
 
     if (!user) {
         return null
