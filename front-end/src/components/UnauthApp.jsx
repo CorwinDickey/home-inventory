@@ -2,7 +2,7 @@ import React from 'react'
 
 import Login from './account/Login'
 
-function UnauthenticatedApp() {
+function UnauthApp() {
     return (
         <div>
             <Login />
@@ -10,4 +10,4 @@ function UnauthenticatedApp() {
     )
 }
 
-export default UnauthenticatedApp
+export default UnauthApp
