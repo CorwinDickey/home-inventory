@@ -101,7 +101,6 @@ async function verifyEmail({ token }) {
 
 async function forgotPassword({ email }, origin) {
     const account = await Account.findOne({ email })
-    console.log(account)
 
     if (!account) {
         return
@@ -124,7 +123,7 @@ async function validateResetToken({ token }) {
         'resetToken.expires': { $gt: Date.now() }
     })
 
-    if (!account) throw 'Invalid token'
+    if (!account) throw 'Invalid token 1'
 }
 
 async function resetPassword({ token, password }) {
@@ -133,7 +132,7 @@ async function resetPassword({ token, password }) {
         'resetToken.expires': { $gt: Date.now() }
     })
 
-    if (!account) throw 'Invalid token'
+    if (!account) throw 'Invalid token 2'
 
     account.password = hash(password)
     account.passwordReset = Date.now()
@@ -199,10 +198,12 @@ async function getAccount(id) {
 }
 
 async function getRefreshToken(token) {
-    const refreshToken = await (await RefreshToken.findOne({ token })).populated('account')
+    // const refreshToken = await (await RefreshToken.findOne({ token }))
+    const refreshToken = await RefreshToken.findOne({ token }).populate('account')
+    console.log(token)
 
     if (!refreshToken || !refreshToken.isActive) {
-        throw 'Invalid token'
+        throw 'Invalid token 3'
     }
 
     return refreshToken
