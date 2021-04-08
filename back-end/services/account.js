@@ -200,7 +200,6 @@ async function getAccount(id) {
 async function getRefreshToken(token) {
     // const refreshToken = await (await RefreshToken.findOne({ token }))
     const refreshToken = await RefreshToken.findOne({ token }).populate('account')
-    console.log(token)
 
     if (!refreshToken || !refreshToken.isActive) {
         throw 'Invalid token 3'

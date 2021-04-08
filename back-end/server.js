@@ -3,12 +3,13 @@
 // ==============================================================
 const express = require('express')
 const mongoose = require('mongoose')
-// const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const errorHandler = require('./middleware/error-handler')
-// const MongoStore = require('connect-mongo')
 const cors = require('cors')({
-    origin: 'http://localhost:3000'
+    origin: 'http://localhost:3000',
+    methods: 'GET,PUT,POST,DELETE,OPTIONS',
+    headers: 'Content-Type,Origin,X-Requested-With,Accept',
+    credentials: true
 })
 const path = require('path')
 
@@ -25,32 +26,33 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/' + DB
 // ==============================================================
 // MIDDLEWARE
 // ==============================================================
-function allowCrossDomains(req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    next();
-}
+// function allowCrossDomains(req, res, next) {
+//     res.header('Access-Control-Allow-Credentials', true);
+//     res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+//     res.header('Access-Control-Allow-Headers', 'Content-Type');
+//     next();
+// }
 
 APP.use(cors)
-APP.use(allowCrossDomains)
+// APP.use(allowCrossDomains)
 APP.use(express.json())
-// APP.use(bodyParser.urlencoded({ extended: false }))
-// APP.use(bodyParser.json())
+APP.use(express.urlencoded({ extended: true }))
 APP.use(cookieParser())
 APP.use(errorHandler)
 
 
-APP.use((error, req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    if (error) {
-        console.log(error)
-        res.status(500).send(error.message)
-    }
-    next();
-})
+// APP.use((error, req, res, next) => {
+//     res.header('Access-Control-Allow-Credentials', true);
+//     res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+//     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+//     if (error) {
+//         console.log(error)
+//         res.status(500).send(error.message)
+//     }
+//     next();
+// })
 
 // ==============================================================
 // CONTROLLERS
