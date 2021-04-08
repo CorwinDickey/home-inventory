@@ -46,14 +46,13 @@ function Login({ history, location }) {
                     <FormInput
                         name='email'
                         label='Email'
-                        variant='outlined'
                         required={true}
                         errorObj={errors}
                     />
                     <FormInput
                         name='password'
                         label='Password'
-                        variant='outlined'
+                        type='password'
                         required={true}
                         errorObj={errors}
                     />

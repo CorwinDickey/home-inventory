@@ -44,7 +44,7 @@ function _delete(url) {
 
 function authHeader(url) {
     const user = accountService.userValue
-    const isLoggedIn = user && user.jwtToken
+    const isLoggedIn = (user && user.jwtToken ? true : false)
     const isApiUrl = url.startsWith(process.env.REACT_APP_SERVER_URL)
     if (isLoggedIn && isApiUrl) {
         return { Authorization: `Bearer ${user.jwtToken}` }

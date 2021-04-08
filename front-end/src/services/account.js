@@ -35,14 +35,14 @@ function login(email, password) {
 }
 
 function logout() {
-    fetchWrapper.post(route + '/revoke-token', {})
+    fetchWrapper.post(baseUrl + '/revoke-token', {})
     stopRefreshTokenTimer()
     userSubject.next(null)
-    history.push(route + '/login')
+    history.push('/')
 }
 
 function refreshToken() {
-    return fetchWrapper.post(`${baseUrl}/refresh-token`, {})
+    return fetchWrapper.post(baseUrl + '/refresh-token', {})
         .then(user => {
             userSubject.next(user)
             startRefreshTokenTimer()
@@ -51,35 +51,35 @@ function refreshToken() {
 }
 
 function register(params) {
-    return fetchWrapper.post(route + '/register', params)
+    return fetchWrapper.post(baseUrl + '/register', params)
 }
 
 function verifyEmail(token) {
-    return fetchWrapper.post(route + '/verify-email', { token })
+    return fetchWrapper.post(baseUrl + '/verify-email', { token })
 }
 
 function forgotPassword(email) {
-    return fetchWrapper.post(route + '/forgot-password', { email })
+    return fetchWrapper.post(baseUrl + '/forgot-password', { email })
 }
 
 function validateResetToken(token) {
-    return fetchWrapper.post(route + '/validate-reset-token', { token })
+    return fetchWrapper.post(baseUrl + '/validate-reset-token', { token })
 }
 
 function resetPassword({ token, password, confirmPassword }) {
-    return fetchWrapper.post(route + '/reset-password', { token, password, confirmPassword })
+    return fetchWrapper.post(baseUrl + '/reset-password', { token, password, confirmPassword })
 }
 
 function getById(id) {
-    return fetchWrapper.get(route + '/' + id)
+    return fetchWrapper.get(baseUrl + '/' + id)
 }
 
 function createAccount(params) {
-    return fetchWrapper.post(route, params)
+    return fetchWrapper.post(baseUrl, params)
 }
 
 function updateAccount(id, params) {
-    return fetchWrapper.put(route + '/' + id, params)
+    return fetchWrapper.put(baseUrl + '/' + id, params)
         .then(user => {
             if (user.id === userSubject.value.id) {
                 user = {
@@ -93,7 +93,7 @@ function updateAccount(id, params) {
 }
 
 function _delete(id) {
-    return fetchWrapper.delete(route + '/' + id)
+    return fetchWrapper.delete(baseUrl + '/' + id)
         .then(x => {
             if (id === userSubject.value.id) {
                 logout()

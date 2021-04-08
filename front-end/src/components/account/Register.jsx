@@ -1,20 +1,14 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { Formik, Field, Form, ErrorMessage } from 'formik'
+import { useForm, FormProvider } from 'react-hook-form'
+import { Button } from '@material-ui/core'
+
 import * as Yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+
+import FormInput from '../form-controls/FormInput'
 
 import { accountService } from '../../services/account'
 import { alertService } from '../../services/alert'
-
-function Register({ history }) {
-    const initialValues = {
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        acceptTerms: false
-    }
 
     const validationSchema = Yup.object().shape({
         firstName: Yup.string()
@@ -34,7 +28,14 @@ function Register({ history }) {
             .oneOf([true], 'Accept Terms & Conditions is required')
     })
 
-    function handleSubmit(fields, { setStatus, setSubmitting }) {
+function Register({ history }) {
+    const methods = useForm({
+        resolver: yupResolver(validationSchema)
+    })
+
+    const { handleSubmit, errors } = methods
+
+    function onSubmit(fields, { setStatus, setSubmitting }) {
         setStatus()
         accountService.register(fields)
             .then(() => {
@@ -48,51 +49,59 @@ function Register({ history }) {
     }
 
     return (
-        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
-            {({ isSubmitting }) => (
-                <Form>
-                    <h3 className='card-title'>Register</h3>
-                    <div className='card-body'>
-                        <div className='form-row'>
-                            <div className='form-group'>
-                                <label>First Name</label>
-                                <Field name='firstName' type='text' />
-                                <ErrorMessage name='firstName' component='div' />
-                            </div>
-                            <div className='form-group'>
-                                <label>Last Name</label>
-                                <Field name='lastName' type='text' />
-                                <ErrorMessage name='lastName' component='div' />
-                            </div>
-                        </div>
-                        <div className='form-group'>
-                            <label>Email</label>
-                            <Field name='email' type='text' />
-                            <ErrorMessage name='email' component='div' />
-                        </div>
-                        <div className='form-row'>
-                            <div className='form-group'>
-                                <label>Password</label>
-                                <Field name='password' type='password' />
-                                <ErrorMessage name='password' component='div' />
-                            </div>
-                            <div className='form-group'>
-                                <label>Confirm Password</label>
-                                <Field name='confirmPassword' type='password' />
-                                <ErrorMessage name='confirmPassword' component='div' />
-                            </div>
-                        </div>
-                        <div>
-                            <button type='submit' disabled={isSubmitting}>
-                                {isSubmitting && <span className='spinner-border spinner-border-sm'></span>}
-                                Register
-                            </button>
-                            <Link to='login'>Cancel</Link>
-                        </div>
+        <div>
+            <FormProvider {...methods}>
+                <form>
+                    <div>
+                        <FormInput
+                            name='firstName'
+                            label='First Name'
+                            required={true}
+                            errorObj={errors}
+                        />
+                        <FormInput
+                            name='lastName'
+                            label='Last Name'
+                            required={true}
+                            errorObj={errors}
+                        />
                     </div>
-                </Form>
-            )}
-        </Formik>
+                    <FormInput
+                        name='email'
+                        label='Email'
+                        type='email'
+                        required={true}
+                        errorObj={errors}
+                    />
+                    <div>
+                        <FormInput
+                            name='password'
+                            label='Password'
+                            type='password'
+                            required={true}
+                            errorObj={errors}
+                        />
+                        <FormInput
+                            name='confirmPassword'
+                            label='Confirm Password'
+                            type='password'
+                            required={true}
+                            errorObj={errors}
+                        />
+                    </div>
+                </form>
+            </FormProvider>
+            <Button
+                variant='contained'
+                color='primary'
+                onClick={handleSubmit(onSubmit)}
+            >Sign-up</Button>
+            <Button
+                variant='outlined'
+                color='primary'
+                onClick={() => history.push('/login')}
+            >Cancel</Button>
+        </div>
     )
 }
 

@@ -16,7 +16,7 @@ const validationSchema = Yup.object().shape({
         .required('Email is required')
 })
 
-function ForgotPassword({ history, location }) {
+function ForgotPassword({ history }) {
     const methods = useForm({
         resolver: yupResolver(validationSchema)
     })
@@ -38,7 +38,7 @@ function ForgotPassword({ history, location }) {
                     <FormInput
                         name='email'
                         label='Email'
-                        variant='outlined'
+                        type='email'
                         required={true}
                         errorObj={errors}
                     />
