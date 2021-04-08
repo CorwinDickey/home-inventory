@@ -25,7 +25,7 @@ function Login({ history, location }) {
 
     const { handleSubmit, errors } = methods
 
-    function onSubmit({ email, password }, { setSubmitting }) {
+    function onSubmit({ email, password }) {
         alertService.clear()
         accountService.login(email, password)
             .then(() => {
@@ -34,7 +34,6 @@ function Login({ history, location }) {
                 history.push(from)
             })
             .catch(error => {
-                setSubmitting(false)
                 alertService.error(error)
             })
     }
@@ -46,6 +45,7 @@ function Login({ history, location }) {
                     <FormInput
                         name='email'
                         label='Email'
+                        type='email'
                         required={true}
                         errorObj={errors}
                     />

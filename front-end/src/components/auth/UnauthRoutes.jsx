@@ -4,6 +4,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import Login from '../account/Login'
 import Register from '../account/Register'
 import ForgotPassword from '../account/ForgotPassword'
+import ResetPassword from '../account/ResetPassword'
 
 function UnauthRoutes() {
 
@@ -21,6 +22,10 @@ function UnauthRoutes() {
                 <Route
                     path='/forgot-password'
                     component={ForgotPassword}
+                />
+                <Route
+                    path='/reset-password'
+                    component={ResetPassword}
                 />
                 <Redirect from='*' to='/' />
             </Switch>

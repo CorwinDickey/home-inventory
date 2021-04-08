@@ -23,12 +23,11 @@ function ForgotPassword({ history }) {
 
     const { handleSubmit, errors } = methods
 
-    function onSubmit({ email }, { setSubmitting }) {
+    function onSubmit({ email }) {
         alertService.clear()
         accountService.forgotPassword(email)
             .then(() => alertService.success('Please check your email for password reset instructions'))
             .catch(error => alertService.error(error))
-            .finally(() => setSubmitting(false))
     }
 
     return (

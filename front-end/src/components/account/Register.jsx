@@ -35,15 +35,13 @@ function Register({ history }) {
 
     const { handleSubmit, errors } = methods
 
-    function onSubmit(fields, { setStatus, setSubmitting }) {
-        setStatus()
+    function onSubmit(fields) {
         accountService.register(fields)
             .then(() => {
                 alertService.success('Registration successful, please check your email for verification instructions')
                 history.push('login')
             })
             .catch(error => {
-                setSubmitting(false)
                 alertService.error(error)
             })
     }
