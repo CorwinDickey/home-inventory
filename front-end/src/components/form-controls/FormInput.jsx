@@ -4,7 +4,7 @@ import { TextField } from '@material-ui/core'
 
 function FormInput(props) {
     const { control } = useFormContext()
-    const { name, label, required, errorObj } = props
+    const { name, label, required, errorObj, variant } = props
     let isError = false
     let errorMessage = ''
     if (errorObj && errorObj.hasOwnProperty(name)) {
@@ -17,7 +17,7 @@ function FormInput(props) {
             render={
                 ({ field }) => (
                     <TextField 
-                        variant='outlined'
+                        variant={variant}
                         label={label}
                         required
                         error={isError}

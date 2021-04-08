@@ -1,23 +1,29 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { Formik, Field, Form, ErrorMessage } from 'formik'
+import { useForm, FormProvider } from 'react-hook-form'
+import { Button } from '@material-ui/core'
+
 import * as Yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+
+import FormInput from '../form-controls/FormInput'
 
 import { accountService } from '../../services/account'
 import { alertService } from '../../services/alert'
+    
+const validationSchema = Yup.object().shape({
+    email: Yup.string()
+        .email('Email is invalid')
+        .required('Email is required')
+})
 
-function ForgotPassword() {
-    const initialValues = {
-        email: ''
-    }
-
-    const validationSchema = Yup.object().shape({
-        email: Yup.string()
-            .email('Email is invalid')
-            .required('Email is required')
+function ForgotPassword({ history, location }) {
+    const methods = useForm({
+        resolver: yupResolver(validationSchema)
     })
 
-    function handleSubmit({ email }, { setSubmitting }) {
+    const { handleSubmit, errors } = methods
+
+    function onSubmit({ email }, { setSubmitting }) {
         alertService.clear()
         accountService.forgotPassword(email)
             .then(() => alertService.success('Please check your email for password reset instructions'))
@@ -26,29 +32,33 @@ function ForgotPassword() {
     }
 
     return (
-        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
-            {({ errors, touched, isSubmitting }) => (
-                <Form>
-                    <h3 className='card-header'>Forgot Password</h3>
-                    <div className='card-body'>
-                        <div className='form-group'>
-                            <label>Email</label>
-                            <Field name='email' type='text' />
-                            <ErrorMessage name='email' component='div' className='invalid-feedback' />
-                        </div>
-                        <div className='form-row'>
-                            <div className='form-group col'>
-                                <button type='submit' disabled={isSubmitting} className='btn btn-primary'>
-                                    {isSubmitting && <span className='spinner-border spinner-border-sm mr-1'></span>}
-                                    Submit
-                                </button>
-                                <Link to='login'>Cancel</Link>
-                            </div>
-                        </div>
-                    </div>
-                </Form>
-            )}
-        </Formik>
+        <div>
+            <FormProvider {...methods}>
+                <form>
+                    <FormInput
+                        name='email'
+                        label='Email'
+                        variant='outlined'
+                        required={true}
+                        errorObj={errors}
+                    />
+                </form>
+            </FormProvider>
+            <Button
+                variant='contained'
+                color='primary'
+                onClick={handleSubmit(onSubmit)}
+            >
+                Submit
+            </Button>
+            <Button
+                variant='outlined'
+                color='primary'
+                onClick={() => history.push('/login')}
+            >
+                Cancel
+            </Button>
+        </div>
     )
 }
 

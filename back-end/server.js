@@ -8,7 +8,7 @@ const errorHandler = require('./middleware/error-handler')
 const cors = require('cors')({
     origin: 'http://localhost:3000',
     methods: 'GET,PUT,POST,DELETE,OPTIONS',
-    headers: 'Content-Type,Origin,X-Requested-With,Accept',
+    headers: 'Content-Type,Origin,X-Requested-With,Accept,Authorization',
     credentials: true
 })
 const path = require('path')

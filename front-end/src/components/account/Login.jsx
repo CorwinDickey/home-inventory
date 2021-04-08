@@ -1,9 +1,7 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { useForm, FormProvider } from 'react-hook-form'
-import {
-    Button
-} from '@material-ui/core'
+import { Button } from '@material-ui/core'
+
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 
@@ -48,12 +46,14 @@ function Login({ history, location }) {
                     <FormInput
                         name='email'
                         label='Email'
+                        variant='outlined'
                         required={true}
                         errorObj={errors}
                     />
                     <FormInput
                         name='password'
                         label='Password'
+                        variant='outlined'
                         required={true}
                         errorObj={errors}
                     />
