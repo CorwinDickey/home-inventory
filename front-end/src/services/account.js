@@ -41,12 +41,13 @@ function logout() {
 }
 
 function refreshToken() {
-    return axios.post(route + '/refresh-token', {})
-        .then(user => {
-            userSubject.next(user)
-            startRefreshTokenTimer()
-            return user
-        })
+    console.log('testing initial refreshToken request')
+    return fetch(route + '/refresh-token',
+        {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'}
+        }
+    ).then(res => console.log(res.json()))
 }
 
 function register(params) {

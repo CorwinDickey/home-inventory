@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 
 import Alert from './components/Alert'
-import AuthApp from './components/AuthApp'
-import UnauthApp from './components/UnauthApp'
+import AuthApp from './components/auth/AuthApp'
+import UnauthApp from './components/auth/UnauthApp'
 
 import { accountService } from './services/account'
 

@@ -4,8 +4,8 @@ import { NavLink } from 'react-router-dom'
 import { Role } from '../utils/role'
 import { accountService } from '../services/account'
 
-function Nav(props) {
-    const user = props.user
+function Nav() {
+    const user = accountService.userValue
 
     if (!user) {
         return null
