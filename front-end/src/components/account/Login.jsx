@@ -1,31 +1,38 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { userForm } from 'react-hook-form'
+import { useForm, FormProvider } from 'react-hook-form'
+import {
+    Button
+} from '@material-ui/core'
+import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as Yup from 'yup'
+
+import FormInput from '../form-controls/FormInput'
 
 import { accountService } from '../../services/account'
 import { alertService } from '../../services/alert'
 
-function Login({ history, location }) {
-    const initialValues = {
-        email: '',
-        password: ''
-    }
+const validationSchema = yup.object().shape({
+    email: yup.string()
+        .email('Email is invalid')
+        .required('Email is required'),
+    password: yup.string()
+        .required('Password is required')
+})
 
-    const validationSchema = Yup.object().shape({
-        email: Yup.string()
-            .email('Email is invalid')
-            .required('Email is required'),
-        password: Yup.string()
-            .required('Password is required')
+function Login({ history, location }) {
+    const methods = useForm({
+        resolver: yupResolver(validationSchema)
     })
 
-    function handleSubmit({ email, password }, { setSubmitting }) {
+    const { handleSubmit, errors } = methods
+
+    function onSubmit({ email, password }, { setSubmitting }) {
         alertService.clear()
         accountService.login(email, password)
             .then(() => {
                 const { from } = location.state || { from: { pathname: '/' } }
+                console.log(from)
                 history.push(from)
             })
             .catch(error => {
@@ -35,31 +42,45 @@ function Login({ history, location }) {
     }
 
     return (
-        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
-            {({ errors, touched, isSubmitting }) => (
-                <Form>
-                    <h3>Login</h3>
-                    <div>
-                        <label>Email</label>
-                        <Field name='email' type='text' />
-                        <ErrorMessage name='email' component='div' />
-                    </div>
-                    <div>
-                        <label>Password</label>
-                        <Field name='password' type='text' />
-                        <ErrorMessage name='password' component='div' />
-                    </div>
-                    <div>
-                        <button type='submit' disabled={isSubmitting}>
-                            {isSubmitting && <span className='spinner-border spinner-border-sm'></span>}
-                            Login
-                        </button>
-                        <Link to='register'>Register</Link>
-                    </div>
-                    <Link to='forgot-password'>Forgot Password</Link>
-                </Form>
-            )}
-        </Formik>
+        <div>
+            <FormProvider {...methods}>
+                <form>
+                    <FormInput
+                        name='email'
+                        label='Email'
+                        required={true}
+                        errorObj={errors}
+                    />
+                    <FormInput
+                        name='password'
+                        label='Password'
+                        required={true}
+                        errorObj={errors}
+                    />
+                </form>
+            </FormProvider>
+            <Button
+                variant='contained'
+                color='primary'
+                onClick={handleSubmit(onSubmit)}
+            >
+                Login
+            </Button>
+            <Button
+                variant='outlined'
+                color='primary'
+                onClick={() => history.push('/register')}
+            >
+                Register
+            </Button>
+            <Button
+                variant='outlined'
+                color='primary'
+                onClick={() => history.push('/forgot-password')}
+            >
+                Forgot Password
+            </Button>
+        </div>
     )
 }
 
