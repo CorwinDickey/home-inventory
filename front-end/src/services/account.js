@@ -1,7 +1,7 @@
 import { BehaviorSubject } from 'rxjs'
-import axios from 'axios'
 
 import { history } from '../utils/history'
+import { fetchWrapper } from '../utils/fetch-wrapper'
 
 const userSubject = new BehaviorSubject(null)
 
@@ -22,10 +22,11 @@ export const accountService = {
     get userValue () { return userSubject.value }
 }
 
+const baseUrl = process.env.REACT_APP_SERVER_URL + '/accounts'
 const route = '/accounts'
 
 function login(email, password) {
-    return axios.post(route + '/authenticate', { email, password })
+    return fetchWrapper.post(route + '/authenticate', { email, password })
         .then(user => {
             userSubject.next(user)
             startRefreshTokenTimer()
@@ -34,52 +35,51 @@ function login(email, password) {
 }
 
 function logout() {
-    axios.post(route + '/revoke-token', {})
+    fetchWrapper.post(route + '/revoke-token', {})
     stopRefreshTokenTimer()
     userSubject.next(null)
     history.push(route + '/login')
 }
 
 function refreshToken() {
-    console.log('testing initial refreshToken request')
-    return fetch(route + '/refresh-token',
-        {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json'}
-        }
-    ).then(res => console.log(res.json()))
+    return fetchWrapper.post(`${baseUrl}/refresh-token`, {})
+        .then(user => {
+            userSubject.next(user)
+            startRefreshTokenTimer()
+            return user
+        })
 }
 
 function register(params) {
-    return axios.post(route + '/register', params)
+    return fetchWrapper.post(route + '/register', params)
 }
 
 function verifyEmail(token) {
-    return axios.post(route + '/verify-email', { token })
+    return fetchWrapper.post(route + '/verify-email', { token })
 }
 
 function forgotPassword(email) {
-    return axios.post(route + '/forgot-password', { email })
+    return fetchWrapper.post(route + '/forgot-password', { email })
 }
 
 function validateResetToken(token) {
-    return axios.post(route + '/validate-reset-token', { token })
+    return fetchWrapper.post(route + '/validate-reset-token', { token })
 }
 
 function resetPassword({ token, password, confirmPassword }) {
-    return axios.post(route + '/reset-password', { token, password, confirmPassword })
+    return fetchWrapper.post(route + '/reset-password', { token, password, confirmPassword })
 }
 
 function getById(id) {
-    return axios.get(route + '/' + id)
+    return fetchWrapper.get(route + '/' + id)
 }
 
 function createAccount(params) {
-    return axios.post(route, params)
+    return fetchWrapper.post(route, params)
 }
 
 function updateAccount(id, params) {
-    return axios.put(route + '/' + id, params)
+    return fetchWrapper.put(route + '/' + id, params)
         .then(user => {
             if (user.id === userSubject.value.id) {
                 user = {
@@ -93,7 +93,7 @@ function updateAccount(id, params) {
 }
 
 function _delete(id) {
-    return axios.delete(route + '/' + id)
+    return fetchWrapper.delete(route + '/' + id)
         .then(x => {
             if (id === userSubject.value.id) {
                 logout()

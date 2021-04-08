@@ -1,4 +1,3 @@
-import config from 'config'
 import { accountService } from '../services/account'
 
 export const fetchWrapper = {
