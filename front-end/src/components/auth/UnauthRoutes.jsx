@@ -6,13 +6,16 @@ import Register from '../account/Register'
 import ForgotPassword from '../account/ForgotPassword'
 import ResetPassword from '../account/ResetPassword'
 
-function UnauthRoutes() {
+function UnauthRoutes(props) {
 
     return (
         <div>
             <Switch>
                 <Route
                     path='/' exact
+                    // render={(props) => {
+                    //     <Login setUser={props.setUser} />
+                    // }}
                     component={Login}
                 />
                 <Route

@@ -2,10 +2,10 @@ import React from 'react'
 
 import UnauthRoutes from './UnauthRoutes'
 
-function UnauthApp() {
+function UnauthApp(props) {
     return (
         <div>
-            <UnauthRoutes />
+            <UnauthRoutes setUser={props.setUser} />
         </div>
     )
 }

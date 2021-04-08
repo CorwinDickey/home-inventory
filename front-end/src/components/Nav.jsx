@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { Button } from '@material-ui/core'
 
 import { Role } from '../utils/role'
 import { accountService } from '../services/account'
@@ -19,7 +20,11 @@ function Nav() {
                 {user.role === Role.Owner && 
                     <NavLink to ='/owner'>Owner</NavLink>
                 }
-                <a onClick={accountService.logout}>Logout</a>
+                <Button
+                    variant='outlined'
+                    color='primary'
+                    onClick={accountService.logout}
+                >Logout</Button>
             </nav>
         </div>
     )

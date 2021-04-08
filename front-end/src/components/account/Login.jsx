@@ -18,7 +18,7 @@ const validationSchema = yup.object().shape({
         .required('Password is required')
 })
 
-function Login({ history, location }) {
+function Login({ history, location }, props) {
     const methods = useForm({
         resolver: yupResolver(validationSchema)
     })
@@ -28,10 +28,9 @@ function Login({ history, location }) {
     function onSubmit({ email, password }) {
         alertService.clear()
         accountService.login(email, password)
+            .then(data => props.setUser(data))
             .then(() => {
-                const { from } = location.state || { from: { pathname: '/' } }
-                console.log(from)
-                history.push(from)
+                history.push('/')
             })
             .catch(error => {
                 alertService.error(error)
