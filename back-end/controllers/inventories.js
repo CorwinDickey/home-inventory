@@ -2,62 +2,83 @@
 // DEPENDENCIES
 // ==============================================================
 const express = require('express')
+const Joi = require('joi')
+const authorize = require('../middleware/authorize')
+const inventoryService = require('../services/inventory')
 const inventories = express.Router()
 const Inventory = require('../models/inventory')
 
 // ==============================================================
-// CREATE ROUTE
+// ROUTES
 // ==============================================================
-inventories.post('/', (req, res) => {
-    Inventory.create(req.body, (error, createdInventory) => {
-        if (error) {
-            res.status(400).json({ error: error.message })
-        }
-        res.status(200).send(createdInventory)
-    })
-})
+inventories.post('/', createInventorySchema, createInventory)
+inventories.get('/:id', authorize(), getInventory)
+inventories.get('/', authorize(), getAllInventories)
+inventories.put('/:id', authorize(), updateInventorySchema, updateInventory)
+inventories.delete('/:id', authorize(), deleteInventory)
+
+module.exports = inventories
 
 // ==============================================================
-// READ ROUTES
+// CREATE
 // ==============================================================
-inventories.get('/:id', (req, res) => {
-    Inventory.findOne({'_id': req.params.id}, (error, foundInventory) => {
-        if (error) {
-            res.status(400).json({ error: error.message })
-        }
-        res.status(200).json(foundInventory)
+function createInventorySchema(req, res, next) {
+    const schema = Joi.object({
+        name: Joi.string().required(),
+        owner: Joi.string().required(),
+        users: Joi.array().items(Joi.string()),
+        buckets: Joi.array().items(Joi.string())
     })
-})
 
-inventories.get('/', (req, res) => {
-    Inventory.find({}, (error, foundInventories) => {
-        if (error) {
-            res.status(400).json({ error: error.message })
-        }
-        res.status(200).json(foundInventories)
-    })
-})
+    validateRequest(req, next, schema)
+}
+
+function createInventory(req, res, next) {
+    inventoryService.createInventory(req.body)
+        .then(inventory => res.json(inventory))
+        .catch(next)
+}
+
+// ==============================================================
+// GET INVENTORY
+// ==============================================================
+function getInventory(req, res, next) {
+    inventoryService.getInventory(req.params.id)
+        .then(inventory => inventory ? res.json(inventory) : res.sendStatus(404))
+        .catch(next)
+}
+
+function getAllInventories(req, res, next) {
+    inventoryService.getAllInventories()
+        .then(inventories => res.json(inventories))
+        .catch(next)
+}
 
 // ==============================================================
 // DELETE ROUTE
 // ==============================================================
-inventories.delete('/:id', (req, res) => {
-    Inventory.findByIdAndDelete(req.params.id, (error, deletedInventory) => {
-        if (error) {
-            res.status(400).json({ error: error.message })
-        }
-        res.status(200).json(deletedInventory)
-    })
-})
+function deleteInventory(req, res, next) {
+    inventoryService.deleteInventory(req.params.id)
+        .then(() => res.json({ message: 'Inventory deleted successfully'}))
+        .catch(next)
+}
 
 // ==============================================================
 // UPDATE ROUTE
 // ==============================================================
-inventories.put('/:id', (req, res) => {
-    Inventory.findByIdAndUpdate(req.params.id, req.body, { new: true }, (error, updatedInventory) => {
-        if (error) {
-            res.status(400).json({ error: error.message })
-        }
-        res.status(200).json(updatedInventory)
+function updateInventorySchema(req, res, next) {
+    const schema = Joi.object({
+        name: Joi.string().required(),
+        users: Joi.array().items(Joi.string()),
+        buckets: Joi.array().items(Joi.string())
     })
-})
+
+    validateRequest(req, next, schema)
+}
+
+
+function updateInventory(req, res, next) {
+    inventoryService.updateInventory(req.params.id, req.body)
+        .then(inventory => res.json(inventory))
+        .catch(next)
+}

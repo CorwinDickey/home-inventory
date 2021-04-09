@@ -21,10 +21,7 @@ const accountSchema = new mongoose.Schema({
     acceptTerms: {
         type: Boolean
     },
-    ownerInventories: {
-        type: [mongoose.Schema.Types.ObjectId]
-    },
-    userInventories: {
+    inventories: {
         type: [mongoose.Schema.Types.ObjectId]
     },
     verificationToken: {
