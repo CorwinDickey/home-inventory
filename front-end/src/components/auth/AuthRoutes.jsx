@@ -2,8 +2,7 @@ import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 
 import { accountService } from '../../services/account'
-
-import Home from '../Home'
+import Dashboard from '../Dashboard'
 
 function AuthRoutes() {
     const user = accountService.userValue
@@ -18,7 +17,7 @@ function AuthRoutes() {
                 <Route
                     path='/' exact
                     render={(props) => (
-                        <Home {...props} />
+                        <Dashboard {...props} />
                     )}
                 />
             </Switch>
