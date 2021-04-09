@@ -4,7 +4,6 @@
 const express = require('express')
 const Joi = require('joi')
 const validateRequest = require('../middleware/validate-request')
-const authorize = require('../middleware/authorize')
 const bucketService = require('../services/bucket')
 const buckets = express.Router()
 
@@ -23,16 +22,19 @@ module.exports = buckets
 // CREATE
 // ==============================================================
 function createBucketSchema(req, res, next) {
+    console.log('logging schema', req.body)
     const schema = Joi.object({
         name: Joi.string().required(),
         bucketType: Joi.string().required(),
-        items: Joi.array().items(Joi.string())
+        inventory: Joi.string().required()
+        // items: Joi.array().items(Joi.string())
     })
 
     validateRequest(req, next, schema)
 }
 
 function createBucket(req, res, next) {
+    console.log('logging create', req.body)
     bucketService.createBucket(req.body)
         .then(bucket => res.json(bucket))
         .catch(next)

@@ -1,4 +1,7 @@
-import React, { useState, useLocation } from 'react'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+
+import { history } from '../../utils/history'
 
 import { Button } from '@material-ui/core'
 
@@ -8,12 +11,22 @@ function Inventory(props) {
     return (
         <div>
             <h1>{inventory.name}</h1>
-            <Button
-            
-            >Create Room</Button>
-            <Button
-
-            >Create Category</Button>
+            <Link to={{
+                pathname: '/add-room',
+                state: {
+                    inventory: inventory
+                }
+            }}>
+                <Button>Create Room</Button>
+            </Link>
+            <Link to={{
+                pathname: '/add-category',
+                state: {
+                    inventory: inventory
+                }
+            }}>
+                <Button>Create Category</Button>
+            </Link>
         </div>
     )
 }

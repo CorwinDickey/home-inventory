@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useFormContext, Controller } from 'react-hook-form'
 import {
     MenuItem,
@@ -8,32 +8,32 @@ import {
 } from '@material-ui/core'
 
 function FormSelect(props) {
+    const [options, setOptions] = useState(props.options)
     const { control } = useFormContext()
-    const { name, label, options } = props
+
+    console.log('logging options', options)
 
     return (
         <Controller
             render={
                 ({ field }) => (
                     <FormControl>
-                        <InputLabel htmlFor={name}>{label}</InputLabel>
+                        <InputLabel htmlFor={props.name}>{props.label}</InputLabel>
                         <Select
                             native
                             {...field}
                         >
-                            <MenuItem value=''>
-                                <em>None</em>
-                            </MenuItem>
-                            {options.map((item) => (
-                                <MenuItem key={item._id} value={item._id}>
+                            <option value='' />
+                            {props.options.map((item) => (
+                                <option key={item._id} value={item._id}>
                                     {item.name}
-                                </MenuItem>
+                                </option>
                             ))}
                         </Select>
                     </FormControl>
                 )
             }
-            name={name}
+            name={props.name}
             control={control}
             defaultValue=''
             fullWidth={true}

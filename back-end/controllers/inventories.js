@@ -4,7 +4,6 @@
 const express = require('express')
 const Joi = require('joi')
 const validateRequest = require('../middleware/validate-request')
-const authorize = require('../middleware/authorize')
 const inventoryService = require('../services/inventory')
 const inventories = express.Router()
 

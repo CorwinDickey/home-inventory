@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import { Button } from '@material-ui/core'
 
@@ -10,39 +10,51 @@ import { accountService } from '../../services/account'
 // import { itemService } from '../../services/item'
 import { alertService } from '../../services/alert'
 import { history } from '../../utils/history'
+import FormSelect from '../form-controls/FormSelect'
+import { bucketService } from '../../services/bucket'
 
-const validationSchema = yup.object().shape({
-    name: yup.string()
-        .required('Name is required'),
-    description: yup.string()
-        .required('Description is required'),
-    datePurchased: yup.date(),
-    purchasePrice: yup.number(),
-    replacementCost: yup.number(),
-    shipping: yup.number(),
-    quantity: yup.number(),
-    taxRate: yup.number(),
-    buckets: yup.string(),
-    inventory: yup.string(),
-    creator: yup.string()
-})
+// const validationSchema = yup.object().shape({
+//     name: yup.string()
+//         .required('Name is required'),
+//     description: yup.string()
+//         .required('Description is required'),
+//     datePurchased: yup.date(),
+//     purchasePrice: yup.number(),
+//     replacementCost: yup.number(),
+//     shipping: yup.number(),
+//     quantity: yup.number(),
+//     taxRate: yup.number(),
+//     buckets: yup.string(),
+//     inventory: yup.string(),
+//     creator: yup.string()
+// })
 
 function AddItem(props) {
-    const methods = useForm({
-        resolver: yupResolver(validationSchema)
-    })
+    const [bucketList, setBucketList] = useState([])
+
+    const methods = useForm()
+
+    useEffect(() => getBuckets(), [])
 
     const { handleSubmit } = methods
 
     const user = accountService.userValue
 
-    function getCategories() {
-
+    function getBuckets() {
+        bucketService.getAllBuckets()
+            .then(response => setBucketList(response))
+        // const rooms = buckets.filter(bucket => bucket.bucketType === 'room')
+        // console.log(rooms)
+        // const categories = buckets.filter(bucket => bucket.bucketType === 'category')
+        // console.log(buckets)
     }
 
-    function getRooms() {
-
+    function filterBuckets(bucketType) {
+        const filteredBuckets = bucketList.filter(bucket => bucket.bucketType === bucketType)
+        return filteredBuckets
     }
+
+    // console.log(filterBuckets('room'))
 
     function onSubmit(formData) {
         const data = {
@@ -70,7 +82,7 @@ function AddItem(props) {
         <div>
             <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div>
+                    <div id='page-1'>
                         <FormInput
                             name='name'
                             label='Item Name'
@@ -80,6 +92,16 @@ function AddItem(props) {
                             name='description'
                             label='Item Description'
                             required={true}
+                        />
+                        <FormSelect
+                            name='room'
+                            label='Room'
+                            options={filterBuckets('room')}
+                        />
+                        <FormSelect
+                            name='category'
+                            label='Category'
+                            options={filterBuckets('category')}
                         />
                     </div>
                 </form>
