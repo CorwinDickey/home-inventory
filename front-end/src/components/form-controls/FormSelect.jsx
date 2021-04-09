@@ -1,26 +1,25 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useFormContext, Controller } from 'react-hook-form'
 import {
-    MenuItem,
     FormControl,
     Select,
     InputLabel
 } from '@material-ui/core'
 
 function FormSelect(props) {
-    const [options, setOptions] = useState(props.options)
     const { control } = useFormContext()
-
-    console.log('logging options', options)
 
     return (
         <Controller
             render={
                 ({ field }) => (
-                    <FormControl>
+                    <FormControl
+                        variant={props.variant ? props.variant : 'outlined'}
+                    >
                         <InputLabel htmlFor={props.name}>{props.label}</InputLabel>
                         <Select
                             native
+                            label={props.label}
                             {...field}
                         >
                             <option value='' />
