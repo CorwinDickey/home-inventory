@@ -1,6 +1,10 @@
 const mongoose = require('mongoose')
 
 const bucketSchema = mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
     inventory: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
