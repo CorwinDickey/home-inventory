@@ -5,12 +5,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
 const errorHandler = require('./middleware/error-handler')
-const cors = require('cors')({
-    origin: 'http://localhost:3000',
-    methods: 'GET,PUT,POST,DELETE,OPTIONS',
-    headers: 'Content-Type,Origin,X-Requested-With,Accept,Authorization',
-    credentials: true
-})
+const cors = require('cors')
 const path = require('path')
 
 require('dotenv').config()
@@ -26,33 +21,19 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/' + DB
 // ==============================================================
 // MIDDLEWARE
 // ==============================================================
-// function allowCrossDomains(req, res, next) {
-//     res.header('Access-Control-Allow-Credentials', true);
-//     res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-//     res.header('Access-Control-Allow-Headers', 'Content-Type');
-//     next();
-// }
 
-APP.use(cors)
-// APP.use(allowCrossDomains)
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    methods: 'GET,PUT,POST,DELETE,OPTIONS',
+    headers: 'Content-Type,Origin,X-Requested-With,Accept,Authorization',
+    credentials: true
+}
+
+APP.use(cors(corsOptions))
 APP.use(express.json())
 APP.use(express.urlencoded({ extended: true }))
 APP.use(cookieParser())
 APP.use(errorHandler)
-
-
-// APP.use((error, req, res, next) => {
-//     res.header('Access-Control-Allow-Credentials', true);
-//     res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-//     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-//     if (error) {
-//         console.log(error)
-//         res.status(500).send(error.message)
-//     }
-//     next();
-// })
 
 // ==============================================================
 // CONTROLLERS
@@ -89,8 +70,6 @@ mongoose.connection.on("disconnected", () => console.log('mongo disconnected'));
 
 
 const staticFiles = express.static(path.join(__dirname, '../../front-end/build'))
-// // Serve static files from the React front-end app
-// APP.use(express.static(path.join(__dirname, '../../front-end/build')))
 APP.use(staticFiles)
 
 // Anything that doesn't match the above, send back index.html
