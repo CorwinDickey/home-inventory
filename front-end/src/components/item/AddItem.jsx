@@ -1,3 +1,107 @@
+import React from 'react'
+import { useForm, FormProvider } from 'react-hook-form'
+import { Button } from '@material-ui/core'
+
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+
+import FormInput from '../form-controls/FormInput'
+import { accountService } from '../../services/account'
+// import { itemService } from '../../services/item'
+import { alertService } from '../../services/alert'
+import { history } from '../../utils/history'
+
+const validationSchema = yup.object().shape({
+    name: yup.string()
+        .required('Name is required'),
+    description: yup.string()
+        .required('Description is required'),
+    datePurchased: yup.date(),
+    purchasePrice: yup.number(),
+    replacementCost: yup.number(),
+    shipping: yup.number(),
+    quantity: yup.number(),
+    taxRate: yup.number(),
+    buckets: yup.string(),
+    inventory: yup.string(),
+    creator: yup.string()
+})
+
+function AddItem(props) {
+    const methods = useForm({
+        resolver: yupResolver(validationSchema)
+    })
+
+    const { handleSubmit } = methods
+
+    const user = accountService.userValue
+
+    function getCategories() {
+
+    }
+
+    function getRooms() {
+
+    }
+
+    function onSubmit(formData) {
+        const data = {
+            name: formData.name,
+            description: formData.description,
+            datePurchased: formData.datePurchased,
+            purchasedPrice: formData.purchasePrice,
+            replacementCost: formData.replacementCost,
+            shipping: formData.shipping,
+            quantity: formData.quantity,
+            taxRate: formData.taxRate,
+            buckets: [formData.room, formData.category],
+            inventory: props.location.state.inventory._id,
+            creator: user._id
+        }
+
+        // itemService.createItem(data)
+        //     .then(() => {
+        //         alertService.success('Your item has been created')
+        //         history.goBack()
+        //     })
+    }
+
+    return (
+        <div>
+            <FormProvider {...methods}>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <div>
+                        <FormInput
+                            name='name'
+                            label='Item Name'
+                            required={true}
+                        />
+                        <FormInput
+                            name='description'
+                            label='Item Description'
+                            required={true}
+                        />
+                    </div>
+                </form>
+            </FormProvider>
+        </div>
+    )
+}
+
+export default AddItem
+
+
+
+
+
+
+
+
+
+
+
+
+
 // import React, { useEffect, useState } from 'react'
 // import axios from 'axios'
 // import {
