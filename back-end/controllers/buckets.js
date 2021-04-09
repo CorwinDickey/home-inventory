@@ -2,62 +2,79 @@
 // DEPENDENCIES
 // ==============================================================
 const express = require('express')
+const Joi = require('joi')
+const authorize = require('../middleware/authorize')
+const bucketService = require('../services/bucket')
 const buckets = express.Router()
-const Bucket = require('../models/bucket')
 
 // ==============================================================
-// CREATE ROUTE
+// ROUTES
 // ==============================================================
-buckets.post('/', (req, res) => {
-    Bucket.create(req.body, (error, createdBucket) => {
-        if (error) {
-            res.status(400).json({ error: error.message })
-        }
-        res.status(200).send(createdBucket)
-    })
-})
+buckets.post('/', createBucketSchema, createBucket)
+buckets.get('/:id', authorize(), getBucket)
+buckets.get('/', authorize(), getAllBuckets)
+buckets.put('/:id', authorize(), updateBucketSchema, updateBucket)
+buckets.delete('/:id', authorize(), deleteBucket)
+
+module.exports = buckets
 
 // ==============================================================
-// READ ROUTES
+// CREATE
 // ==============================================================
-buckets.get('/:id', (req, res) => {
-    Bucket.findOne({'_id': req.params.id}, (error, foundBucket) => {
-        if (error) {
-            res.status(400).json({ error: error.message })
-        }
-        res.status(200).json(foundBucket)
+function createBucketSchema(req, res, next) {
+    const schema = Joi.object({
+        name: Joi.string().required(),
+        bucketType: Joi.string().required(),
+        items: Joi.array().items(Joi.string())
     })
-})
 
-buckets.get('/', (req, res) => {
-    Bucket.find({}, (error, foundBuckets) => {
-        if (error) {
-            res.status(400).json({ error: error.message })
-        }
-        res.status(200).json(foundBuckets)
-    })
-})
+    validateRequest(req, next, schema)
+}
+
+function createBucket(req, res, next) {
+    bucketService.createBucket(req.body)
+        .then(bucket => res.json(bucket))
+        .catch(next)
+}
 
 // ==============================================================
-// DELETE ROUTE
+// GET BUCKET
 // ==============================================================
-buckets.delete('/:id', (req, res) => {
-    Bucket.findByIdAndDelete(req.params.id, (error, deletedBucket) => {
-        if (error) {
-            res.status(400).json({ error: error.message })
-        }
-        res.status(200).json(deletedBucket)
-    })
-})
+function getBucket(req, res, next) {
+    bucketService.getBucket(req.params.id)
+        .then(bucket => bucket ? res.json(bucket) : res.sendStatus(404))
+        .catch(next)
+}
+
+function getAllBuckets(req, res, next) {
+    bucketService.getAllBuckets()
+        .then(buckets => res.json(buckets))
+        .catch(next)
+}
 
 // ==============================================================
-// UPDATE ROUTE
+// DELETE
 // ==============================================================
-buckets.put('/:id', (req, res) => {
-    Bucket.findByIdAndUpdate(req.params.id, req.body, { new: true }, (error, updatedBucket) => {
-        if (error) {
-            res.status(400).json({ error: error.message })
-        }
-        res.status(200).json(updatedBucket)
+function deleteBucket(req, res, next) {
+    bucketService.deleteBucket(req.params.id)
+        .then(() => res.json({ message: 'Bucket deleted successfully'}))
+        .catch(next)
+}
+
+// ==============================================================
+// UPDATE
+// ==============================================================
+function updateBucketSchema(req, res, next) {
+    const schema = Joi.object({
+        name: Joi.string().required(),
+        items: Joi.array().items(Joi.string())
     })
-})
+
+    validateRequest(req, next, schema)
+}
+
+function updateBucket(req, res, next) {
+    bucketService.updateBucket(req.params.id, req.body)
+        .then(bucket => res.json(bucket))
+        .catch(next)
+}

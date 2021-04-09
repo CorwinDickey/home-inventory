@@ -6,7 +6,6 @@ const Joi = require('joi')
 const authorize = require('../middleware/authorize')
 const inventoryService = require('../services/inventory')
 const inventories = express.Router()
-const Inventory = require('../models/inventory')
 
 // ==============================================================
 // ROUTES
@@ -55,7 +54,7 @@ function getAllInventories(req, res, next) {
 }
 
 // ==============================================================
-// DELETE ROUTE
+// DELETE
 // ==============================================================
 function deleteInventory(req, res, next) {
     inventoryService.deleteInventory(req.params.id)
@@ -64,7 +63,7 @@ function deleteInventory(req, res, next) {
 }
 
 // ==============================================================
-// UPDATE ROUTE
+// UPDATE
 // ==============================================================
 function updateInventorySchema(req, res, next) {
     const schema = Joi.object({
