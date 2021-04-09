@@ -62,12 +62,12 @@ function Login({ history, location }) {
                 onClick={handleSubmit(onSubmit)}
             >Login</Button>
             <Button
-                variant='outlined'
+                variant='text'
                 color='primary'
                 onClick={() => history.push('/register')}
             >Register</Button>
             <Button
-                variant='outlined'
+                variant='text'
                 color='primary'
                 onClick={() => history.push('/forgot-password')}
             >Forgot Password</Button>

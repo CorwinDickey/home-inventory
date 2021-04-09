@@ -40,7 +40,7 @@ function Register({ history }) {
         accountService.register(data)
             .then(() => {
                 alertService.success('Registration successful, please check your email for verification instructions')
-                history.push('login')
+                history.push('/')
             })
             .catch(error => {
                 alertService.error(error)
@@ -103,7 +103,7 @@ function Register({ history }) {
                 onClick={handleSubmit(onSubmit)}
             >Sign-up</Button>
             <Button
-                variant='outlined'
+                variant='text'
                 color='primary'
                 onClick={() => history.push('/login')}
             >Cancel</Button>

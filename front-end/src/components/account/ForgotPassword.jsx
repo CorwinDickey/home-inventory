@@ -47,16 +47,12 @@ function ForgotPassword({ history }) {
                 variant='contained'
                 color='primary'
                 onClick={handleSubmit(onSubmit)}
-            >
-                Submit
-            </Button>
+            >Submit</Button>
             <Button
-                variant='outlined'
+                variant='text'
                 color='primary'
                 onClick={() => history.push('/login')}
-            >
-                Cancel
-            </Button>
+            >Cancel</Button>
         </div>
     )
 }

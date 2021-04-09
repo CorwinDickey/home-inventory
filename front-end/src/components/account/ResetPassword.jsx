@@ -92,7 +92,7 @@ function ResetPassword({ history, location }) {
                     onClick={handleSubmit(onSubmit)}
                 >Reset Password</Button>
                 <Button
-                    variant='outlined'
+                    variant='text'
                     color='primary'
                     onClick={() => history.push('/login')}
                 >Cancel</Button>
