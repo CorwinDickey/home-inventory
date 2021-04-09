@@ -7,6 +7,7 @@ import AddInventory from '../inventory/AddInventory'
 import Details from '../profile/Details'
 import AddBucket from '../bucket/AddBucket'
 import ViewInventory from '../inventory/ViewInventory'
+import AddItem from '../item/AddItem'
 
 function AuthRoutes() {
     const user = accountService.userValue
@@ -33,6 +34,10 @@ function AuthRoutes() {
                     render={(props) => (
                         <ViewInventory {...props} />
                     )}
+                />
+                <Route
+                    path='/add-item'
+                    component={AddItem}
                 />
                 <Route
                     path='/profile'

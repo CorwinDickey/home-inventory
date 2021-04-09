@@ -6,20 +6,13 @@ import { Role } from '../utils/role'
 import { accountService } from '../services/account'
 
 function Nav() {
-    const user = accountService.userValue
-
-    if (!user) {
-        return null
-    }
 
     return (
         <div>
             <nav>
                 <NavLink exact to='/'>Home</NavLink>
                 <NavLink to='/profile'>Profile</NavLink>
-                {user.role === Role.Owner && 
-                    <NavLink to ='/owner'>Owner</NavLink>
-                }
+                <NavLink to='/add-item'>Add Item</NavLink>
                 <Button
                     variant='outlined'
                     color='primary'
