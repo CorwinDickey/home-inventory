@@ -28,12 +28,12 @@ const refreshTokenSchema = mongoose.Schema({
     }
 })
 
-refreshTokenSchema.virtual('isExpired').get(() => {
-    return Date.now() >= this.expires
+refreshTokenSchema.virtual('isExpired').get(function() {
+    return (Date.now() >= this.expires)
 })
 
-refreshTokenSchema.virtual('isActive').get(() => {
-    return !this.revoked && !this.isExpired
+refreshTokenSchema.virtual('isActive').get(function() {
+    return (!this.revoked && !this.isExpired)
 })
 
 module.exports = mongoose.model('RefreshToken', refreshTokenSchema)

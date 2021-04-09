@@ -1,5 +1,4 @@
 const jwt = require('express-jwt')
-const { secret } = require('../config.json')
 const Account = require('../models/account')
 const RefreshToken = require('../models/refresh-token')
 
@@ -7,6 +6,8 @@ function authorize(roles = []) {
     if (typeof roles === 'string') {
         roles = [roles]
     }
+
+    const secret = process.env.SECRET
 
     return [
         jwt({ secret, algorithms: ['HS256'] }),

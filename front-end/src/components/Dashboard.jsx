@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 import AddItem from './AddItem'
+import { fetchWrapper } from '../utils/fetch-wrapper'
 
 function Dashboard() {
     const [itemList, setItemList] = useState([])
@@ -8,7 +8,7 @@ function Dashboard() {
     useEffect(() => getItems(), itemList)
 
     function getItems() {
-        axios.get('/items')
+        fetchWrapper.get('/items')
         .then(response => {
             console.log(response)
             setItemList(response.data)

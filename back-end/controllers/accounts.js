@@ -15,8 +15,8 @@ accounts.post('/forgot-password', forgotPasswordSchema, forgotPassword)
 accounts.post('/validate-reset-token', validateResetTokenSchema, validateResetToken)
 accounts.post('/reset-password', resetPasswordSchema, resetPassword)
 accounts.get('/:id', authorize(), getById)
-accounts.put('/:id', authorize(), updateSchema, updateAccount)
-accounts.post('/', authorize(Role.Owner), createSchema, createAccount)
+accounts.put('/:id', authorize(), updateAccountSchema, updateAccount)
+accounts.post('/', authorize(Role.Owner), createAccountSchema, createAccount)
 accounts.delete('/:id', authorize(), _delete)
 
 module.exports = accounts
@@ -157,8 +157,8 @@ function getById(req, res, next) {
         .catch(next)
 }
 
-function createSchema(req, res, next) {
-    const createSchema = Joi.object({
+function createAccountSchema(req, res, next) {
+    const createAccountSchema = Joi.object({
         email: Joi.string().required(),
         password: Joi.string().required(),
         firstName: Joi.string().required(),
@@ -167,7 +167,7 @@ function createSchema(req, res, next) {
         confirmPassword: Joi.string().valid(Joi.ref('password')).required(),
         role: Joi.string().valid(Role.Owner, Role.User).required()
     })
-    validateRequest(req, next, createSchema)
+    validateRequest(req, next, createAccountSchema)
 }
 
 function createAccount(req, res, next) {
@@ -176,7 +176,7 @@ function createAccount(req, res, next) {
         .catch(next)
 }
 
-function updateSchema(req, res, next) {
+function updateAccountSchema(req, res, next) {
     const schemaRules = {
         email: Joi.string().empty(''),
         firstName: Joi.string().empty(''),
@@ -189,8 +189,8 @@ function updateSchema(req, res, next) {
         schemaRules.role = Joi.string().valid(Role.Owner, Role.User).empty('')
     }
 
-    const updateSchema = Joi.object(schemaRules).with('password', 'confirmPassword')
-    validateRequest(req, next, updateSchema)
+    const updateAccountSchema = Joi.object(schemaRules).with('password', 'confirmPassword')
+    validateRequest(req, next, updateAccountSchema)
 }
 
 function updateAccount(req, res, next) {

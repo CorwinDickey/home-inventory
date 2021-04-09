@@ -1,4 +1,3 @@
-const config = require('../config.json')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
@@ -101,7 +100,6 @@ async function verifyEmail({ token }) {
 
 async function forgotPassword({ email }, origin) {
     const account = await Account.findOne({ email })
-    console.log(account)
 
     if (!account) {
         return
@@ -124,7 +122,7 @@ async function validateResetToken({ token }) {
         'resetToken.expires': { $gt: Date.now() }
     })
 
-    if (!account) throw 'Invalid token'
+    if (!account) throw 'Invalid token 1'
 }
 
 async function resetPassword({ token, password }) {
@@ -133,7 +131,7 @@ async function resetPassword({ token, password }) {
         'resetToken.expires': { $gt: Date.now() }
     })
 
-    if (!account) throw 'Invalid token'
+    if (!account) throw 'Invalid token 2'
 
     account.password = hash(password)
     account.passwordReset = Date.now()
@@ -199,10 +197,11 @@ async function getAccount(id) {
 }
 
 async function getRefreshToken(token) {
-    const refreshToken = await (await RefreshToken.findOne({ token })).populated('account')
+    // const refreshToken = await (await RefreshToken.findOne({ token }))
+    const refreshToken = await RefreshToken.findOne({ token }).populate('account')
 
     if (!refreshToken || !refreshToken.isActive) {
-        throw 'Invalid token'
+        throw 'Invalid token 3'
     }
 
     return refreshToken
@@ -213,7 +212,8 @@ function hash(password) {
 }
 
 function generateJwtToken(account) {
-    return jwt.sign({ sub: account.id, id: account.id }, config.secret, { expiresIn: '15m'})
+    const secret = process.env.SECRET
+    return jwt.sign({ sub: account.id, id: account.id }, secret, { expiresIn: '15m'})
 }
 
 function generateRefreshToken(account, ipAddress) {
@@ -293,7 +293,7 @@ async function sendAlreadyRegisteredEmail(email, origin) {
 async function sendPasswordResetEmail(account, origin) {
     let message
     if (origin) {
-        const resetUrl = `${origin}/account/reset-password?token=${account.resetToken.token}`
+        const resetUrl = `${origin}/reset-password?token=${account.resetToken.token}`
         message = `<p>Please click the below link to reset your password, the link will be valid for 1 day:</p>
                    <p><a href="${resetUrl}">${resetUrl}</a></p>` 
     } else {
