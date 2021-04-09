@@ -1,4 +1,3 @@
-const config = require('../config.json')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
@@ -213,7 +212,8 @@ function hash(password) {
 }
 
 function generateJwtToken(account) {
-    return jwt.sign({ sub: account.id, id: account.id }, config.secret, { expiresIn: '15m'})
+    const secret = process.env.SECRET
+    return jwt.sign({ sub: account.id, id: account.id }, secret, { expiresIn: '15m'})
 }
 
 function generateRefreshToken(account, ipAddress) {
