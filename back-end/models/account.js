@@ -21,14 +21,10 @@ const accountSchema = new mongoose.Schema({
     acceptTerms: {
         type: Boolean
     },
-    // role: {
-    //     type: String,
-    //     required: true
-    // },
-    owner: {
+    ownerInventories: {
         type: [mongoose.Schema.Types.ObjectId]
     },
-    user: {
+    userInventories: {
         type: [mongoose.Schema.Types.ObjectId]
     },
     verificationToken: {

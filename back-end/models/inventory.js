@@ -12,10 +12,7 @@ const inventorySchema = mongoose.Schema({
     users: {
         type: [mongoose.Schema.Types.ObjectId]
     },
-    rooms: {
-        type: [mongoose.Schema.Types.ObjectId]
-    },
-    categories: {
+    buckets: {
         type: [mongoose.Schema.Types.ObjectId]
     }
 })
