@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import AddItem from './AddItem'
+// import AddItem from './AddItem'
 import { fetchWrapper } from '../utils/fetch-wrapper'
 
 function Dashboard() {
-    const [itemList, setItemList] = useState([])
+    const [inventoryList, setInventoryList] = useState([])
 
-    useEffect(() => getItems(), itemList)
+    useEffect(() => getInventories(), [inventoryList])
 
-    function getItems() {
-        fetchWrapper.get('/items')
+    function getInventories() {
+        fetchWrapper.get('/inventory')
         .then(response => {
             console.log(response)
-            setItemList(response.data)
+            setInventoryList(response)
         })
         .catch(error => {
             console.log(error)
@@ -21,12 +21,11 @@ function Dashboard() {
     return(
         <div>
             Testing deployment of react app
-            <AddItem />
-            {itemList.map((item) => {
-                if (item) {
+            {inventoryList.map((x) => {
+                if (x) {
                     return (
                         <div>
-                            <p>{item.name}</p>
+                            <p>{x.name}</p>
                         </div>
                     )
                 }
