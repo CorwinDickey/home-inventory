@@ -23,10 +23,9 @@ export const accountService = {
 }
 
 const baseUrl = process.env.REACT_APP_SERVER_URL + '/accounts'
-const route = '/accounts'
 
 function login(email, password) {
-    return fetchWrapper.post(route + '/authenticate', { email, password })
+    return fetchWrapper.post(baseUrl + '/authenticate', { email, password })
         .then(user => {
             userSubject.next(user)
             startRefreshTokenTimer()
@@ -72,6 +71,10 @@ function resetPassword({ token, password, confirmPassword }) {
 
 function getById(id) {
     return fetchWrapper.get(baseUrl + '/' + id)
+}
+
+function getByEmail(email) {
+    return fetchWrapper.get()
 }
 
 function createAccount(params) {
