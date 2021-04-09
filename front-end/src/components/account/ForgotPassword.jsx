@@ -33,7 +33,7 @@ function ForgotPassword({ history }) {
     return (
         <div>
             <FormProvider {...methods}>
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <FormInput
                         name='email'
                         label='Email'
@@ -41,18 +41,18 @@ function ForgotPassword({ history }) {
                         required={true}
                         errorObj={errors}
                     />
+                    <Button
+                        type='submit'
+                        variant='contained'
+                        color='primary'
+                    >Submit</Button>
+                    <Button
+                        variant='text'
+                        color='primary'
+                        onClick={() => history.push('/login')}
+                    >Cancel</Button>
                 </form>
             </FormProvider>
-            <Button
-                variant='contained'
-                color='primary'
-                onClick={handleSubmit(onSubmit)}
-            >Submit</Button>
-            <Button
-                variant='text'
-                color='primary'
-                onClick={() => history.push('/login')}
-            >Cancel</Button>
         </div>
     )
 }

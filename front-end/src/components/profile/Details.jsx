@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import { accountService } from '../../services/account'
 
-function Details() {
+function Details({ match }) {
     const { path } = match
     const user = accountService.userValue
 

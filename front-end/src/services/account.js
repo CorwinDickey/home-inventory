@@ -1,6 +1,5 @@
 import { BehaviorSubject } from 'rxjs'
 
-import { history } from '../utils/history'
 import { fetchWrapper } from '../utils/fetch-wrapper'
 
 const userSubject = new BehaviorSubject(null)
@@ -37,7 +36,7 @@ function logout() {
     fetchWrapper.post(baseUrl + '/revoke-token', {})
     stopRefreshTokenTimer()
     userSubject.next(null)
-    history.push('/')
+    // history.push('/')
 }
 
 function refreshToken() {

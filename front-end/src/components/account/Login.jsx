@@ -39,7 +39,7 @@ function Login({ history, location }) {
     return (
         <div>
             <FormProvider {...methods}>
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <FormInput
                         name='email'
                         label='Email'
@@ -54,23 +54,23 @@ function Login({ history, location }) {
                         required={true}
                         errorObj={errors}
                     />
+                    <Button
+                        type='submit'
+                        variant='contained'
+                        color='primary'
+                    >Login</Button>
+                    <Button
+                        variant='text'
+                        color='primary'
+                        onClick={() => history.push('/register')}
+                    >Register</Button>
+                    <Button
+                        variant='text'
+                        color='primary'
+                        onClick={() => history.push('/forgot-password')}
+                    >Forgot Password</Button>
                 </form>
             </FormProvider>
-            <Button
-                variant='contained'
-                color='primary'
-                onClick={handleSubmit(onSubmit)}
-            >Login</Button>
-            <Button
-                variant='text'
-                color='primary'
-                onClick={() => history.push('/register')}
-            >Register</Button>
-            <Button
-                variant='text'
-                color='primary'
-                onClick={() => history.push('/forgot-password')}
-            >Forgot Password</Button>
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
-import { Button, CheckBox } from '@material-ui/core'
+import { Button } from '@material-ui/core'
 
 import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -50,7 +50,7 @@ function Register({ history }) {
     return (
         <div>
             <FormProvider {...methods}>
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <div>
                         <FormInput
                             name='firstName'
@@ -95,18 +95,18 @@ function Register({ history }) {
                         errorObj={errors}
                         color='primary'
                     />
+                    <Button
+                        type='submit'
+                        variant='contained'
+                        color='primary'
+                    >Sign-up</Button>
+                    <Button
+                        variant='text'
+                        color='primary'
+                        onClick={() => history.push('/login')}
+                    >Cancel</Button>
                 </form>
             </FormProvider>
-            <Button
-                variant='contained'
-                color='primary'
-                onClick={handleSubmit(onSubmit)}
-            >Sign-up</Button>
-            <Button
-                variant='text'
-                color='primary'
-                onClick={() => history.push('/login')}
-            >Cancel</Button>
         </div>
     )
 }

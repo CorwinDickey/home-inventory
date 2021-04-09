@@ -10,6 +10,7 @@ import FormInput from '../form-controls/FormInput'
 import { accountService } from '../../services/account'
 import { inventoryService } from '../../services/inventory'
 import { alertService } from '../../services/alert'
+import { history } from '../../utils/history'
 
 const validationSchema = yup.object().shape({
     name: yup.string()
@@ -24,29 +25,23 @@ function AddInventory() {
         resolver: yupResolver(validationSchema)
     })
 
-    const { handleSubmit, errors } = methods
+    const { handleSubmit } = methods
 
     const user = accountService.userValue
+    console.log(user)
 
-    // function listOfUsers(userEmails) {
-    //     let userArray = []
-    //     const usersString = userEmails.replace(/\s/g, '')
-    //     const userEmailsArray = usersString.split(',')
-    //     for (email of userEmailsArray) {
-
-    //     }
-    // }
-
-    function onSubmit({name}) {
+    function onSubmit(formData) {
+        console.log('testing button click')
         const data = {
-            name: name,
-            owner: user._id,
+            name: formData.name,
+            owner: user.id,
             // users: listOfUsers(userEmails)
         }
+        console.log(data)
         inventoryService.createInventory(data)
             .then(() => {
                 alertService.success('Your new inventory has been created')
-                history.push('/dashboard')
+                history.push('/')
             })
             .catch(error => {
                 alertService.error(error)
@@ -56,25 +51,25 @@ function AddInventory() {
     return (
         <div>
             <FormProvider {...methods}>
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <FormInput
                         name='name'
                         label='Inventory Name'
                         required={true}
-                        errorObj={errors}
+                        // errorObj={errors}
                     />
+                    <Button
+                        type='submit'
+                        variant='contained'
+                        color='primary'
+                    >Create Inventory</Button>
+                    <Button
+                        variant='text'
+                        color='primary'
+                        onClick={() => history.push('/dashboard')}
+                    >Cancel</Button>
                 </form>
             </FormProvider>
-            <Button
-                variant='contained'
-                color='primary'
-                onClick={handleSubmit(onSubmit)}
-            >Create Inventory</Button>
-            <Button
-                variant='text'
-                color='primary'
-                onClick={() => history.push('/dashboard')}
-            >Cancel</Button>
         </div>
     )
 }

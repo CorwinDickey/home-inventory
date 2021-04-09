@@ -5,10 +5,11 @@ import { Button } from '@material-ui/core'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 
-import FormInput from './form-controls/FormInput'
+import FormInput from '../form-controls/FormInput'
 
-import { bucketService } from '../services/bucket'
-import { alertService } from '../services/alert'
+import { bucketService } from '../../services/bucket'
+import { alertService } from '../../services/alert'
+import { history } from '../../utils/history'
 
 const validationSchema = yup.object().shape({
     name: yup.string()

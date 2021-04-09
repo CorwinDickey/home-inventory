@@ -69,7 +69,7 @@ function ResetPassword({ history, location }) {
         return (
             <div>
                 <FormProvider {...methods}>
-                    <form>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <FormInput
                             name='password'
                             label='Password'
@@ -84,18 +84,18 @@ function ResetPassword({ history, location }) {
                             required={true}
                             errorObj={errors}
                         />
+                        <Button
+                            type='submit'
+                            variant='contained'
+                            color='primary'
+                        >Reset Password</Button>
+                        <Button
+                            variant='text'
+                            color='primary'
+                            onClick={() => history.push('/login')}
+                        >Cancel</Button>
                     </form>
                 </FormProvider>
-                <Button
-                    variant='contained'
-                    color='primary'
-                    onClick={handleSubmit(onSubmit)}
-                >Reset Password</Button>
-                <Button
-                    variant='text'
-                    color='primary'
-                    onClick={() => history.push('/login')}
-                >Cancel</Button>
             </div>
         )
     }

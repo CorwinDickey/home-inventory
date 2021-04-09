@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react'
-// import AddItem from './AddItem'
+import { Link } from 'react-router-dom'
 import { fetchWrapper } from '../utils/fetch-wrapper'
+import { history } from '../utils/history'
+
+import { Button } from '@material-ui/core'
 
 function Dashboard() {
     const [inventoryList, setInventoryList] = useState([])
 
-    useEffect(() => getInventories(), [inventoryList])
+    useEffect(() => getInventories(), [])
 
     function getInventories() {
         fetchWrapper.get('/inventory')
         .then(response => {
-            console.log(response)
             setInventoryList(response)
         })
         .catch(error => {
@@ -20,12 +22,22 @@ function Dashboard() {
 
     return(
         <div>
-            Testing deployment of react app
+            <Button
+                variant='outlined'
+                color='primary'
+                onClick={() => history.push('/new-inventory')}
+            >New Inventory</Button>
             {inventoryList.map((x) => {
                 if (x) {
                     return (
                         <div>
-                            <p>{x.name}</p>
+                            <Link key={x._id} to={{
+                                pathname: '/view-inventory',
+                                state: {
+                                    inventory: x
+                                }
+                            }}
+                            >{x.name}</Link>
                         </div>
                     )
                 }

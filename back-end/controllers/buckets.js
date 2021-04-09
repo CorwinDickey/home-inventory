@@ -3,6 +3,7 @@
 // ==============================================================
 const express = require('express')
 const Joi = require('joi')
+const validateRequest = require('../middleware/validate-request')
 const authorize = require('../middleware/authorize')
 const bucketService = require('../services/bucket')
 const buckets = express.Router()
@@ -11,10 +12,10 @@ const buckets = express.Router()
 // ROUTES
 // ==============================================================
 buckets.post('/', createBucketSchema, createBucket)
-buckets.get('/:id', authorize(), getBucket)
-buckets.get('/', authorize(), getAllBuckets)
-buckets.put('/:id', authorize(), updateBucketSchema, updateBucket)
-buckets.delete('/:id', authorize(), deleteBucket)
+buckets.get('/:id', getBucket)
+buckets.get('/', getAllBuckets)
+buckets.put('/:id', updateBucketSchema, updateBucket)
+buckets.delete('/:id', deleteBucket)
 
 module.exports = buckets
 

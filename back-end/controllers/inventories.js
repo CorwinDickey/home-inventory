@@ -3,6 +3,7 @@
 // ==============================================================
 const express = require('express')
 const Joi = require('joi')
+const validateRequest = require('../middleware/validate-request')
 const authorize = require('../middleware/authorize')
 const inventoryService = require('../services/inventory')
 const inventories = express.Router()
@@ -11,10 +12,10 @@ const inventories = express.Router()
 // ROUTES
 // ==============================================================
 inventories.post('/', createInventorySchema, createInventory)
-inventories.get('/:id', authorize(), getInventory)
-inventories.get('/', authorize(), getAllInventories)
-inventories.put('/:id', authorize(), updateInventorySchema, updateInventory)
-inventories.delete('/:id', authorize(), deleteInventory)
+inventories.get('/:id', getInventory)
+inventories.get('/', getAllInventories)
+inventories.put('/:id', updateInventorySchema, updateInventory)
+inventories.delete('/:id', deleteInventory)
 
 module.exports = inventories
 
