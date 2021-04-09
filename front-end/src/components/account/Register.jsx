@@ -1,11 +1,12 @@
 import React from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
-import { Button } from '@material-ui/core'
+import { Button, CheckBox } from '@material-ui/core'
 
 import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import FormInput from '../form-controls/FormInput'
+import FormCheck from '../form-controls/FormCheck'
 
 import { accountService } from '../../services/account'
 import { alertService } from '../../services/alert'
@@ -35,8 +36,8 @@ function Register({ history }) {
 
     const { handleSubmit, errors } = methods
 
-    function onSubmit(fields) {
-        accountService.register(fields)
+    function onSubmit(data) {
+        accountService.register(data)
             .then(() => {
                 alertService.success('Registration successful, please check your email for verification instructions')
                 history.push('login')
@@ -87,6 +88,13 @@ function Register({ history }) {
                             errorObj={errors}
                         />
                     </div>
+                    <FormCheck
+                        name='acceptTerms'
+                        label='I accept the Terms and Conditions'
+                        required={true}
+                        errorObj={errors}
+                        color='primary'
+                    />
                 </form>
             </FormProvider>
             <Button

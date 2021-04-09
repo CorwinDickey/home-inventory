@@ -18,7 +18,7 @@ const validationSchema = yup.object().shape({
         .required('Password is required')
 })
 
-function Login({ history, location }, props) {
+function Login({ history, location }) {
     const methods = useForm({
         resolver: yupResolver(validationSchema)
     })
@@ -28,7 +28,6 @@ function Login({ history, location }, props) {
     function onSubmit({ email, password }) {
         alertService.clear()
         accountService.login(email, password)
-            .then(data => props.setUser(data))
             .then(() => {
                 history.push('/')
             })
@@ -61,23 +60,17 @@ function Login({ history, location }, props) {
                 variant='contained'
                 color='primary'
                 onClick={handleSubmit(onSubmit)}
-            >
-                Login
-            </Button>
+            >Login</Button>
             <Button
                 variant='outlined'
                 color='primary'
                 onClick={() => history.push('/register')}
-            >
-                Register
-            </Button>
+            >Register</Button>
             <Button
                 variant='outlined'
                 color='primary'
                 onClick={() => history.push('/forgot-password')}
-            >
-                Forgot Password
-            </Button>
+            >Forgot Password</Button>
         </div>
     )
 }
