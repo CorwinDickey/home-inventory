@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import { Button } from '@material-ui/core'
 
+// import * as yup from 'yup'
+// import { yupResolver } from '@hookform/resolvers/yup'
+
 import FormInput from '../form-controls/FormInput'
 import { accountService } from '../../services/account'
 // import { itemService } from '../../services/item'
@@ -9,6 +12,22 @@ import { accountService } from '../../services/account'
 import { history } from '../../utils/history'
 import FormSelect from '../form-controls/FormSelect'
 import { bucketService } from '../../services/bucket'
+
+// const validationSchema = yup.object().shape({
+//     name: yup.string()
+//         .required('Name is required'),
+//     description: yup.string()
+//         .required('Description is required'),
+//     datePurchased: yup.date(),
+//     purchasePrice: yup.number(),
+//     replacementCost: yup.number(),
+//     shipping: yup.number(),
+//     quantity: yup.number(),
+//     taxRate: yup.number(),
+//     buckets: yup.string(),
+//     inventory: yup.string(),
+//     creator: yup.string()
+// })
 
 function AddItem(props) {
     const [bucketList, setBucketList] = useState([])
