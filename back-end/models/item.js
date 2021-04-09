@@ -34,8 +34,7 @@ const itemSchema = mongoose.Schema({
         type: mongoose.Schema.Types.Mixed
     },
     buckets: {
-        type: [mongoose.Schema.Types.ObjectId],
-        required: true
+        type: [mongoose.Schema.Types.ObjectId]
     },
     categoryData: {
         type: mongoose.Schema.Types.ObjectId
