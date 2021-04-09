@@ -47,6 +47,12 @@ const itemSchema = mongoose.Schema({
     categoryData: {
         // type: mongoose.Schema.Types.ObjectId
         type: Number
+    },
+    inventory: {
+        type: mongoose.Schema.Types.ObjectId
+    },
+    owner: {
+        type: mongoose.Schema.Types.ObjectId
     }
 })
 

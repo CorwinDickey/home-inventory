@@ -21,9 +21,15 @@ const accountSchema = new mongoose.Schema({
     acceptTerms: {
         type: Boolean
     },
-    role: {
-        type: String,
-        required: true
+    // role: {
+    //     type: String,
+    //     required: true
+    // },
+    owner: {
+        type: [mongoose.Schema.Types.ObjectId]
+    },
+    user: {
+        type: [mongoose.Schema.Types.ObjectId]
     },
     verificationToken: {
         type: String
