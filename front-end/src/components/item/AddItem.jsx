@@ -31,7 +31,6 @@ import { bucketService } from '../../services/bucket'
 
 function AddItem(props) {
     const [bucketList, setBucketList] = useState([])
-    // const [bucket, setBucket] = useState()
 
     const methods = useForm()
 
@@ -76,13 +75,12 @@ function AddItem(props) {
             creator: user.id
         }
 
-        // console.log(data)
 
         itemService.createItem(data)
-            // .then(response => console.log(response))
             .then(response => {
                 addItemsToBuckets(response)
             })
+        history.goBack()
     }
 
     function addItemsToBuckets(data) {

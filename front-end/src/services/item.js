@@ -16,7 +16,6 @@ function createItem(params) {
 
 function updateItem(id, params) {
     return fetchWrapper.put(baseUrl + '/' + id, params)
-        .then(bucket => console.log(bucket))
 }
 
 function deleteItem(id) {

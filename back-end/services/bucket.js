@@ -12,12 +12,14 @@ module.exports = {
 async function createBucket(params) {
     const bucket = new Bucket(params)
     await bucket.save()
+    return bucket
 }
 
 async function updateBucket(id, params) {
     const bucket = await getBucket(id)
     Object.assign(bucket, params)
     await bucket.save()
+    return bucket
 }
 
 async function deleteBucket(id) {

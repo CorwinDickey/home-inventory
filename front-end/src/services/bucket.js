@@ -16,7 +16,6 @@ function createBucket(params) {
 
 function updateBucket(id, params) {
     return fetchWrapper.put(baseUrl + '/' + id, params)
-        .then(bucket => console.log(bucket))
 }
 
 function deleteBucket(id) {

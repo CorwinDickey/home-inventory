@@ -5,8 +5,8 @@ import { Button } from '@material-ui/core'
 import FormInput from '../form-controls/FormInput'
 
 import { bucketService } from '../../services/bucket'
-import { alertService } from '../../services/alert'
 import { history } from '../../utils/history'
+import { inventoryService } from '../../services/inventory'
 
 
 function AddBucket(props) {
@@ -14,27 +14,31 @@ function AddBucket(props) {
 
     const { handleSubmit, errors } = methods
 
-    console.log(props.location.state.inventory._id)
-    console.log(props.bucketType)
-
     function onSubmit(formData) {
-        console.log('testing button click')
-        console.log(props.location.state.inventory)
         const data = {
             name: formData.name,
             inventory: props.location.state.inventory._id,
             bucketType: props.bucketType
         }
-        console.log(data)
+        console.log('logging data', data)
 
         bucketService.createBucket(data)
-            .then(() => {
-                alertService.success(`Your ${props.bucketType} has been created`)
-                history.goBack()
+            .then(response => {
+                addBucketToInventory(response)
             })
-            .catch(error => {
-                alertService.error(error)
-            })
+         history.goBack()    }
+
+    function addBucketToInventory(data) {
+        console.log('logging data', data)
+        
+        function pushToInventory(inventory) {
+            inventory['buckets'].push(data._id)
+            return inventory
+        }
+
+        inventoryService.getInventory(data.inventory)
+            .then(inventory => pushToInventory(inventory))
+            .then(inventory => inventoryService.updateInventory(inventory._id, inventory))
     }
 
     return (
