@@ -54,6 +54,7 @@ function authHeader(url) {
 }
 
 function handleResponse(response) {
+    console.log('logging handle response', response)
     return response.text().then(text => {
         const data = text && JSON.parse(text)
 
@@ -66,6 +67,7 @@ function handleResponse(response) {
             return Promise.reject(error)
         }
 
+        // console.log('testing handle response', data)
         return data
     })
 }

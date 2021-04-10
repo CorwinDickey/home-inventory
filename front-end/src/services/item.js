@@ -5,7 +5,8 @@ export const itemService = {
     updateItem,
     deleteItem,
     getItem,
-    getAllItems
+    getAllItems,
+    getItemsByInventory
 }
 
 const baseUrl = process.env.REACT_APP_SERVER_URL + '/items'
@@ -28,4 +29,8 @@ function getItem(id) {
 
 function getAllItems() {
     return fetchWrapper.get(baseUrl)
+}
+
+function getItemsByInventory(id) {
+    return fetchWrapper.get(baseUrl + '/inventory/' + id)
 }

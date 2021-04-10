@@ -6,7 +6,8 @@ module.exports = {
     updateItem,
     deleteItem,
     getItem,
-    getAllItems
+    getAllItems,
+    geItemsByInventory
 }
 
 async function createItem(params) {
@@ -47,4 +48,9 @@ async function getAllItems() {
 async function getInventoryCost(id) {
     const items = await Item.find({"_id": id})
     console.log(items)
+}
+
+async function geItemsByInventory(id) {
+    const buckets = await Item.find({ inventory: id})
+    return buckets
 }

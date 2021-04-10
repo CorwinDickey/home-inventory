@@ -128,7 +128,6 @@ function AddItem(props) {
                             name='datePurchased'
                             label='Purchase Date'
                             type='date'
-                            defaultValue={defaultDate()}
                             InputLabelProps={{
                                 shrink: true
                             }}

@@ -5,7 +5,8 @@ export const bucketService = {
     updateBucket,
     deleteBucket,
     getBucket,
-    getAllBuckets
+    getAllBuckets,
+    getBucketsByInventory
 }
 
 const baseUrl = process.env.REACT_APP_SERVER_URL + '/buckets'
@@ -28,4 +29,8 @@ function getBucket(id) {
 
 function getAllBuckets() {
     return fetchWrapper.get(baseUrl)
+}
+
+function getBucketsByInventory(id) {
+    return fetchWrapper.get(baseUrl + '/inventory/' + id)
 }

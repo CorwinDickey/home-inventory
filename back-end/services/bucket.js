@@ -6,7 +6,8 @@ module.exports = {
     updateBucket,
     deleteBucket,
     getBucket,
-    getAllBuckets
+    getAllBuckets,
+    getBucketsByInventory
 }
 
 async function createBucket(params) {
@@ -43,5 +44,10 @@ async function getBucket(id) {
 
 async function getAllBuckets() {
     const buckets = await Bucket.find()
+    return buckets
+}
+
+async function getBucketsByInventory(id) {
+    const buckets = await Bucket.find({ inventory: id})
     return buckets
 }

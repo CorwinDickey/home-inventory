@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom'
 import { fetchWrapper } from '../utils/fetch-wrapper'
 import { history } from '../utils/history'
 
-import { Button } from '@material-ui/core'
+import {
+    Card,
+    Button
+} from '@material-ui/core'
 
 function Dashboard() {
     const [inventoryList, setInventoryList] = useState([])
@@ -30,7 +33,7 @@ function Dashboard() {
             {inventoryList.map((x) => {
                 if (x) {
                     return (
-                        <div>
+                        <Card>
                             <Link key={x._id} to={{
                                 pathname: '/view-inventory',
                                 state: {
@@ -38,7 +41,7 @@ function Dashboard() {
                                 }
                             }}
                             >{x.name}</Link>
-                        </div>
+                        </Card>
                     )
                 }
             })}

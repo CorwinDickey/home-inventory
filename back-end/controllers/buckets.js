@@ -13,6 +13,7 @@ const buckets = express.Router()
 buckets.post('/', createBucketSchema, createBucket)
 buckets.get('/:id', getBucket)
 buckets.get('/', getAllBuckets)
+buckets.get('/inventory/:id', getBucketsByInventory)
 buckets.put('/:id', updateBucketSchema, updateBucket)
 buckets.delete('/:id', deleteBucket)
 
@@ -22,7 +23,6 @@ module.exports = buckets
 // CREATE
 // ==============================================================
 function createBucketSchema(req, res, next) {
-    console.log('logging schema', req.body)
     const schema = Joi.object({
         name: Joi.string().required(),
         bucketType: Joi.string().required(),
@@ -34,7 +34,6 @@ function createBucketSchema(req, res, next) {
 }
 
 function createBucket(req, res, next) {
-    console.log('logging create', req.body)
     bucketService.createBucket(req.body)
         .then(bucket => res.json(bucket))
         .catch(next)
@@ -51,6 +50,12 @@ function getBucket(req, res, next) {
 
 function getAllBuckets(req, res, next) {
     bucketService.getAllBuckets()
+        .then(buckets => res.json(buckets))
+        .catch(next)
+}
+
+function getBucketsByInventory(req, res, next) {
+    bucketService.getBucketsByInventory(req.params.id)
         .then(buckets => res.json(buckets))
         .catch(next)
 }
