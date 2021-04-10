@@ -1,32 +1,32 @@
 import { fetchWrapper } from '../utils/fetch-wrapper'
 
-export const bucketService = {
-    createBucket,
-    updateBucket,
-    deleteBucket,
-    getBucket,
-    getAllBuckets
+export const itemService = {
+    createItem,
+    updateItem,
+    deleteItem,
+    getItem,
+    getAllItems
 }
 
-const baseUrl = process.env.REACT_APP_SERVER_URL + '/buckets'
+const baseUrl = process.env.REACT_APP_SERVER_URL + '/items'
 
-function createBucket(params) {
+function createItem(params) {
     return fetchWrapper.post(baseUrl, params)
 }
 
-function updateBucket(id, params) {
+function updateItem(id, params) {
     return fetchWrapper.put(baseUrl + '/' + id, params)
         .then(bucket => console.log(bucket))
 }
 
-function deleteBucket(id) {
+function deleteItem(id) {
     return fetchWrapper.delete(baseUrl + '/' + id)
 }
 
-function getBucket(id) {
+function getItem(id) {
     return fetchWrapper.get(baseUrl + '/' + id)
 }
 
-function getAllBuckets() {
+function getAllItems() {
     return fetchWrapper.get(baseUrl)
 }

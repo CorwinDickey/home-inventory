@@ -7,7 +7,7 @@ import { Button } from '@material-ui/core'
 
 import FormInput from '../form-controls/FormInput'
 import { accountService } from '../../services/account'
-// import { itemService } from '../../services/item'
+import { itemService } from '../../services/item'
 // import { alertService } from '../../services/alert'
 import { history } from '../../utils/history'
 import FormSelect from '../form-controls/FormSelect'
@@ -31,6 +31,7 @@ import { bucketService } from '../../services/bucket'
 
 function AddItem(props) {
     const [bucketList, setBucketList] = useState([])
+    // const [bucket, setBucket] = useState()
 
     const methods = useForm()
 
@@ -72,16 +73,30 @@ function AddItem(props) {
             taxRate: formData.taxRate,
             buckets: [formData.room, formData.category],
             inventory: props.location.state.inventory._id,
-            creator: user._id
+            creator: user.id
         }
 
-        console.log(data)
+        // console.log(data)
 
-        // itemService.createItem(data)
-        //     .then(() => {
-        //         alertService.success('Your item has been created')
-        //         history.goBack()
-        //     })
+        itemService.createItem(data)
+            // .then(response => console.log(response))
+            .then(response => {
+                addItemsToBuckets(response)
+            })
+    }
+
+    function addItemsToBuckets(data) {
+        
+        function pushToBucket(bucket) {
+            bucket['items'].push(data._id)
+            return bucket
+        }
+
+        for (const bucketId of data.buckets) {
+            bucketService.getBucket(bucketId)
+                .then(bucket => pushToBucket(bucket))
+                .then(bucket => bucketService.updateBucket(bucket._id, bucket))
+        }
     }
 
     return (

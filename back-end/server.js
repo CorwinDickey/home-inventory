@@ -46,7 +46,7 @@ const bucketsController = require('./controllers/buckets')
 APP.use('/items', itemsController)
 APP.use('/accounts', accountsController)
 APP.use('/inventory', inventoriesController)
-APP.use('/bucket', bucketsController)
+APP.use('/buckets', bucketsController)
 
 // ==============================================================
 // DATABASE CONFIGURATION
