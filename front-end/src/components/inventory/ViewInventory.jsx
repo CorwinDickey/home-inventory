@@ -2,49 +2,44 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 import { Button } from '@material-ui/core'
-import { bucketService } from '../../services/bucket'
 import { itemService } from '../../services/item'
 import ShowList from '../ShowList'
+import { bucketService } from '../../services/bucket'
 
 function Inventory(props) {
-    const [inventory, setInventory] = useState(props.location.state.inventory)
-    const [bucketList, setBucketList] = useState([])
+    const [inventory] = useState(props.location.state.inventory)
+    const [items, setItems] = useState([])
     const [rooms, setRooms] = useState([])
     const [categories, setCategories] = useState([])
-    const [items, setItems] = useState([])
 
-    // useEffect(() => {
-    //     console.log('testing')
-    //     bucketService.getAllBuckets()
-    //         .then(response => setBuckets(response))
-    //         .then(response => splitBuckets(response))
-    //     itemService.getAllItems()
-    //         .then(response => {setItems(response)})
-    //     // splitBuckets()
-    // }, [])
+    useEffect(() => {
+        // console.log('logging inventory', inventory)
+        getItems()
+        getRooms()
+        getCategories()
+    }, [])
 
-    // function getBuckets() {
-    //     bucketService.getAllBuckets()
-    //         // .then(response => console.log(response))
-    //         .then(response => setBucketList(response))
-    // }
+    function getItems() {
+        // console.log('testing getItems')
+        itemService.getItemsByInventory(inventory._id)
+            .then(response => setItems(response))
+    }
 
-    // function setBuckets(data) {
-    //     setBucketList(data)
-    //     return bucketList
-    // }
+    function getRooms() {
+        // console.log('testing getRooms')
+        bucketService.getBucketsByInventory(inventory._id)
+            // .then(response => console.log('logging rooms', response))
+            .then(response => setRooms(response.filter(bucket => bucket.bucketType === 'room')))
+            // .then(() => console.log(rooms))
+    }
 
-    // function splitBuckets() {
-    //     setRooms(bucketList.filter(bucket => bucket.bucketType === 'room'))
-    //     setCategories(bucketList.filter(bucket => bucket.bucketType === 'category'))
-    // }
-
-    // function getItems() {
-    //     itemService.getAllItems()
-    //         .then(response => setItems(response))
-    // }
-
-    // console.log('testing')
+    function getCategories() {
+        // console.log('testing getCategories')
+        bucketService.getBucketsByInventory(inventory._id)
+            // .then(response => console.log('logging categories', response))
+            .then(response => setCategories(response.filter(bucket => bucket.bucketType === 'category')))
+            // .then(() => console.log(categories))
+    }
 
     return (
         <div>
@@ -77,13 +72,27 @@ function Inventory(props) {
             </div>
             <div id='content'>
                 <div id='items'>
-                    <ShowList listSubject='item' inventory={inventory} />
+                    <h3>Items</h3>
+                    <ShowList
+                        listSubject='item'
+                        items={items}
+                    />
                 </div>
                 <div id='categories'>
-                    <ShowList listSubject='category' inventory={inventory} />
+                <h3>Categories</h3>
+                    <ShowList
+                        listSubject='category'
+                        items={items}
+                        buckets={categories}
+                    />
                 </div>
                 <div id='rooms'>
-                    <ShowList listSubject='room' inventory={inventory} />
+                <h3>Rooms</h3>
+                    <ShowList
+                        listSubject='room'
+                        items={items}
+                        buckets={rooms}
+                    />
                 </div>
             </div>
         </div>

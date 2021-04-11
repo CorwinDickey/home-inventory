@@ -2,8 +2,8 @@ import React from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import { Button } from '@material-ui/core'
 
-import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
+// import * as yup from 'yup'
+// import { yupResolver } from '@hookform/resolvers/yup'
 
 import FormInput from '../form-controls/FormInput'
 
@@ -12,18 +12,16 @@ import { inventoryService } from '../../services/inventory'
 import { alertService } from '../../services/alert'
 import { history } from '../../utils/history'
 
-const validationSchema = yup.object().shape({
-    name: yup.string()
-        .required('Name is required'),
-    owner: yup.string()
-        .required(),
-    // users: yup.array().of(yup.string())
-})
+// const validationSchema = yup.object().shape({
+//     name: yup.string()
+//         .required('Name is required'),
+//     owner: yup.string()
+//         .required(),
+//     // users: yup.array().of(yup.string())
+// })
 
 function AddInventory() {
-    const methods = useForm({
-        resolver: yupResolver(validationSchema)
-    })
+    const methods = useForm()
 
     const { handleSubmit } = methods
 

@@ -1,36 +1,55 @@
 import React, { useState, useEffect } from 'react'
-import { bucketService } from '../services/bucket'
-import { itemService } from '../services/item'
+// import { bucketService } from '../services/bucket'
 
 import {
     Card
 } from '@material-ui/core'
 
-function ShowList(props) {
-    const [list, setList] = useState()
-    // console.log(listSubject)
+function ShowList({ listSubject, items, buckets }) {
+    // console.log(buckets)
 
-    useEffect(() => createList(), [])
+    function BucketDisplay({ bucketObject, itemsArray }) {
+        const [bucketValue, setBucketValue] = useState()
 
+        useEffect(() => {
+            // console.log('logging bucket object', bucketObject)
+            // console.log('testing getBucketValue useEffect')
+            getBucketValue(bucketObject)
+        },[itemsArray])
 
-    function createList() {
-        if ( props.listSubject === 'item' ) {
-            itemService.getItemsByInventory(props.inventory._id)
-                .then(response => setList(response))
-            // console.log(list)
-        } else {
-            bucketService.getBucketsByInventory(props.inventory._id)
-                .then(response => setList(response.filter(bucket => bucket.bucketType === props.listSubject)))
-            }
+        function getBucketValue(bucketObject) {
+            const items = itemsArray.filter(item => bucketObject['items'].indexOf(item._id) !== -1)
+            setBucketValue(items.reduce((a, b) => a + (b['replacementCost'] || 0),0))
+        }
+
+        return (
+                <div>{bucketObject.name} - ${bucketValue}</div>
+        )
     }
 
-    return (
-        <Card>
-            {list && list.map(item => {
-                return <div key={item._id}>{item.name}</div>
-            })}
-        </Card>
-    )
+    // console.log(props.listSubject === 'item', props.listSubject)
+
+    if (items) {
+        if (listSubject === 'item') {
+            return(
+                <Card>
+                    { items.map((x) => (
+                        <div>{x.name} - ${x.replacementCost * x.quantity}</div>
+                    )) }
+                </Card>
+            )
+        } else if (buckets) {
+            return(
+                <Card>
+                    { buckets.map((x) => (
+                        <BucketDisplay bucketObject={x} itemsArray={items} />
+                    ))}
+                </Card>
+            )
+        } else {
+            return null
+        }
+    }
 }
 
 export default ShowList

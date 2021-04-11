@@ -13,6 +13,7 @@ module.exports = {
 async function createItem(params) {
     const item = new Item(params)
     await item.save()
+    return item
 }
 
 async function updateItem(id, params) {
@@ -45,12 +46,7 @@ async function getAllItems() {
     return items
 }
 
-async function getInventoryCost(id) {
-    const items = await Item.find({"_id": id})
-    console.log(items)
-}
-
 async function geItemsByInventory(id) {
-    const buckets = await Item.find({ inventory: id})
-    return buckets
+    const items = await Item.find({ inventory: id})
+    return items
 }

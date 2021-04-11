@@ -72,10 +72,6 @@ function getById(id) {
     return fetchWrapper.get(baseUrl + '/' + id)
 }
 
-function getByEmail(email) {
-    return fetchWrapper.get()
-}
-
 function createAccount(params) {
     return fetchWrapper.post(baseUrl, params)
 }

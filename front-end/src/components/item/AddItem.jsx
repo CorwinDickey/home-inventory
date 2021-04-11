@@ -50,22 +50,12 @@ function AddItem(props) {
         return filteredBuckets
     }
 
-        function defaultDate() {
-        const today = new Date()
-        const dd = String(today.getDate()).padStart(2, '0')
-        const mm =  String(today.getMonth() + 1).padStart(2, '0')
-        const yyyy = String(today.getFullYear())
-
-        const defaultDate = yyyy + '-' + mm + '-' + dd
-        return defaultDate
-    }
-
     function onSubmit(formData) {
         const data = {
             name: formData.name,
             description: formData.description,
             datePurchased: formData.datePurchased,
-            purchasedPrice: formData.purchasePrice,
+            purchasePrice: formData.purchasePrice,
             replacementCost: formData.replacementCost,
             shipping: formData.shipping,
             quantity: formData.quantity,
@@ -84,9 +74,11 @@ function AddItem(props) {
     }
 
     function addItemsToBuckets(data) {
+        console.log(data)
         
         function pushToBucket(bucket) {
             bucket['items'].push(data._id)
+            console.log(bucket)
             return bucket
         }
 
