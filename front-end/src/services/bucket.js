@@ -9,7 +9,7 @@ export const bucketService = {
     getBucketsByInventory
 }
 
-const baseUrl = process.env.REACT_APP_SERVER_URL + '/buckets'
+const baseUrl = (process.env.REACT_APP_SERVER_URL + '/buckets') || '/buckets'
 
 function createBucket(params) {
     return fetchWrapper.post(baseUrl, params)

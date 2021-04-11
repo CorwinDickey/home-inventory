@@ -9,7 +9,7 @@ export const itemService = {
     getItemsByInventory
 }
 
-const baseUrl = process.env.REACT_APP_SERVER_URL + '/items'
+const baseUrl = (process.env.REACT_APP_SERVER_URL + '/items') || '/items'
 
 function createItem(params) {
     return fetchWrapper.post(baseUrl, params)
