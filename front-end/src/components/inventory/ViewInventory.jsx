@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import { Button } from '@material-ui/core'
 import { itemService } from '../../services/item'
-import ShowList from '../ShowList'
+import ShowList from './ShowList'
 import { bucketService } from '../../services/bucket'
 
 function Inventory(props) {

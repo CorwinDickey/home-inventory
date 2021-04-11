@@ -6,7 +6,7 @@ export const inventoryService = {
     deleteInventory,
     getInventory,
     getAllInventories,
-    getInventoryByAccount
+    getInventoriesByAccount
 }
 
 const baseUrl = process.env.REACT_APP_SERVER_URL + '/inventory'
@@ -32,6 +32,6 @@ function getAllInventories() {
     return fetchWrapper.get(baseUrl)
 }
 
-function getInventoryByAccount(id) {
+function getInventoriesByAccount(id) {
     return fetchWrapper.get(baseUrl + '/account/' + id)
 }

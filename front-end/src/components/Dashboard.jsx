@@ -1,52 +1,76 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { fetchWrapper } from '../utils/fetch-wrapper'
 import { history } from '../utils/history'
 
 import {
     Card,
     Button
 } from '@material-ui/core'
+import { inventoryService } from '../services/inventory'
+import { accountService } from '../services/account'
 
 function Dashboard() {
-    const [inventoryList, setInventoryList] = useState([])
+    const [ownerInventories, setOwnerInventories] = useState([])
+    const [userInventories, setUserInventories] = useState([])
+    const user = accountService.userValue
 
-    useEffect(() => getInventories(), [])
+    useEffect(() => {
+        console.log('testing useEffect')
+        getOwnerInventories()
+        getUserInventories()
+    }, [])
 
-    function getInventories() {
-        fetchWrapper.get('/inventory')
-        .then(response => {
-            setInventoryList(response)
-        })
-        .catch(error => {
-            console.log(error)
-        })
+    function getOwnerInventories() {
+        inventoryService.getInventoriesByAccount(user.id)
+            .then(response => setOwnerInventories(response.ownerInventories))
     }
 
-    return(
-        <div>
-            <Button
-                variant='outlined'
-                color='primary'
-                onClick={() => history.push('/new-inventory')}
-            >New Inventory</Button>
-            {inventoryList.map((x) => {
-                if (x) {
-                    return (
-                        <Card>
-                            <Link key={x._id} to={{
-                                pathname: '/view-inventory',
-                                state: {
-                                    inventory: x
-                                }
-                            }}
-                            >{x.name}</Link>
-                        </Card>
-                    )
-                }
-            })}
-        </div>
-    )
+    function getUserInventories() {
+        inventoryService.getInventoriesByAccount(user.id)
+            .then(response => setUserInventories(response.userInventories))
+    }
+
+    if (ownerInventories) {
+        return(
+            <div>
+                <Button
+                    variant='outlined'
+                    color='primary'
+                    onClick={() => history.push('/new-inventory')}
+                >New Inventory</Button>
+                <div id='my-inventories'>
+                    <h1>My Inventories</h1>
+                    {ownerInventories.map((x) => {
+                        return (
+                            <Card>
+                                <Link key={x._id} to={{
+                                    pathname: '/view-inventory',
+                                    state: {
+                                        inventory: x
+                                    }
+                                }}>{x.name}</Link>
+                            </Card>
+                        )
+                    })}
+                </div>
+                <div id='shared-inventories'>
+                    <h2>Shared Inventories</h2>
+                    {userInventories.map((x) => {
+                        return (
+                            <Card>
+                                <Link key={x._id} to={{
+                                    pathname: '/view-inventory',
+                                    state: {
+                                        inventory: x
+                                    }
+                                }}>{x.name}</Link>
+                            </Card>
+                        )
+                    })}
+                </div>
+            </div>
+        )
+    }
 }
 
 export default Dashboard

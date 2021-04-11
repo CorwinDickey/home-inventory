@@ -13,6 +13,7 @@ const inventories = express.Router()
 inventories.post('/', createInventorySchema, createInventory)
 inventories.get('/:id', getInventory)
 inventories.get('/', getAllInventories)
+inventories.get('/account/:id', getInventoriesByAccount)
 inventories.put('/:id', updateInventorySchema, updateInventory)
 inventories.delete('/:id', deleteInventory)
 
@@ -49,6 +50,12 @@ function getInventory(req, res, next) {
 
 function getAllInventories(req, res, next) {
     inventoryService.getAllInventories()
+        .then(inventories => res.json(inventories))
+        .catch(next)
+}
+
+function getInventoriesByAccount(req, res, next) {
+    inventoryService.getInventoriesByAccount(req.params.id)
         .then(inventories => res.json(inventories))
         .catch(next)
 }

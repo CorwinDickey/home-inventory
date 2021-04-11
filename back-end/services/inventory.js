@@ -6,7 +6,8 @@ module.exports = {
     updateInventory,
     deleteInventory,
     getInventory,
-    getAllInventories
+    getAllInventories,
+    getInventoriesByAccount
 }
 
 async function createInventory(params) {
@@ -42,4 +43,14 @@ async function getInventory(id) {
 async function getAllInventories() {
     const inventories = await Inventory.find()
     return inventories
+}
+
+async function getInventoriesByAccount(id) {
+    const ownerInventories = await Inventory.find({ owner: id})
+    const userInventories = await Inventory.find({ users: id })
+    
+    return ({
+        ownerInventories: ownerInventories,
+        userInventories: userInventories
+    })
 }
