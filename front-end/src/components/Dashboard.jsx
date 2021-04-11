@@ -15,7 +15,6 @@ function Dashboard() {
     const user = accountService.userValue
 
     useEffect(() => {
-        console.log('testing useEffect')
         getOwnerInventories()
         getUserInventories()
     }, [])

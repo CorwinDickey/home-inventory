@@ -1,6 +1,6 @@
 import React from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
-import { Button } from '@material-ui/core'
+import { Button, Card } from '@material-ui/core'
 
 // import * as yup from 'yup'
 // import { yupResolver } from '@hookform/resolvers/yup'
@@ -18,7 +18,7 @@ import { alertService } from '../../services/alert'
 //         .required('Password is required')
 // })
 
-function Login({ history, location }) {
+function Login({ history }) {
     const methods = useForm()
 
     const { handleSubmit, errors } = methods
@@ -35,7 +35,7 @@ function Login({ history, location }) {
     }
 
     return (
-        <div>
+        <Card>
             <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <FormInput
@@ -69,7 +69,7 @@ function Login({ history, location }) {
                     >Forgot Password</Button>
                 </form>
             </FormProvider>
-        </div>
+        </Card>
     )
 }
 

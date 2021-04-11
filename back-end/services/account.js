@@ -77,8 +77,6 @@ async function register(params, origin) {
 
     const account = new Account(params)
 
-    const isFirstAccount = (await Account.countDocuments({})) === 0
-    account.role = isFirstAccount ? Role.Owner : Role.User
     account.verificationToken = randomTokenString()
 
     account.password = hash(params.password)

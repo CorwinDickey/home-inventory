@@ -1,19 +1,11 @@
 import React, { useState, useEffect } from 'react'
-// import { bucketService } from '../services/bucket'
-
-import {
-    Card
-} from '@material-ui/core'
 
 function ShowList({ listSubject, items, buckets }) {
-    // console.log(buckets)
 
     function BucketDisplay({ bucketObject, itemsArray }) {
         const [bucketValue, setBucketValue] = useState()
 
         useEffect(() => {
-            // console.log('logging bucket object', bucketObject)
-            // console.log('testing getBucketValue useEffect')
             getBucketValue(bucketObject)
         },[itemsArray])
 
@@ -23,28 +15,26 @@ function ShowList({ listSubject, items, buckets }) {
         }
 
         return (
-                <div>{bucketObject.name} - ${bucketValue}</div>
+                <div key={bucketObject._id}>{bucketObject.name} - ${bucketValue}</div>
         )
     }
-
-    // console.log(props.listSubject === 'item', props.listSubject)
 
     if (items) {
         if (listSubject === 'item') {
             return(
-                <Card>
+                <div>
                     { items.map((x) => (
-                        <div>{x.name} - ${x.replacementCost * x.quantity}</div>
+                        <div key={x._id}>{x.name} - ${x.replacementCost * x.quantity}</div>
                     )) }
-                </Card>
+                </div>
             )
         } else if (buckets) {
             return(
-                <Card>
+                <div>
                     { buckets.map((x) => (
                         <BucketDisplay bucketObject={x} itemsArray={items} />
                     ))}
-                </Card>
+                </div>
             )
         } else {
             return null

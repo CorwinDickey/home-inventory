@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
-import { Button } from '@material-ui/core'
 import { itemService } from '../../services/item'
 import ShowList from './ShowList'
 import { bucketService } from '../../services/bucket'
+import {
+    Button,
+    Card,
+    CardContent,
+    Typography
+} from '@material-ui/core'
 
 function Inventory(props) {
     const [inventory] = useState(props.location.state.inventory)
@@ -13,32 +18,24 @@ function Inventory(props) {
     const [categories, setCategories] = useState([])
 
     useEffect(() => {
-        // console.log('logging inventory', inventory)
         getItems()
         getRooms()
         getCategories()
     }, [])
 
     function getItems() {
-        // console.log('testing getItems')
         itemService.getItemsByInventory(inventory._id)
             .then(response => setItems(response))
     }
 
     function getRooms() {
-        // console.log('testing getRooms')
         bucketService.getBucketsByInventory(inventory._id)
-            // .then(response => console.log('logging rooms', response))
             .then(response => setRooms(response.filter(bucket => bucket.bucketType === 'room')))
-            // .then(() => console.log(rooms))
-    }
+   }
 
     function getCategories() {
-        // console.log('testing getCategories')
         bucketService.getBucketsByInventory(inventory._id)
-            // .then(response => console.log('logging categories', response))
             .then(response => setCategories(response.filter(bucket => bucket.bucketType === 'category')))
-            // .then(() => console.log(categories))
     }
 
     return (
@@ -71,29 +68,41 @@ function Inventory(props) {
                 </Link>
             </div>
             <div id='content'>
-                <div id='items'>
-                    <h3>Items</h3>
-                    <ShowList
-                        listSubject='item'
-                        items={items}
-                    />
-                </div>
-                <div id='categories'>
-                <h3>Categories</h3>
-                    <ShowList
-                        listSubject='category'
-                        items={items}
-                        buckets={categories}
-                    />
-                </div>
-                <div id='rooms'>
-                <h3>Rooms</h3>
-                    <ShowList
-                        listSubject='room'
-                        items={items}
-                        buckets={rooms}
-                    />
-                </div>
+                <Card>
+                    <CardContent>
+                        <Typography variant='h2' component='h2'>
+                            Items
+                        </Typography>
+                        <ShowList
+                            listSubject='item'
+                            items={items}
+                        />
+                    </CardContent>
+                </Card>
+                <Card>
+                    <CardContent>
+                        <Typography variant='h2' component='h2'>
+                            Categories
+                        </Typography>
+                        <ShowList
+                            listSubject='category'
+                            items={items}
+                            buckets={categories}
+                        />
+                    </CardContent>
+                </Card>
+                <Card>
+                    <CardContent>
+                        <Typography variant='h2' component='h2'>
+                            Rooms
+                        </Typography>
+                        <ShowList
+                            listSubject='room'
+                            items={items}
+                            buckets={rooms}
+                        />
+                    </CardContent>
+                </Card>
             </div>
         </div>
     )
