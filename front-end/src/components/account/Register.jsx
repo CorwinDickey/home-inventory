@@ -2,8 +2,8 @@ import React from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import { Button } from '@material-ui/core'
 
-import * as Yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
+// import * as Yup from 'yup'
+// import { yupResolver } from '@hookform/resolvers/yup'
 
 import FormInput from '../form-controls/FormInput'
 import FormCheck from '../form-controls/FormCheck'
@@ -11,28 +11,26 @@ import FormCheck from '../form-controls/FormCheck'
 import { accountService } from '../../services/account'
 import { alertService } from '../../services/alert'
 
-    const validationSchema = Yup.object().shape({
-        firstName: Yup.string()
-            .required('First name is required'),
-        lastName: Yup.string()
-            .required('Last name is required'),
-        email: Yup.string()
-            .required('Email is required')
-            .email('Email is invalid'),
-        password: Yup.string()
-            .required('Password is required')
-            .min(8, 'Password must be at least 8 characters'),
-        confirmPassword: Yup.string()
-            .oneOf([Yup.ref('password'), null], 'Passwords must match')
-            .required('Confirm Password is required'),
-        acceptTerms: Yup.bool()
-            .oneOf([true], 'Accept Terms & Conditions is required')
-    })
+    // const validationSchema = Yup.object().shape({
+    //     firstName: Yup.string()
+    //         .required('First name is required'),
+    //     lastName: Yup.string()
+    //         .required('Last name is required'),
+    //     email: Yup.string()
+    //         .required('Email is required')
+    //         .email('Email is invalid'),
+    //     password: Yup.string()
+    //         .required('Password is required')
+    //         .min(8, 'Password must be at least 8 characters'),
+    //     confirmPassword: Yup.string()
+    //         .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    //         .required('Confirm Password is required'),
+    //     acceptTerms: Yup.bool()
+    //         .oneOf([true], 'Accept Terms & Conditions is required')
+    // })
 
 function Register({ history }) {
-    const methods = useForm({
-        resolver: yupResolver(validationSchema)
-    })
+    const methods = useForm()
 
     const { handleSubmit, errors } = methods
 

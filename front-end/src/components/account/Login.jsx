@@ -2,26 +2,24 @@ import React from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import { Button } from '@material-ui/core'
 
-import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
+// import * as yup from 'yup'
+// import { yupResolver } from '@hookform/resolvers/yup'
 
 import FormInput from '../form-controls/FormInput'
 
 import { accountService } from '../../services/account'
 import { alertService } from '../../services/alert'
 
-const validationSchema = yup.object().shape({
-    email: yup.string()
-        .email('Email is invalid')
-        .required('Email is required'),
-    password: yup.string()
-        .required('Password is required')
-})
+// const validationSchema = yup.object().shape({
+//     email: yup.string()
+//         .email('Email is invalid')
+//         .required('Email is required'),
+//     password: yup.string()
+//         .required('Password is required')
+// })
 
 function Login({ history, location }) {
-    const methods = useForm({
-        resolver: yupResolver(validationSchema)
-    })
+    const methods = useForm()
 
     const { handleSubmit, errors } = methods
 
