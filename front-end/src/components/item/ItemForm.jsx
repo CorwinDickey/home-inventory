@@ -87,12 +87,20 @@ function ItemForm({ itemObject, closeModal }) {
             creator: user.id
         }
 
+        return isAddMode
+            ? createItem(data)
+            : updateItem(itemObject._id, data)
+    }
+
+    function updateItem(id, data) {
+        return itemService.updateItem(id, data)
+    }
+
+    function createItem(data) {
         itemService.createItem(data)
             .then(response => {
                 addItemsToBuckets(response)
             })
-            // props.closeModal()
-        // history.goBack()
     }
 
     function addItemsToBuckets(data) {
@@ -142,6 +150,7 @@ function ItemForm({ itemObject, closeModal }) {
                             name='datePurchased'
                             label='Purchase Date'
                             type='date'
+                            defaultValue=''
                             InputLabelProps={{
                                 shrink: true
                             }}
