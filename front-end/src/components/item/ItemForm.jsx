@@ -106,6 +106,10 @@ function ItemForm({ itemObject, closeModal }) {
             })
     }
 
+    function deleteItem(id) {
+        itemService.deleteItem(itemObject._id)
+    }
+
     function addItemToBuckets(data) {
         
         function pushToBucket(bucket) {
@@ -191,6 +195,13 @@ function ItemForm({ itemObject, closeModal }) {
                         variant='contained'
                         color='primary'
                     >{ isAddMode ? 'Add Item' : 'Update Item'}</Button>
+                    { isAddMode ? null : 
+                        <Button
+                            variant='outlined'
+                            color='secondary'
+                            onClick={deleteItem}
+                        >Delete Item</Button>
+                    }
                 </form>
             </FormProvider>
         </div>
