@@ -6,13 +6,16 @@ import App from './App';
 import { history } from './utils/history';
 import { accountService } from './services/account'
 
-if (!accountService.userValue) {
-    startApp()
-}
+// const user = accountService.userValue
+// console.log(accountService)
 
-accountService.refreshToken().finally(startApp)
+// if (!user) {
+//     startApp()
+// }
 
-function startApp() {
+// accountService.refreshToken().finally(startApp)
+
+// function startApp() {
     ReactDOM.render(
         <Router history={history}>
             <React.StrictMode>
@@ -21,4 +24,4 @@ function startApp() {
         </Router>,
         document.getElementById('root')
     )
-}
+// }

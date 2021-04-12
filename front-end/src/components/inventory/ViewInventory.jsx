@@ -37,7 +37,7 @@ function ViewInventory() {
     function getRooms() {
         bucketService.getBucketsByInventory(id)
             .then(response => setRooms(response.filter(bucket => bucket.bucketType === 'room')))
-   }
+    }
 
     function getCategories() {
         bucketService.getBucketsByInventory(id)
@@ -96,10 +96,11 @@ function ViewInventory() {
                             variant='outlined'
                             color='primary'
                             onClick={ () => {
-                                setModalBody(<AddBucket bucketType='category' closeModal={flipModal} />);
+                                setModalBody(<AddBucket bucketType='category' toggleModal={toggleModal} openModal={openModal} />);
                                 flipModal()
                             }}
                         >Create Category</Button>
+                        {/* <AddBucket bucketType='category' closeModal={() => {toggleModal(!openModal)}} /> */}
                     </div>
                     <List>
                         <ShowList

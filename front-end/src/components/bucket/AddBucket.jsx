@@ -10,9 +10,10 @@ import { bucketService } from '../../services/bucket'
 import { inventoryService } from '../../services/inventory'
 
 
-function AddBucket({ bucketType, closeModal }) {
+function AddBucket({ bucketType, toggleModal, openModal }) {
     const methods = useForm()
     const { id } = useParams()
+    console.log('logging openModal', openModal)
 
     const { handleSubmit, errors } = methods
 
@@ -27,8 +28,12 @@ function AddBucket({ bucketType, closeModal }) {
             .then(response => {
                 addBucketToInventory(response)
             })
-            closeModal()
-        }
+
+        console.log('close modal')
+
+        toggleModal(!openModal)
+        console.log(openModal)
+    }
 
     function addBucketToInventory(data) {
         
