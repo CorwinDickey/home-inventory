@@ -1,5 +1,7 @@
 import React from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
+import { useLocation } from 'react-router-dom'
+
 import { Button } from '@material-ui/core'
 
 import FormInput from '../form-controls/FormInput'
@@ -9,16 +11,17 @@ import { history } from '../../utils/history'
 import { inventoryService } from '../../services/inventory'
 
 
-function AddBucket(props) {
+function AddBucket({ bucketType }) {
     const methods = useForm()
+    const location = useLocation()
 
     const { handleSubmit, errors } = methods
 
     function onSubmit(formData) {
         const data = {
             name: formData.name,
-            inventory: props.location.state.inventory._id,
-            bucketType: props.bucketType
+            inventory: location.state.inventory._id,
+            bucketType: bucketType
         }
         // console.log('logging data', data)
 
@@ -26,7 +29,8 @@ function AddBucket(props) {
             .then(response => {
                 addBucketToInventory(response)
             })
-         history.goBack()    }
+            history.push('/view-inventory')
+        }
 
     function addBucketToInventory(data) {
         // console.log('logging data', data)
@@ -47,7 +51,7 @@ function AddBucket(props) {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <FormInput
                         name='name'
-                        label={(props.bucketType + ' Name').toUpperCase()}
+                        label={(bucketType + ' Name').toUpperCase()}
                         required={true}
                         errorObj={errors}
                     />
@@ -55,12 +59,12 @@ function AddBucket(props) {
                         type='submit'
                         variant='contained'
                         color='primary'
-                    >Create {props.bucketType}</Button>
-                    <Button
+                    >Create {bucketType}</Button>
+                    {/* <Button
                         variant='text'
                         color='primary'
-                        onClick={() => history.goBack()}
-                    >Cancel</Button>
+                        onClick={props.closeModal}
+                    >Cancel</Button> */}
                 </form>
             </FormProvider>
         </div>

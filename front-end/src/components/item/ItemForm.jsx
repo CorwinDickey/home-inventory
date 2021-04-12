@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 import { useForm, FormProvider } from 'react-hook-form'
 import { Button } from '@material-ui/core'
 
@@ -30,36 +30,37 @@ import { bucketService } from '../../services/bucket'
 //     creator: yup.string()
 // })
 
-function ItemForm(props) {
+function ItemForm() {
     const [bucketList, setBucketList] = useState([])
-    const { id } =  useParams()
-    const isAddMode = !id
-    const [item, setItem] = useState()
+    // const { id } =  useParams()
+    // const isAddMode = !id
+    // const [item, setItem] = useState()
+    const location = useLocation()
 
     const methods = useForm()
     const { handleSubmit, setValue } = methods
 
     useEffect(() => getBuckets(), [])
 
-    useEffect(() => {
-        if (!isAddMode) {
-            itemService.getItem(id).then(item => {
-                const fields = [
-                    'name',
-                    'description',
-                    'datePurchased',
-                    'purchasePrice',
-                    'replacementCost',
-                    'shipping',
-                    'quantity',
-                    'taxRate',
-                    'buckets'
-                ]
-                fields.forEach(field => setValue(field, item[field]))
-                setItem(item)
-            })
-        }
-    })
+    // useEffect(() => {
+    //     if (!isAddMode) {
+    //         itemService.getItem(id).then(item => {
+    //             const fields = [
+    //                 'name',
+    //                 'description',
+    //                 'datePurchased',
+    //                 'purchasePrice',
+    //                 'replacementCost',
+    //                 'shipping',
+    //                 'quantity',
+    //                 'taxRate',
+    //                 'buckets'
+    //             ]
+    //             fields.forEach(field => setValue(field, item[field]))
+    //             setItem(item)
+    //         })
+    //     }
+    // })
 
 
     const user = accountService.userValue
@@ -85,7 +86,7 @@ function ItemForm(props) {
             quantity: formData.quantity,
             taxRate: formData.taxRate,
             buckets: [formData.room, formData.category],
-            inventory: props.location.state.inventory._id,
+            inventory: location.state.inventory._id,
             creator: user.id
         }
 
@@ -94,7 +95,8 @@ function ItemForm(props) {
             .then(response => {
                 addItemsToBuckets(response)
             })
-        history.goBack()
+            // props.closeModal()
+        // history.goBack()
     }
 
     function addItemsToBuckets(data) {
@@ -174,11 +176,11 @@ function ItemForm(props) {
                         variant='contained'
                         color='primary'
                     >Add Item</Button>
-                    <Button
+                    {/* <Button
                         variant='text'
                         color='primary'
                         onClick={() => history.goBack()}
-                    >Cancel</Button>
+                    >Cancel</Button> */}
                 </form>
             </FormProvider>
         </div>

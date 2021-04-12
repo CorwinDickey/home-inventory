@@ -30,14 +30,8 @@ function AuthRoutes() {
                     component={AddInventory}
                 />
                 <Route
-                    path='/view-inventory'
-                    render={(props) => (
-                        <ViewInventory {...props} />
-                    )}
-                />
-                <Route
-                    path={'/add-item'}
-                    component={ItemForm}
+                    path='/view-inventory/:id'
+                    component={ViewInventory}
                 />
                 <Route
                     path={'/view-item/:id'}
@@ -47,19 +41,6 @@ function AuthRoutes() {
                     path='/profile'
                     component={Details}
                 />
-                <Route
-                    path='/add-room'
-                    render={(props) => (
-                        <AddBucket bucketType='room' {...props} />
-                    )}
-                />
-                <Route
-                    path='/add-category'
-                    render={(props) => (
-                        <AddBucket bucketType='category' {...props} />
-                    )}
-                />
-
                 <Redirect from='*' to='/' />
             </Switch>
         </div>
