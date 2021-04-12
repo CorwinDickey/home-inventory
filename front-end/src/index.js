@@ -6,6 +6,10 @@ import App from './App';
 import { history } from './utils/history';
 import { accountService } from './services/account'
 
+if (!accountService.userValue) {
+    startApp()
+}
+
 accountService.refreshToken().finally(startApp)
 
 function startApp() {

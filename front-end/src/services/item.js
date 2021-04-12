@@ -9,7 +9,7 @@ export const itemService = {
     getItemsByInventory
 }
 
-const baseUrl = (process.env.REACT_APP_SERVER_URL + '/items') || '/items'
+const baseUrl = '/items'
 
 function createItem(params) {
     return fetchWrapper.post(baseUrl, params)
@@ -23,14 +23,14 @@ function deleteItem(id) {
     return fetchWrapper.delete(baseUrl + '/' + id)
 }
 
+function getItemsByInventory(id) {
+    return fetchWrapper.get(baseUrl + '/inventory/' + id)
+}
+
 function getItem(id) {
     return fetchWrapper.get(baseUrl + '/' + id)
 }
 
 function getAllItems() {
     return fetchWrapper.get(baseUrl)
-}
-
-function getItemsByInventory(id) {
-    return fetchWrapper.get(baseUrl + '/inventory/' + id)
 }

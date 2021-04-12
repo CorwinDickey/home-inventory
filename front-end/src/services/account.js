@@ -21,7 +21,7 @@ export const accountService = {
     get userValue () { return userSubject.value }
 }
 
-const baseUrl = (process.env.REACT_APP_SERVER_URL + '/accounts') || '/accounts'
+const baseUrl = '/accounts'
 
 function login(email, password) {
     return fetchWrapper.post(baseUrl + '/authenticate', { email, password })

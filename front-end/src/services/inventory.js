@@ -9,7 +9,7 @@ export const inventoryService = {
     getInventoriesByAccount
 }
 
-const baseUrl = (process.env.REACT_APP_SERVER_URL + '/inventory') || '/inventory'
+const baseUrl = '/inventory'
 
 function createInventory(params) {
     return fetchWrapper.post(baseUrl, params)

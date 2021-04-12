@@ -33,8 +33,11 @@ const itemSchema = mongoose.Schema({
     documents: {
         type: mongoose.Schema.Types.Mixed
     },
-    buckets: {
-        type: [mongoose.Schema.Types.ObjectId]
+    room: {
+        type: mongoose.Schema.Types.ObjectId
+    },
+    category: {
+        type: mongoose.Schema.Types.ObjectId
     },
     categoryData: {
         type: mongoose.Schema.Types.ObjectId

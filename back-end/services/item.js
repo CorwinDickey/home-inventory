@@ -7,7 +7,7 @@ module.exports = {
     deleteItem,
     getItem,
     getAllItems,
-    geItemsByInventory
+    getItemsByInventory
 }
 
 async function createItem(params) {
@@ -17,13 +17,13 @@ async function createItem(params) {
 }
 
 async function updateItem(id, params) {
-    const item = await getInventory(id)
+    const item = await getItem(id)
     Object.assign(item, params)
     await item.save()
 }
 
 async function deleteItem(id) {
-    const item = await getInventory(id)
+    const item = await getItem(id)
     await item.remove()
 }
 
@@ -46,7 +46,7 @@ async function getAllItems() {
     return items
 }
 
-async function geItemsByInventory(id) {
+async function getItemsByInventory(id) {
     const items = await Item.find({ inventory: id})
     return items
 }

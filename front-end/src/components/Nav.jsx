@@ -15,7 +15,7 @@ function Nav() {
     return (
         <div className='nav'>
             <div className='nav-header'>
-                { location.state ? <Typography variant='h2'>{location.state.inventory.name}</Typography> : <Typography variant='h2'>{user.firstName}'s Dashboard</Typography>}
+                { location.state ? <Typography variant='h2'>{location.state.inventory.name}</Typography> : <Typography variant='h2'>Dashboard</Typography>}
             </div>
             <div className='nav-actions'>
                 

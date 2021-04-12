@@ -52,7 +52,8 @@ function ItemForm({ itemObject, closeModal }) {
                 'shipping',
                 'quantity',
                 'taxRate',
-                'buckets'
+                'room',
+                'category'
             ]
             fields.forEach(field => setValue(field, itemObject[field]))
             setItem(item)
@@ -63,7 +64,7 @@ function ItemForm({ itemObject, closeModal }) {
     const user = accountService.userValue
 
     function getBuckets() {
-        bucketService.getAllBuckets()
+        bucketService.getBucketsByInventory(location.state.inventory._id)
             .then(response => setBucketList(response))
     }
 
@@ -82,7 +83,8 @@ function ItemForm({ itemObject, closeModal }) {
             shipping: formData.shipping,
             quantity: formData.quantity,
             taxRate: formData.taxRate,
-            buckets: [formData.room, formData.category],
+            room: formData.room,
+            category: formData.category,
             inventory: location.state.inventory._id,
             creator: user.id
         }
@@ -93,30 +95,38 @@ function ItemForm({ itemObject, closeModal }) {
     }
 
     function updateItem(id, data) {
+        console.log('testing itemForm update')
         return itemService.updateItem(id, data)
     }
 
     function createItem(data) {
         itemService.createItem(data)
             .then(response => {
-                addItemsToBuckets(response)
+                addItemToBuckets(response)
             })
     }
 
-    function addItemsToBuckets(data) {
-        console.log(data)
+    function addItemToBuckets(data) {
         
         function pushToBucket(bucket) {
             bucket['items'].push(data._id)
-            console.log(bucket)
+            console.log('logging bucket', bucket)
             return bucket
         }
 
-        for (const bucketId of data.buckets) {
-            bucketService.getBucket(bucketId)
-                .then(bucket => pushToBucket(bucket))
-                .then(bucket => bucketService.updateBucket(bucket._id, bucket))
-        }
+        bucketService.getBucket(data.room)
+            .then(room => pushToBucket(room))
+            .then(room => bucketService.updateBucket(room._id, room))
+
+        bucketService.getBucket(data.category)
+            .then(category => pushToBucket(category))
+            .then(category => bucketService.updateBucket(category._id, category))
+
+        // for (const bucketId of data.buckets) {
+        //     bucketService.getBucket(bucketId)
+        //         .then(bucket => pushToBucket(bucket))
+        //         .then(bucket => bucketService.updateBucket(bucket._id, bucket))
+        // }
     }
 
     return (
@@ -180,12 +190,7 @@ function ItemForm({ itemObject, closeModal }) {
                         type='submit'
                         variant='contained'
                         color='primary'
-                    >Add Item</Button>
-                    {/* <Button
-                        variant='text'
-                        color='primary'
-                        onClick={() => history.goBack()}
-                    >Cancel</Button> */}
+                    >{ isAddMode ? 'Add Item' : 'Update Item'}</Button>
                 </form>
             </FormProvider>
         </div>
