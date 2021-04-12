@@ -95,8 +95,6 @@ function ItemForm({ itemObject }) {
     }
 
     function updateItem(id, data) {
-        console.log('logging data', data)
-        console.log('logging itemObject', itemObject)
         if (data.room !== itemObject.room) {
             removeItemFromBucket(itemObject.room)
             addItemToBucket(data.room, itemObject._id)
@@ -120,10 +118,8 @@ function ItemForm({ itemObject }) {
     }
 
     function spliceItemFromBucket(bucket) {
-        console.log('logging original bucket', bucket)
         const itemIndex = bucket.items.indexOf(itemObject._id)
         bucket.items.splice(itemIndex, 1)
-        console.log('logging spliced bucket', bucket)
         bucketService.updateBucket(bucket._id, bucket)
     }
 
@@ -133,14 +129,11 @@ function ItemForm({ itemObject }) {
     }
         
     function pushItemToBucket(bucket, itemId) {
-        console.log('logging pushItemToBucket', bucket, itemId)
         bucket['items'].push(itemId)
-        console.log(bucket)
         bucketService.updateBucket(bucket._id, bucket)
     }
 
     function addItemToBucket(bucketId, itemId) {
-        console.log('logging item for addItem', itemId)
         bucketService.getBucket(bucketId)
             .then(bucket => pushItemToBucket(bucket, itemId))
     }
