@@ -30,7 +30,7 @@ import { bucketService } from '../../services/bucket'
 //     creator: yup.string()
 // })
 
-function ItemForm({ itemObject, closeModal }) {
+function ItemForm({ itemObject }) {
     const [bucketList, setBucketList] = useState([])
     const isAddMode = !itemObject
     const [item, setItem] = useState()
@@ -95,7 +95,16 @@ function ItemForm({ itemObject, closeModal }) {
     }
 
     function updateItem(id, data) {
-        console.log('testing itemForm update')
+        console.log('logging data', data)
+        console.log('logging itemObject', itemObject)
+        if (data.room !== itemObject.room) {
+            removeItemFromBucket(itemObject.room)
+            addItemToBucket(data.room, itemObject._id)
+        }
+        if (data.category !== itemObject.category) {
+            removeItemFromBucket(itemObject.category)
+            addItemToBucket(data.category, itemObject._id)
+        }
         return itemService.updateItem(id, data)
     }
 
@@ -106,31 +115,44 @@ function ItemForm({ itemObject, closeModal }) {
             })
     }
 
-    function deleteItem(id) {
+    function deleteItem() {
         itemService.deleteItem(itemObject._id)
     }
 
-    function addItemToBuckets(data) {
+    function spliceItemFromBucket(bucket) {
+        console.log('logging original bucket', bucket)
+        const itemIndex = bucket.items.indexOf(itemObject._id)
+        bucket.items.splice(itemIndex, 1)
+        console.log('logging spliced bucket', bucket)
+        bucketService.updateBucket(bucket._id, bucket)
+    }
+
+    function removeItemFromBucket(bucketId) {
+        bucketService.getBucket(bucketId)
+            .then(bucket => spliceItemFromBucket(bucket))
+    }
         
-        function pushToBucket(bucket) {
-            bucket['items'].push(data._id)
-            console.log('logging bucket', bucket)
-            return bucket
-        }
+    function pushItemToBucket(bucket, itemId) {
+        console.log('logging pushItemToBucket', bucket, itemId)
+        bucket['items'].push(itemId)
+        console.log(bucket)
+        bucketService.updateBucket(bucket._id, bucket)
+    }
 
-        bucketService.getBucket(data.room)
-            .then(room => pushToBucket(room))
-            .then(room => bucketService.updateBucket(room._id, room))
+    function addItemToBucket(bucketId, itemId) {
+        console.log('logging item for addItem', itemId)
+        bucketService.getBucket(bucketId)
+            .then(bucket => pushItemToBucket(bucket, itemId))
+    }
 
-        bucketService.getBucket(data.category)
-            .then(category => pushToBucket(category))
-            .then(category => bucketService.updateBucket(category._id, category))
+    function addItemToBuckets(item) {
+        bucketService.getBucket(item.room)
+            .then(room => pushItemToBucket(room, item._id))
+            // .then(room => bucketService.updateBucket(room._id, room))
 
-        // for (const bucketId of data.buckets) {
-        //     bucketService.getBucket(bucketId)
-        //         .then(bucket => pushToBucket(bucket))
-        //         .then(bucket => bucketService.updateBucket(bucket._id, bucket))
-        // }
+        bucketService.getBucket(item.category)
+            .then(category => pushItemToBucket(category, item._id))
+            // .then(category => bucketService.updateBucket(category._id, category))
     }
 
     return (

@@ -31,8 +31,6 @@ function put(url, body) {
         headers: { 'Content-Type': 'application/json', ...authHeader(url)},
         body: JSON.stringify(body)
     }
-
-    console.log('logging put request', requestOptions.body)
     return fetch(url, requestOptions).then(handleResponse)
 }
 
@@ -67,7 +65,6 @@ function handleResponse(response) {
             const error = (data && data.message) || response.statusText
             return Promise.reject(error)
         }
-
         return data
     })
 }
