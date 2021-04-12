@@ -20,7 +20,7 @@ function AddBucket(props) {
             inventory: props.location.state.inventory._id,
             bucketType: props.bucketType
         }
-        console.log('logging data', data)
+        // console.log('logging data', data)
 
         bucketService.createBucket(data)
             .then(response => {
@@ -29,7 +29,7 @@ function AddBucket(props) {
          history.goBack()    }
 
     function addBucketToInventory(data) {
-        console.log('logging data', data)
+        // console.log('logging data', data)
         
         function pushToInventory(inventory) {
             inventory['buckets'].push(data._id)

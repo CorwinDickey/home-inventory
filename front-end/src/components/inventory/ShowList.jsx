@@ -1,4 +1,13 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { history } from '../../utils/history'
+
+import {
+    Button,
+    ListItem,
+    ListItemText,
+    Typography
+} from '@material-ui/core'
 
 function ShowList({ listSubject, items, buckets }) {
 
@@ -15,7 +24,7 @@ function ShowList({ listSubject, items, buckets }) {
         }
 
         return (
-                <div key={bucketObject._id}>{bucketObject.name} - ${bucketValue}</div>
+                <ListItemText primary={bucketObject.name} secondary={`$${bucketValue}`}/>
         )
     }
 
@@ -24,7 +33,14 @@ function ShowList({ listSubject, items, buckets }) {
             return(
                 <div>
                     { items.map((x) => (
-                        <div key={x._id}>{x.name} - ${x.replacementCost * x.quantity}</div>
+                        <ListItem
+                            button
+                            component={Link}
+                            key={x._id}
+                            to={'/view-item/' + x._id}
+                        >
+                            <ListItemText primary={x.name} secondary={`$${x.replacementCost * x.quantity}`}/>
+                        </ListItem>
                     )) }
                 </div>
             )
@@ -32,8 +48,15 @@ function ShowList({ listSubject, items, buckets }) {
             return(
                 <div>
                     { buckets.map((x) => (
-                        <BucketDisplay bucketObject={x} itemsArray={items} />
-                    ))}
+                        <ListItem
+                            button
+                            // component={Link}
+                            key={x._id}
+                            // to={'/view-item/' + x._id}
+                        >
+                            <BucketDisplay bucketObject={x} itemsArray={items} />
+                        </ListItem>
+                    )) }
                 </div>
             )
         } else {

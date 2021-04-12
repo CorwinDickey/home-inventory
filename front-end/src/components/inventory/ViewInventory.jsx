@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom'
 
 import { itemService } from '../../services/item'
 import ShowList from './ShowList'
+import FunctionModal from '../Modal'
 import { bucketService } from '../../services/bucket'
 import {
     Button,
-    Card,
-    CardContent,
-    Typography
+    Typography,
+    List
 } from '@material-ui/core'
 
 function Inventory(props) {
@@ -39,70 +39,70 @@ function Inventory(props) {
     }
 
     return (
-        <div>
-            <h1>{inventory.name}</h1>
-            <div id='actions'>
-                <Link to={{
-                    pathname: '/add-item',
-                    state: {
-                        inventory: inventory
-                    }
-                }}>
-                    <Button>Add Item</Button>
-                </Link>
-                <Link to={{
-                    pathname: '/add-category',
-                    state: {
-                        inventory: inventory
-                    }
-                }}>
-                    <Button>Create Category</Button>
-                </Link>
-                <Link to={{
-                    pathname: '/add-room',
-                    state: {
-                        inventory: inventory
-                    }
-                }}>
-                    <Button>Create Room</Button>
-                </Link>
-            </div>
-            <div id='content'>
-                <Card>
-                    <CardContent>
-                        <Typography variant='h2' component='h2'>
+        <div className='container'>
+            <div className='inventory-content'>
+                <div className='list'>
+                    <div className='list-header'>
+                        <Typography color='primary' variant='h3'>
                             Items
                         </Typography>
-                        <ShowList
-                            listSubject='item'
-                            items={items}
-                        />
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardContent>
-                        <Typography variant='h2' component='h2'>
+                        <Button variant='outlined' color='primary' component={Link} to={{
+                            pathname: '/add-item',
+                            state: {
+                                inventory: inventory
+                            }
+                        }}>Add Item</Button>
+                        <Button >Open Modal</Button>
+                    </div>
+                    <div className='list-body'>
+                        <List>
+                            <ShowList
+                                listSubject='item'
+                                items={items}
+                            />
+                        </List>
+                    </div>
+                </div>
+                <div className='list'>
+                    <div className='list-header'>
+                        <Typography color='primary' variant='h3'>
                             Categories
                         </Typography>
+                        <Button variant='outlined' color='primary' component={Link} to={{
+                            pathname: '/add-category',
+                            state: {
+                                inventory: inventory
+                            }
+                        }}>Create Category</Button>
+                    </div>
+                    <List>
                         <ShowList
                             listSubject='category'
                             items={items}
                             buckets={categories}
                         />
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardContent>
-                        <Typography variant='h2' component='h2'>
+                    </List>
+                </div>
+                <div className='list'>
+                    <div className='list-header'>
+                        <Typography color='primary' variant='h3'>
                             Rooms
                         </Typography>
+                        <Button variant='outlined' color='primary' component={Link} to={{
+                            pathname: '/add-room',
+                            state: {
+                                inventory: inventory
+                            }
+                        }}>Create Room</Button>
+                    </div>
+                    <List>
                         <ShowList
                             listSubject='room'
                             items={items}
                             buckets={rooms}
                         />
-                    </CardContent>
-                </Card>
+                    </List>
+                </div>
             </div>
         </div>
     )

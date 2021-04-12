@@ -1,0 +1,57 @@
+body {
+    background-color: ghostwhite;
+}
+
+.container {
+    /* height: 70vh; */
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    border: 1px solid lightgray;
+    padding: 1vw;
+    margin: 2vw
+}
+
+.nav-actions button {
+    margin-left: 1vw
+}
+
+.nav-actions a {
+    margin-left: 1vw
+}
+
+.inventory-content {
+    height: 75vh;
+    display: flex;
+    align-self: flex-end;
+    align-items: stretch;
+    justify-content: space-between;
+    margin: 0 2vw
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    width: 30vw;
+    background-color: white;
+    border: 1px solid lightgray;
+    /* overflow: auto */
+}
+
+.list-header {
+    padding: 1vw;
+    background-color: #fbfbfb
+}
+
+.list-header h3 {
+    margin-bottom: 5px
+}
+
+.list-body {
+    flex-grow: 1;
+    overflow: auto
+}
