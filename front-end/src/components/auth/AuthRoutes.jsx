@@ -5,7 +5,6 @@ import { accountService } from '../../services/account'
 import Dashboard from '../Dashboard'
 import AddInventory from '../inventory/AddInventory'
 import Details from '../profile/Details'
-import AddBucket from '../bucket/AddBucket'
 import ViewInventory from '../inventory/ViewInventory'
 import ItemForm from '../item/ItemForm'
 

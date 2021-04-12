@@ -1,31 +1,27 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useParams, useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import { itemService } from '../../services/item'
 import ShowList from './ShowList'
 import FunctionModal from '../Modal'
 import ItemForm from '../item/ItemForm'
 import AddBucket from '../bucket/AddBucket'
-import useModal from '../../hooks/useModal'
 import { bucketService } from '../../services/bucket'
 import {
     Button,
     Typography,
-    List
+    List,
+    ListItem,
+    ListItemText
 } from '@material-ui/core'
 
 function ViewInventory() {
-    // const [inventory] = useState(props.location.state.inventory)
     const { id } = useParams()
     const [items, setItems] = useState([])
     const [rooms, setRooms] = useState([])
     const [categories, setCategories] = useState([])
-    const { open, toggle } = useModal()
+    const [openModal, toggleModal] = useState()
     const [modalBody, setModalBody] = useState()
-
-    // const location = useLocation()
-    // const inventory = location.state.inventory
-
 
     useEffect(() => {
         getItems()
@@ -48,11 +44,15 @@ function ViewInventory() {
             .then(response => setCategories(response.filter(bucket => bucket.bucketType === 'category')))
     }
 
+    function flipModal() {
+        toggleModal(!openModal)
+    }
+
     return (
         <div className='container'>
             <FunctionModal
-                open={open}
-                close={toggle}
+                open={openModal}
+                close={flipModal}
                 body={modalBody}
             />
             <div className='inventory-content'>
@@ -61,27 +61,29 @@ function ViewInventory() {
                         <Typography color='primary' variant='h3'>
                             Items
                         </Typography>
-                        {/* <Button variant='outlined' color='primary' component={Link} to={{
-                            pathname: '/add-item',
-                            state: {
-                                inventory: inventory
-                            }
-                        }}>Add Item</Button> */}
                         <Button
                             variant='outlined'
                             color='primary'
                             onClick={ () => {
                                 setModalBody(<ItemForm/>);
-                                toggle()
+                                flipModal()
                             }}
-                        >Open Item Modal</Button>
+                        >Add Item</Button>
                     </div>
                     <div className='list-body'>
                         <List>
-                            <ShowList
-                                listSubject='item'
-                                items={items}
-                            />
+                            { items.map((x) => (
+                                <ListItem
+                                    key={x._id}
+                                    button
+                                    onClick={ () => {
+                                        setModalBody(<ItemForm itemObject={x} closeModal={flipModal} />);
+                                        flipModal()
+                                    }}
+                                >
+                                    <ListItemText primary={x.name} secondary={`$${x.replacementCost}`} />
+                                </ListItem>
+                            ))}
                         </List>
                     </div>
                 </div>
@@ -90,24 +92,17 @@ function ViewInventory() {
                         <Typography color='primary' variant='h3'>
                             Categories
                         </Typography>
-                        {/* <Button variant='outlined' color='primary' component={Link} to={{
-                            pathname: '/add-category',
-                            state: {
-                                inventory: inventory
-                            }
-                        }}>Create Category</Button> */}
                         <Button
                             variant='outlined'
                             color='primary'
                             onClick={ () => {
-                                setModalBody(<AddBucket bucketType='category' closeModal={toggle} />);
-                                toggle()
+                                setModalBody(<AddBucket bucketType='category' closeModal={flipModal} />);
+                                flipModal()
                             }}
-                        >Open Category Modal</Button>
+                        >Create Category</Button>
                     </div>
                     <List>
                         <ShowList
-                            listSubject='category'
                             items={items}
                             buckets={categories}
                         />
@@ -118,24 +113,17 @@ function ViewInventory() {
                         <Typography color='primary' variant='h3'>
                             Rooms
                         </Typography>
-                        {/* <Button variant='outlined' color='primary' component={Link} to={{
-                            pathname: '/add-room',
-                            state: {
-                                inventory: inventory
-                            }
-                        }}>Create Room</Button> */}
                         <Button
                             variant='outlined'
                             color='primary'
                             onClick={ () => {
-                                setModalBody(<AddBucket bucketType='room' closeModal={toggle} />);
-                                toggle()
+                                setModalBody(<AddBucket bucketType='room' closeModal={flipModal} />);
+                                flipModal()
                             }}
-                        >Open Room Modal</Button>
+                        >Create Room</Button>
                     </div>
                     <List>
                         <ShowList
-                            listSubject='room'
                             items={items}
                             buckets={rooms}
                         />

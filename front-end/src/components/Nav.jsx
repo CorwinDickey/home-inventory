@@ -11,7 +11,7 @@ function Nav() {
 
     const user = accountService.userValue
     const location = useLocation()
-
+    
     return (
         <div className='nav'>
             <div className='nav-header'>

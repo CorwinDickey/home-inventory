@@ -42,8 +42,12 @@ function Dashboard() {
                     {ownerInventories.map((x) => {
                         return (
                             <Card>
-                                <Link key={x._id} to={`/view-inventory/${x._id}`}
-                                >{x.name}</Link>
+                                <Link key={x._id} to={{
+                                    pathname: `/view-inventory/${x._id}`,
+                                    state: {
+                                        inventory: x
+                                    }
+                                }}>{x.name}</Link>
                             </Card>
                         )
                     })}

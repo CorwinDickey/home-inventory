@@ -1,39 +1,36 @@
 import React from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
-import { useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import { Button } from '@material-ui/core'
 
 import FormInput from '../form-controls/FormInput'
 
 import { bucketService } from '../../services/bucket'
-import { history } from '../../utils/history'
 import { inventoryService } from '../../services/inventory'
 
 
-function AddBucket({ bucketType }) {
+function AddBucket({ bucketType, closeModal }) {
     const methods = useForm()
-    const location = useLocation()
+    const { id } = useParams()
 
     const { handleSubmit, errors } = methods
 
     function onSubmit(formData) {
         const data = {
             name: formData.name,
-            inventory: location.state.inventory._id,
+            inventory: id,
             bucketType: bucketType
         }
-        // console.log('logging data', data)
 
         bucketService.createBucket(data)
             .then(response => {
                 addBucketToInventory(response)
             })
-            history.push('/view-inventory')
+            closeModal()
         }
 
     function addBucketToInventory(data) {
-        // console.log('logging data', data)
         
         function pushToInventory(inventory) {
             inventory['buckets'].push(data._id)
@@ -60,11 +57,6 @@ function AddBucket({ bucketType }) {
                         variant='contained'
                         color='primary'
                     >Create {bucketType}</Button>
-                    {/* <Button
-                        variant='text'
-                        color='primary'
-                        onClick={props.closeModal}
-                    >Cancel</Button> */}
                 </form>
             </FormProvider>
         </div>

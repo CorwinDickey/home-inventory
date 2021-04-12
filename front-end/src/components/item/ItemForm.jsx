@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { useForm, FormProvider } from 'react-hook-form'
 import { Button } from '@material-ui/core'
 
@@ -30,11 +30,10 @@ import { bucketService } from '../../services/bucket'
 //     creator: yup.string()
 // })
 
-function ItemForm() {
+function ItemForm({ itemObject, closeModal }) {
     const [bucketList, setBucketList] = useState([])
-    // const { id } =  useParams()
-    // const isAddMode = !id
-    // const [item, setItem] = useState()
+    const isAddMode = !itemObject
+    const [item, setItem] = useState()
     const location = useLocation()
 
     const methods = useForm()
@@ -42,25 +41,23 @@ function ItemForm() {
 
     useEffect(() => getBuckets(), [])
 
-    // useEffect(() => {
-    //     if (!isAddMode) {
-    //         itemService.getItem(id).then(item => {
-    //             const fields = [
-    //                 'name',
-    //                 'description',
-    //                 'datePurchased',
-    //                 'purchasePrice',
-    //                 'replacementCost',
-    //                 'shipping',
-    //                 'quantity',
-    //                 'taxRate',
-    //                 'buckets'
-    //             ]
-    //             fields.forEach(field => setValue(field, item[field]))
-    //             setItem(item)
-    //         })
-    //     }
-    // })
+    useEffect(() => {
+        if (!isAddMode) {
+            const fields = [
+                'name',
+                'description',
+                'datePurchased',
+                'purchasePrice',
+                'replacementCost',
+                'shipping',
+                'quantity',
+                'taxRate',
+                'buckets'
+            ]
+            fields.forEach(field => setValue(field, itemObject[field]))
+            setItem(item)
+        }
+    },[])
 
 
     const user = accountService.userValue
@@ -89,7 +86,6 @@ function ItemForm() {
             inventory: location.state.inventory._id,
             creator: user.id
         }
-
 
         itemService.createItem(data)
             .then(response => {
