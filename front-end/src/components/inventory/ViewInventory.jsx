@@ -29,11 +29,6 @@ import Popup from '../Popup'
         )
     }
 
-    function useForceUpdate() {
-        const [value, setValue] = useState(0)
-        return () => setValue(value => value + 1)
-    }
-
 ////////////////////////////////////////////////////////////
 // COMPONENT
 ////////////////////////////////////////////////////////////
@@ -50,8 +45,6 @@ function ViewInventory() {
     const [openBucketPopup, setOpenBucketPopup] = useState(false)
     const [bucketObject, setBucketObject] = useState()
     const [bucketType, setBucketType] = useState()
-
-    const forceUpdate = useForceUpdate()
 
     useEffect(() => {
         getItems()
@@ -174,7 +167,7 @@ function ViewInventory() {
 ////////////////////////////////////////////////////////////
 
     return (
-        <div className='container'>
+        <div>
             <div className='inventory-content'>
                 <div className='list'>
                     <div className='list-header'>
@@ -185,7 +178,6 @@ function ViewInventory() {
                             variant='outlined'
                             color='primary'
                             onClick={()=>{
-                                forceUpdate()
                                 setItemObject(null)
                                 setOpenItemPopup(true);
                             }}

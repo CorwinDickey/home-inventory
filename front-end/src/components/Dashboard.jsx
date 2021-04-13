@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import {
-    Card
+    Card,
+    Typography
 } from '@material-ui/core'
 import { inventoryService } from '../services/inventory'
 import { accountService } from '../services/account'
@@ -12,6 +13,7 @@ function Dashboard() {
     const [userInventories, setUserInventories] = useState([])
     const user = accountService.userValue
     const location = useLocation()
+
 
     useEffect(() => {
         getOwnerInventories()
@@ -31,24 +33,30 @@ function Dashboard() {
 
     if (ownerInventories) {
         return(
-            <div>
-                <div id='my-inventories'>
-                    <h1>My Inventories</h1>
-                    {ownerInventories.map((x) => {
-                        return (
-                            <Card key={x._id}>
-                                <Link to={{
-                                    pathname: `/view-inventory/${x._id}`,
-                                    state: {
-                                        inventory: x
-                                    }
-                                }}>{x.name}</Link>
-                            </Card>
-                        )
-                    })}
+            <div className='container'>
+                <div className='my-inventories'>
+                    <Typography variant='h1'>
+                        My Inventories
+                    </Typography>
+                    <div className='inventory-list'>
+                        {ownerInventories.map((x) => {
+                            return (
+                                <div className='inventory-card' key={x._id} >
+                                    <Link to={{
+                                        pathname: `/view-inventory/${x._id}`,
+                                        state: {
+                                            inventory: x
+                                        }
+                                    }}>{x.name}</Link>
+                                </div>
+                            )
+                        })}
+                    </div>
                 </div>
                 <div id='shared-inventories'>
-                    <h2>Shared Inventories</h2>
+                    <Typography variant='h2'>
+                        Shared Inventories
+                    </Typography>
                     {userInventories.map((x) => {
                         return (
                             <Card>

@@ -202,10 +202,6 @@ function ItemForm({ itemObject, submitItem, deleteItem }) {
                             name='taxRate'
                             label='Sales Tax Rate'
                         />
-                        <Controls.FormInput
-                            name='pictures'
-                            type='file'
-                        />
                     </div>
                     <Button
                         type='submit'

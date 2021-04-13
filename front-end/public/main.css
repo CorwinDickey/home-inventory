@@ -3,7 +3,39 @@ body {
 }
 
 .container {
-    /* height: 70vh; */
+    background-color: white;
+    border: 1px solid lightgray;
+    padding: 1vw;
+    margin: 0 2vw
+}
+
+.my-inventories {
+    display: flex;
+    flex-direction: column
+}
+
+.inventory-list {
+    display: flex;
+    flex-direction: row;
+    max-width: 20%
+}
+
+.inventory-card {
+    border: 1px solid lightgray;
+    padding: 10px
+}
+
+.login-page {
+    background-color: white;
+    border: 1px solid lightgray;
+    display: flex;
+    width: 30%;
+    position: absolute;
+    top: 30%;
+    left: 35%;
+    padding: 20px;
+    justify-content: center;
+    align-items: center
 }
 
 .nav {
