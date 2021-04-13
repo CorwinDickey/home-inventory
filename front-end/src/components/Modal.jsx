@@ -30,16 +30,17 @@ function getModalStyle() {
 // }
 
 
-function FunctionModal({ open, close, body }) {
+function FunctionModal({ showModal, close, body }) {
     const styles = useStyles()
     const [modalStyle] = useState(getModalStyle)
+    // console.log('logging FunctionModal', showModal)
 
-    if (open) {
+    if (showModal) {
         return (
             ReactDom.createPortal(
                 <React.Fragment>
                         <Modal
-                            open={open}
+                            open={showModal}
                             onClose={close}
                         >
                             <div style={modalStyle} className={styles.paper}>

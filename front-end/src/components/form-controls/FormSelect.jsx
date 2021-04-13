@@ -14,7 +14,7 @@ function FormSelect(props) {
             render={
                 ({ field }) => (
                     <FormControl
-                        variant={props.variant ? props.variant : 'outlined'}
+                        variant={props.variant && props.variant}
                     >
                         <InputLabel htmlFor={props.name}>{props.label}</InputLabel>
                         <Select

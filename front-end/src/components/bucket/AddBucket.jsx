@@ -13,7 +13,7 @@ import { inventoryService } from '../../services/inventory'
 function AddBucket({ bucketType, toggleModal, openModal }) {
     const methods = useForm()
     const { id } = useParams()
-    console.log('logging openModal', openModal)
+    // console.log('logging openModal', openModal)
 
     const { handleSubmit, errors } = methods
 

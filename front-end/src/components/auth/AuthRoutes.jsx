@@ -3,7 +3,6 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 
 import { accountService } from '../../services/account'
 import Dashboard from '../Dashboard'
-import AddInventory from '../inventory/AddInventory'
 import Details from '../profile/Details'
 import ViewInventory from '../inventory/ViewInventory'
 import ItemForm from '../item/ItemForm'
@@ -23,10 +22,6 @@ function AuthRoutes() {
                     render={(props) => (
                         <Dashboard {...props} />
                     )}
-                />
-                <Route
-                    path='/new-inventory'
-                    component={AddInventory}
                 />
                 <Route
                     path='/view-inventory/:id'

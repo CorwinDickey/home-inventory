@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { history } from '../utils/history'
-
 import {
-    Card,
-    Button
+    Card
 } from '@material-ui/core'
 import { inventoryService } from '../services/inventory'
 import { accountService } from '../services/account'
+
+require('react-dom');
+window.React2 = require('react');
+console.log(window.React1 === window.React2);
 
 function Dashboard() {
     const [ownerInventories, setOwnerInventories] = useState([])
@@ -32,17 +33,12 @@ function Dashboard() {
     if (ownerInventories) {
         return(
             <div>
-                <Button
-                    variant='outlined'
-                    color='primary'
-                    onClick={() => history.push('/new-inventory')}
-                >New Inventory</Button>
                 <div id='my-inventories'>
                     <h1>My Inventories</h1>
                     {ownerInventories.map((x) => {
                         return (
-                            <Card>
-                                <Link key={x._id} to={{
+                            <Card key={x._id}>
+                                <Link to={{
                                     pathname: `/view-inventory/${x._id}`,
                                     state: {
                                         inventory: x

@@ -5,7 +5,7 @@ import { Button } from '@material-ui/core'
 // import * as yup from 'yup'
 // import { yupResolver } from '@hookform/resolvers/yup'
 
-import FormInput from '../form-controls/FormInput'
+import Controls from '../form-controls/'
 
 import { accountService } from '../../services/account'
 import { inventoryService } from '../../services/inventory'
@@ -50,7 +50,7 @@ function AddInventory() {
         <div>
             <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <FormInput
+                    <Controls.FormInput
                         name='name'
                         label='Inventory Name'
                         required={true}
@@ -61,11 +61,6 @@ function AddInventory() {
                         variant='contained'
                         color='primary'
                     >Create Inventory</Button>
-                    <Button
-                        variant='text'
-                        color='primary'
-                        onClick={() => history.push('/dashboard')}
-                    >Cancel</Button>
                 </form>
             </FormProvider>
         </div>

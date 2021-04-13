@@ -16,7 +16,7 @@ function FormInput(props) {
             render={
                 ({ field }) => (
                     <TextField 
-                        variant={props.variant ? props.variant : 'outlined'}
+                        variant={props.variant && props.variant}
                         label={props.label}
                         type={props.type ? props.type : 'text'}
                         required={props.required}

@@ -22,7 +22,6 @@
   },
   "homepage": "https://github.com/CorwinDickey/home-inventory#readme",
   "dependencies": {
-    "@material-ui/icons": "^4.11.2",
     "concurrently": "^6.0.0"
   }
 }

@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import {
     Button,
     Typography
 } from '@material-ui/core'
 
+import Popup from './Popup'
+import InventoryForm from './inventory/InventoryForm'
 import { accountService } from '../services/account'
 
 function Nav() {
-
-    const user = accountService.userValue
+    const [openPopup, setOpenPopup] = useState(false)
     const location = useLocation()
     
     return (
@@ -18,30 +19,33 @@ function Nav() {
                 { location.state ? <Typography variant='h2'>{location.state.inventory.name}</Typography> : <Typography variant='h2'>Dashboard</Typography>}
             </div>
             <div className='nav-actions'>
-                
                 <Button
-                    className='nav-button'
                     variant='contained'
                     color='primary'
                     disableElevation
                     component={NavLink}
                     to='/'
-
                 >Dashboard</Button>
                 <Button
-                    className='nav-button'
                     variant='outlined'
                     color='primary'
+                    onClick={()=>setOpenPopup(true)}
+                >{ location.state ? 'Edit Inventory' : 'New Inventory' }</Button>
+                <Button
                     component={NavLink}
                     to='/profile'
                 >Profile</Button>
                 <Button
-                    className='nav-button'
-                    variant='outlined'
-                    color='primary'
                     onClick={accountService.logout}
                 >Logout</Button>
             </div>
+            <Popup
+                title={ location.state ? 'Edit Inventory' : 'New Inventory' }
+                openPopup={openPopup}
+                setOpenPopup={setOpenPopup}
+            >
+                <InventoryForm />
+            </Popup>
         </div>
     )
 }

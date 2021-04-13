@@ -6,12 +6,11 @@ import { Button } from '@material-ui/core'
 // import * as yup from 'yup'
 // import { yupResolver } from '@hookform/resolvers/yup'
 
-import FormInput from '../form-controls/FormInput'
+import Controls from '../form-controls'
 import { accountService } from '../../services/account'
 import { itemService } from '../../services/item'
 // import { alertService } from '../../services/alert'
 import { history } from '../../utils/history'
-import FormSelect from '../form-controls/FormSelect'
 import { bucketService } from '../../services/bucket'
 
 // const validationSchema = yup.object().shape({
@@ -153,54 +152,53 @@ function ItemForm({ itemObject }) {
             <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div id='page-1'>
-                        <FormInput
+                        <Controls.FormInput
                             name='name'
                             label='Item Name'
                             required={true}
                         />
-                        <FormInput
+                        <Controls.FormInput
                             name='description'
                             label='Item Description'
                             required={true}
                         />
-                        <FormSelect
+                        <Controls.FormSelect
                             name='room'
                             label='Room'
                             options={filterBuckets('room')}
                         />
-                        <FormSelect
+                        <Controls.FormSelect
                             name='category'
                             label='Category'
                             options={filterBuckets('category')}
                         />
                     </div>
                     <div id='page-2'>
-                        <FormInput
+                        <Controls.FormInput
                             name='datePurchased'
                             label='Purchase Date'
                             type='date'
-                            defaultValue=''
                             InputLabelProps={{
                                 shrink: true
                             }}
                         />
-                        <FormInput
+                        <Controls.FormInput
                             name='quantity'
                             label='Quantity'
                         />
-                        <FormInput
+                        <Controls.FormInput
                             name='purchasePrice'
                             label='Individual Purchase Price'
                         />
-                        <FormInput
+                        <Controls.FormInput
                             name='replacementCost'
                             label='Individual Replacement Cost'
                         />
-                        <FormInput
+                        <Controls.FormInput
                             name='shipping'
                             label='Shipping'
                         />
-                        <FormInput
+                        <Controls.FormInput
                             name='taxRate'
                             label='Sales Tax Rate'
                         />
