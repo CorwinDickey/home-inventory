@@ -28,7 +28,8 @@ const accountSchema = new mongoose.Schema({
         type: String
     },
     verified: {
-        type: Date
+        type: Date,
+        default: Date.now()
     },
     resetToken: {
         token: String,
