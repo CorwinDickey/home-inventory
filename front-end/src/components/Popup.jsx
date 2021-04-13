@@ -12,9 +12,7 @@ import ActionButton from './form-controls/ActionButton'
 
 const useStyles = makeStyles(theme => ({
     dialogWrapper: {
-        padding: theme.spacing(2),
-        position: 'absolute',
-        top: theme.spacing(5)
+        padding: theme.spacing(2)
     }
 }))
 
@@ -24,7 +22,7 @@ export default function Popup(props) {
 
     return (
         <Dialog open={openPopup} maxWidth="md" classes={{ paper: classes.dialogWrapper }}>
-            <DialogTitle className={classes.dialogTitle}>
+            <DialogTitle>
                 <div style={{ display: 'flex' }}>
                     <Typography variant="h4" component="div" style={{ flexGrow: 1 }}>
                         {title}

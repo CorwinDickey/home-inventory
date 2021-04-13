@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import { Button } from '@material-ui/core'
 
@@ -20,13 +20,24 @@ import { history } from '../../utils/history'
 //     // users: yup.array().of(yup.string())
 // })
 
-function AddInventory() {
-    const methods = useForm()
-
-    const { handleSubmit } = methods
-
+function InventoryForm({ submitInventory, inventoryObject }) {
+    const isAddMode = !inventoryObject
     const user = accountService.userValue
-    console.log(user)
+    const [inventory, setInventory] = useState()
+
+    const methods = useForm()
+    const { handleSubmit, setValue } = methods
+
+    useEffect(() => {
+        if (!isAddMode) {
+            
+            const fields = [
+                'name'
+            ]
+            fields.forEach(field => setValue(field, inventoryObject[field]))
+            setInventory(inventory)
+        }
+    })
 
     function onSubmit(formData) {
         console.log('testing button click')
@@ -35,15 +46,7 @@ function AddInventory() {
             owner: user.id,
             // users: listOfUsers(userEmails)
         }
-        console.log(data)
-        inventoryService.createInventory(data)
-            .then(() => {
-                alertService.success('Your new inventory has been created')
-                history.push('/')
-            })
-            .catch(error => {
-                alertService.error(error)
-            })
+        submitInventory(data)
     }
 
     return (
@@ -60,11 +63,11 @@ function AddInventory() {
                         type='submit'
                         variant='contained'
                         color='primary'
-                    >Create Inventory</Button>
+                    >{isAddMode ? 'Create Inventory' : 'Edit Inventory'}</Button>
                 </form>
             </FormProvider>
         </div>
     )
 }
 
-export default AddInventory
+export default InventoryForm

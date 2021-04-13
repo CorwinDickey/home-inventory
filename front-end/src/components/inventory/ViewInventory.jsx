@@ -3,10 +3,8 @@ import { useParams } from 'react-router-dom'
 
 import { itemService } from '../../services/item'
 import ShowList from './ShowList'
-import FunctionModal from '../Modal'
 import ItemForm from '../item/ItemForm'
-import AddBucket from '../bucket/AddBucket'
-import BucketDialog from '../bucket/BucketDialog'
+import BucketForm from '../bucket/BucketForm'
 import { bucketService } from '../../services/bucket'
 import {
     Button,
@@ -15,13 +13,19 @@ import {
     ListItem,
     ListItemText
 } from '@material-ui/core'
+import Popup from '../Popup'
 
 function ViewInventory() {
     const { id } = useParams()
     const [items, setItems] = useState([])
     const [rooms, setRooms] = useState([])
     const [categories, setCategories] = useState([])
-    const [showBucketDialog, setShowBucketDialog] = useState(false)
+
+    const [openItemPopup, setOpenItemPopup] = useState(false)
+    const [itemObject, setItemObject] = useState()
+
+    const [openBucketPopup, setOpenBucketPopup] = useState(false)
+    const [bucketObject, setBucketObject] = useState()
     const [bucketType, setBucketType] = useState()
 
     useEffect(() => {
@@ -45,13 +49,8 @@ function ViewInventory() {
             .then(response => setCategories(response.filter(bucket => bucket.bucketType === 'category')))
     }
 
-    function toggleBucketDialog() {
-        setShowBucketDialog(!showBucketDialog)
-    }
-
     return (
         <div className='container'>
-            <BucketDialog showModal={showBucketDialog} toggle={toggleBucketDialog} bucketType={bucketType} />
             <div className='inventory-content'>
                 <div className='list'>
                     <div className='list-header'>
@@ -61,10 +60,10 @@ function ViewInventory() {
                         <Button
                             variant='outlined'
                             color='primary'
-                            // onClick={ () => {
-                            //     setModalBody(<ItemForm/>);
-                            //     toggleModal()
-                            // }}
+                            onClick={()=>{
+                                setItemObject(null)
+                                setOpenItemPopup(true);
+                            }}
                         >Add Item</Button>
                     </div>
                     <div className='list-body'>
@@ -73,10 +72,10 @@ function ViewInventory() {
                                 <ListItem
                                     key={x._id}
                                     button
-                                    // onClick={ () => {
-                                    //     setModalBody(<ItemForm itemObject={x} closeModal={() => toggleModal()} />);
-                                    //     toggleModal()
-                                    // }}
+                                    onClick={()=>{
+                                        setItemObject(x);
+                                        setOpenItemPopup(true)
+                                    }}
                                 >
                                     <ListItemText primary={x.name} secondary={`$${x.replacementCost}`} />
                                 </ListItem>
@@ -92,12 +91,12 @@ function ViewInventory() {
                         <Button
                             variant='outlined'
                             color='primary'
-                            onClick={ () => {
+                            onClick={()=>{
+                                setBucketObject(null);
                                 setBucketType('category');
-                                toggleBucketDialog();
+                                setOpenBucketPopup(true)
                             }}
                         >Create Category</Button>
-                        {/* <AddBucket bucketType='category' closeModal={() => {toggleModal(!openModal)}} /> */}
                     </div>
                     <div className='list-body'>
                         <List>
@@ -116,10 +115,11 @@ function ViewInventory() {
                         <Button
                             variant='outlined'
                             color='primary'
-                            // onClick={ () => {
-                            //     setModalBody(<AddBucket bucketType='room' closeModal={toggleModal} />);
-                            //     toggleModal()
-                            // }}
+                            onClick={()=>{
+                                setBucketObject(null)
+                                setBucketType('room');
+                                setOpenBucketPopup(true)
+                            }}
                         >Create Room</Button>
                     </div>
                     <div className='list-body'>
@@ -132,6 +132,26 @@ function ViewInventory() {
                     </div>
                 </div>
             </div>
+            <Popup id='item-popup'
+                title={itemObject ? `Edit ${itemObject.name}` : 'New Item'}
+                openPopup={openItemPopup}
+                setOpenPopup={setOpenItemPopup}
+            >
+                <ItemForm
+                    itemObject={itemObject}
+                    submitItem={submitItem}
+                />
+            </Popup>
+            <Popup id='bucket-popup'
+                title={bucketObject ? `Edit ${bucketObject.name}` : `New ${bucketType}`}
+                openPopup={openBucketPopup}
+                setOpenPopup={setOpenBucketPopup}
+            >
+                <BucketForm
+                    bucketObject={bucketObject}
+                    submitBucket={submitBucket}
+                />
+            </Popup>
         </div>
     )
 }

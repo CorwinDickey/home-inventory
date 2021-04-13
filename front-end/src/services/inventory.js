@@ -17,7 +17,6 @@ function createInventory(params) {
 
 function updateInventory(id, params) {
     return fetchWrapper.put(baseUrl + '/' + id, params)
-        .then(inventory => console.log(inventory))
 }
 
 function deleteInventory(id) {

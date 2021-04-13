@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { NavLink, useLocation, useParams } from 'react-router-dom'
 import {
     Button,
     Typography
@@ -8,11 +8,22 @@ import {
 import Popup from './Popup'
 import InventoryForm from './inventory/InventoryForm'
 import { accountService } from '../services/account'
+import { inventoryService } from '../services/inventory'
 
 function Nav() {
     const [openPopup, setOpenPopup] = useState(false)
     const location = useLocation()
-    
+
+    function submitInventory(data) {
+        { location.state
+            ?
+            inventoryService.updateInventory(location.state.inventory._id, data)
+            :
+            inventoryService.createInventory(data)
+        }
+        setOpenPopup(false)
+    }
+
     return (
         <div className='nav'>
             <div className='nav-header'>
@@ -44,7 +55,10 @@ function Nav() {
                 openPopup={openPopup}
                 setOpenPopup={setOpenPopup}
             >
-                <InventoryForm />
+                <InventoryForm
+                    submitInventory={submitInventory}
+                    inventoryObject={ location.state ? location.state.inventory : null}
+                />
             </Popup>
         </div>
     )

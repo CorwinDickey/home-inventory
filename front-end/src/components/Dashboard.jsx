@@ -6,10 +6,6 @@ import {
 import { inventoryService } from '../services/inventory'
 import { accountService } from '../services/account'
 
-require('react-dom');
-window.React2 = require('react');
-console.log(window.React1 === window.React2);
-
 function Dashboard() {
     const [ownerInventories, setOwnerInventories] = useState([])
     const [userInventories, setUserInventories] = useState([])
