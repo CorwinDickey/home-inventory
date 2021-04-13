@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useForm, FormProvider } from 'react-hook-form'
-import { Button } from '@material-ui/core'
+import { Button, makeStyles } from '@material-ui/core'
 
 // import * as yup from 'yup'
 // import { yupResolver } from '@hookform/resolvers/yup'
@@ -29,11 +29,18 @@ import { bucketService } from '../../services/bucket'
 //     creator: yup.string()
 // })
 
+const useStyles = makeStyles(theme => ({
+    inputStyle: {
+        margin: '10px',
+    }
+}))
+
 function ItemForm({ itemObject, submitItem, deleteItem }) {
     const [bucketList, setBucketList] = useState([])
     const isAddMode = !itemObject
     const [item, setItem] = useState()
     const location = useLocation()
+    const classes = useStyles()
 
     const methods = useForm()
     const { handleSubmit, setValue } = methods
@@ -90,62 +97,7 @@ function ItemForm({ itemObject, submitItem, deleteItem }) {
         }
 
         submitItem(data)
-        // return isAddMode
-        //     ? createItem(data)
-        //     : updateItem(itemObject._id, data)
     }
-
-    // function updateItem(id, data) {
-    //     if (data.room !== itemObject.room) {
-    //         removeItemFromBucket(itemObject.room)
-    //         addItemToBucket(data.room, itemObject._id)
-    //     }
-    //     if (data.category !== itemObject.category) {
-    //         removeItemFromBucket(itemObject.category)
-    //         addItemToBucket(data.category, itemObject._id)
-    //     }
-    //     return itemService.updateItem(id, data)
-    // }
-
-    // function createItem(data) {
-    //     itemService.createItem(data)
-    //         .then(response => {addItemToBuckets(response)})
-    // }
-
-    // function deleteItem() {
-    //     itemService.deleteItem(itemObject._id)
-    // }
-
-    // function spliceItemFromBucket(bucket) {
-    //     const itemIndex = bucket.items.indexOf(itemObject._id)
-    //     bucket.items.splice(itemIndex, 1)
-    //     bucketService.updateBucket(bucket._id, bucket)
-    // }
-
-    // function removeItemFromBucket(bucketId) {
-    //     bucketService.getBucket(bucketId)
-    //         .then(bucket => spliceItemFromBucket(bucket))
-    // }
-        
-    // function pushItemToBucket(bucket, itemId) {
-    //     bucket['items'].push(itemId)
-    //     bucketService.updateBucket(bucket._id, bucket)
-    // }
-
-    // function addItemToBucket(bucketId, itemId) {
-    //     bucketService.getBucket(bucketId)
-    //         .then(bucket => pushItemToBucket(bucket, itemId))
-    // }
-
-    // function addItemToBuckets(item) {
-    //     bucketService.getBucket(item.room)
-    //         .then(room => pushItemToBucket(room, item._id))
-    //         // .then(room => bucketService.updateBucket(room._id, room))
-
-    //     bucketService.getBucket(item.category)
-    //         .then(category => pushItemToBucket(category, item._id))
-    //         // .then(category => bucketService.updateBucket(category._id, category))
-    // }
 
     return (
         <div>
@@ -153,21 +105,25 @@ function ItemForm({ itemObject, submitItem, deleteItem }) {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div id='page-1'>
                         <Controls.FormInput
+                            className={classes.inputStyle}
                             name='name'
                             label='Item Name'
                             required={true}
                         />
                         <Controls.FormInput
+                            className={classes.inputStyle}
                             name='description'
                             label='Item Description'
                             required={true}
                         />
                         <Controls.FormSelect
+                            className={classes.inputStyle}
                             name='room'
                             label='Room'
                             options={filterBuckets('room')}
                         />
                         <Controls.FormSelect
+                            className={classes.inputStyle}
                             name='category'
                             label='Category'
                             options={filterBuckets('category')}
@@ -175,6 +131,7 @@ function ItemForm({ itemObject, submitItem, deleteItem }) {
                     </div>
                     <div id='page-2'>
                         <Controls.FormInput
+                            className={classes.inputStyle}
                             name='datePurchased'
                             label='Purchase Date'
                             type='date'
@@ -183,22 +140,27 @@ function ItemForm({ itemObject, submitItem, deleteItem }) {
                             }}
                         />
                         <Controls.FormInput
+                            className={classes.inputStyle}
                             name='quantity'
                             label='Quantity'
                         />
                         <Controls.FormInput
+                            className={classes.inputStyle}
                             name='purchasePrice'
-                            label='Individual Purchase Price'
+                            label='Purchase Price'
                         />
                         <Controls.FormInput
+                            className={classes.inputStyle}
                             name='replacementCost'
-                            label='Individual Replacement Cost'
+                            label='Replacement Cost'
                         />
                         <Controls.FormInput
+                            className={classes.inputStyle}
                             name='shipping'
                             label='Shipping'
                         />
                         <Controls.FormInput
+                            className={classes.inputStyle}
                             name='taxRate'
                             label='Sales Tax Rate'
                         />
