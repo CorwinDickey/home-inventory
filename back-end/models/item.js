@@ -28,10 +28,11 @@ const itemSchema = mongoose.Schema({
         type: Number
     },
     pictures: {
-        type: mongoose.Schema.Types.Mixed
+        data: Buffer,
+        contentType: String
     },
     documents: {
-        type: mongoose.Schema.Types.Mixed
+        type: String
     },
     room: {
         type: mongoose.Schema.Types.ObjectId

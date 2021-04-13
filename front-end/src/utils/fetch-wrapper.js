@@ -4,6 +4,7 @@ export const fetchWrapper = {
     get,
     post,
     put,
+    upload,
     delete: _delete
 }
 
@@ -11,6 +12,16 @@ function get(url) {
     const requestOptions = {
         method: 'GET',
         headers: authHeader(url)
+    }
+    return fetch(url, requestOptions).then(handleResponse)
+}
+
+function upload(url, body) {
+    const requestOptions = {
+        method: 'POST',
+        headers: {...authHeader(url)},
+        credentials: 'include',
+        body: JSON.stringify(body)
     }
     return fetch(url, requestOptions).then(handleResponse)
 }

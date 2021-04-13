@@ -13,9 +13,9 @@ const user = accountService.userValue
 //     startApp()
 // }
 
-accountService.refreshToken().finally(startApp)
+// accountService.refreshToken().finally(startApp)
 
-function startApp() {
+// function startApp() {
     ReactDOM.render(
         <Router history={history}>
             <React.StrictMode>
@@ -24,4 +24,4 @@ function startApp() {
         </Router>,
         document.getElementById('root')
     )
-}
+// }
