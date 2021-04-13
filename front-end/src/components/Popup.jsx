@@ -12,7 +12,9 @@ import ActionButton from './form-controls/ActionButton'
 
 const useStyles = makeStyles(theme => ({
     dialogWrapper: {
-        padding: theme.spacing(2)
+        padding: theme.spacing(2),
+        position: 'absolute',
+        top: theme.spacing(20)
     }
 }))
 

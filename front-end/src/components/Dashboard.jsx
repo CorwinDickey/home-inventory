@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import {
     Card
 } from '@material-ui/core'
 import { inventoryService } from '../services/inventory'
 import { accountService } from '../services/account'
+import { history } from '../utils/history'
 
 function Dashboard() {
     const [ownerInventories, setOwnerInventories] = useState([])
     const [userInventories, setUserInventories] = useState([])
     const user = accountService.userValue
+    const location = useLocation()
 
     useEffect(() => {
         getOwnerInventories()
         getUserInventories()
-    }, [])
+        history.replace()
+    }, [location.pathname])
 
     function getOwnerInventories() {
         inventoryService.getInventoriesByAccount(user.id)

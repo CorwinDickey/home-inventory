@@ -1,20 +1,28 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 
 import { Button } from '@material-ui/core'
 
-import FormInput from '../form-controls/FormInput'
+import Controls from '../form-controls'
 
-import { bucketService } from '../../services/bucket'
-import { inventoryService } from '../../services/inventory'
-
-
-function BucketForm({ bucketType }) {
+function BucketForm({ bucketType, bucketObject, submitBucket }) {
+    const isAddMode = !bucketObject
     const { id } = useParams()
-    // console.log('logging openModal', openModal)
+    const [bucket, setBucket] = useState()
+
     const methods = useForm()
-    const { handleSubmit, errors } = methods
+    const { handleSubmit, setValue, errors } = methods
+
+    useEffect(() => {
+        if (!isAddMode) {
+            const fields = [
+                'name'
+            ]
+            fields.forEach(field => setValue(field, bucketObject[field]))
+            setBucket(bucket)
+        }
+    })
 
     function onSubmit(formData) {
         const data = {
@@ -22,30 +30,14 @@ function BucketForm({ bucketType }) {
             inventory: id,
             bucketType: bucketType
         }
-
-        bucketService.createBucket(data)
-            .then(response => {
-                addBucketToInventory(response)
-            })
-    }
-
-    function addBucketToInventory(data) {
-        
-        function pushToInventory(inventory) {
-            inventory['buckets'].push(data._id)
-            return inventory
-        }
-
-        inventoryService.getInventory(data.inventory)
-            .then(inventory => pushToInventory(inventory))
-            .then(inventory => inventoryService.updateInventory(inventory._id, inventory))
+        submitBucket(data)
     }
 
     return (
-        <div>
+        <div className='bucket-form'>
             <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <FormInput
+                    <Controls.FormInput
                         name='name'
                         label={(bucketType + ' Name').toUpperCase()}
                         required={true}
@@ -55,7 +47,7 @@ function BucketForm({ bucketType }) {
                         type='submit'
                         variant='contained'
                         color='primary'
-                    >Create {bucketType}</Button>
+                    >{isAddMode ? `Create ${bucketType}` : `Edit ${bucketType}`}</Button>
                 </form>
             </FormProvider>
         </div>

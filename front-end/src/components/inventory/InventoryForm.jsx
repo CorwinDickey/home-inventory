@@ -8,9 +8,9 @@ import { Button } from '@material-ui/core'
 import Controls from '../form-controls/'
 
 import { accountService } from '../../services/account'
-import { inventoryService } from '../../services/inventory'
-import { alertService } from '../../services/alert'
-import { history } from '../../utils/history'
+// import { inventoryService } from '../../services/inventory'
+// import { alertService } from '../../services/alert'
+// import { history } from '../../utils/history'
 
 // const validationSchema = yup.object().shape({
 //     name: yup.string()
@@ -30,7 +30,6 @@ function InventoryForm({ submitInventory, inventoryObject }) {
 
     useEffect(() => {
         if (!isAddMode) {
-            
             const fields = [
                 'name'
             ]
@@ -40,7 +39,6 @@ function InventoryForm({ submitInventory, inventoryObject }) {
     })
 
     function onSubmit(formData) {
-        console.log('testing button click')
         const data = {
             name: formData.name,
             owner: user.id,

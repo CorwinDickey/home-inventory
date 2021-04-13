@@ -202,6 +202,10 @@ function ItemForm({ itemObject }) {
                             name='taxRate'
                             label='Sales Tax Rate'
                         />
+                        <Controls.FormInput
+                            name='pictures'
+                            type='file'
+                        />
                     </div>
                     <Button
                         type='submit'

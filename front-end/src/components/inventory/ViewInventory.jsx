@@ -6,6 +6,7 @@ import ShowList from './ShowList'
 import ItemForm from '../item/ItemForm'
 import BucketForm from '../bucket/BucketForm'
 import { bucketService } from '../../services/bucket'
+import { inventoryService } from '../../services/inventory'
 import {
     Button,
     Typography,
@@ -48,6 +49,48 @@ function ViewInventory() {
         bucketService.getBucketsByInventory(id)
             .then(response => setCategories(response.filter(bucket => bucket.bucketType === 'category')))
     }
+    
+    function toTitleCase(string) {
+        return string.replace(
+            /\w\S*/g,
+            function(text) {
+                return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase()
+            }
+        )
+    }
+
+    function submitItem(data) {
+        if (itemObject) {
+            itemService.updateItem(itemObject._id, data)
+        } else {
+            itemService.createItem(data)
+        }
+        setOpenItemPopup(false)
+    }
+
+    function submitBucket(data) {
+        if (bucketObject) {
+            bucketService.updateBucket(bucketObject._id, data)
+                .then(response => addBucketToInventory(response))
+        } else {
+            bucketService.createBucket(data)
+                .then(response => addBucketToInventory(response))
+        }
+        setOpenBucketPopup(false)
+    }
+
+    function addBucketToInventory(data) {
+        
+        function pushToInventory(inventory) {
+            inventory['buckets'].push(data._id)
+            return inventory
+        }
+
+        inventoryService.getInventory(data.inventory)
+            .then(inventory => pushToInventory(inventory))
+            .then(inventory => inventoryService.updateInventory(inventory._id, inventory))
+    }
+
 
     return (
         <div className='container'>
@@ -143,12 +186,13 @@ function ViewInventory() {
                 />
             </Popup>
             <Popup id='bucket-popup'
-                title={bucketObject ? `Edit ${bucketObject.name}` : `New ${bucketType}`}
+                title={bucketType && `New ${toTitleCase(bucketType)}`}
                 openPopup={openBucketPopup}
                 setOpenPopup={setOpenBucketPopup}
             >
                 <BucketForm
-                    bucketObject={bucketObject}
+                    bucketType={bucketType}
+                    bucketObject={null}
                     submitBucket={submitBucket}
                 />
             </Popup>

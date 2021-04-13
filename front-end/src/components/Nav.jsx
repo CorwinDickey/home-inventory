@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { NavLink, useLocation, useParams } from 'react-router-dom'
+import { NavLink, useLocation, Redirect } from 'react-router-dom'
 import {
     Button,
     Typography
@@ -15,10 +15,9 @@ function Nav() {
     const location = useLocation()
 
     function submitInventory(data) {
-        { location.state
-            ?
+        if (location.state) {
             inventoryService.updateInventory(location.state.inventory._id, data)
-            :
+        } else {
             inventoryService.createInventory(data)
         }
         setOpenPopup(false)

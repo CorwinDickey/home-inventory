@@ -22,6 +22,9 @@ function FormInput(props) {
                         required={props.required}
                         error={isError}
                         helperText={errorMessage}
+                        InputLabelProps={{
+                            shrink: props.shrink || true
+                        }}
                         {...props}
                         {...field} 
                     />
