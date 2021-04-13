@@ -29,7 +29,7 @@ import { bucketService } from '../../services/bucket'
 //     creator: yup.string()
 // })
 
-function ItemForm({ itemObject }) {
+function ItemForm({ itemObject, submitItem, deleteItem }) {
     const [bucketList, setBucketList] = useState([])
     const isAddMode = !itemObject
     const [item, setItem] = useState()
@@ -51,6 +51,7 @@ function ItemForm({ itemObject }) {
                 'shipping',
                 'quantity',
                 'taxRate',
+                'pictures',
                 'room',
                 'category'
             ]
@@ -88,64 +89,63 @@ function ItemForm({ itemObject }) {
             creator: user.id
         }
 
-        return isAddMode
-            ? createItem(data)
-            : updateItem(itemObject._id, data)
+        submitItem(data)
+        // return isAddMode
+        //     ? createItem(data)
+        //     : updateItem(itemObject._id, data)
     }
 
-    function updateItem(id, data) {
-        if (data.room !== itemObject.room) {
-            removeItemFromBucket(itemObject.room)
-            addItemToBucket(data.room, itemObject._id)
-        }
-        if (data.category !== itemObject.category) {
-            removeItemFromBucket(itemObject.category)
-            addItemToBucket(data.category, itemObject._id)
-        }
-        return itemService.updateItem(id, data)
-    }
+    // function updateItem(id, data) {
+    //     if (data.room !== itemObject.room) {
+    //         removeItemFromBucket(itemObject.room)
+    //         addItemToBucket(data.room, itemObject._id)
+    //     }
+    //     if (data.category !== itemObject.category) {
+    //         removeItemFromBucket(itemObject.category)
+    //         addItemToBucket(data.category, itemObject._id)
+    //     }
+    //     return itemService.updateItem(id, data)
+    // }
 
-    function createItem(data) {
-        itemService.createItem(data)
-            .then(response => {
-                addItemToBuckets(response)
-            })
-    }
+    // function createItem(data) {
+    //     itemService.createItem(data)
+    //         .then(response => {addItemToBuckets(response)})
+    // }
 
-    function deleteItem() {
-        itemService.deleteItem(itemObject._id)
-    }
+    // function deleteItem() {
+    //     itemService.deleteItem(itemObject._id)
+    // }
 
-    function spliceItemFromBucket(bucket) {
-        const itemIndex = bucket.items.indexOf(itemObject._id)
-        bucket.items.splice(itemIndex, 1)
-        bucketService.updateBucket(bucket._id, bucket)
-    }
+    // function spliceItemFromBucket(bucket) {
+    //     const itemIndex = bucket.items.indexOf(itemObject._id)
+    //     bucket.items.splice(itemIndex, 1)
+    //     bucketService.updateBucket(bucket._id, bucket)
+    // }
 
-    function removeItemFromBucket(bucketId) {
-        bucketService.getBucket(bucketId)
-            .then(bucket => spliceItemFromBucket(bucket))
-    }
+    // function removeItemFromBucket(bucketId) {
+    //     bucketService.getBucket(bucketId)
+    //         .then(bucket => spliceItemFromBucket(bucket))
+    // }
         
-    function pushItemToBucket(bucket, itemId) {
-        bucket['items'].push(itemId)
-        bucketService.updateBucket(bucket._id, bucket)
-    }
+    // function pushItemToBucket(bucket, itemId) {
+    //     bucket['items'].push(itemId)
+    //     bucketService.updateBucket(bucket._id, bucket)
+    // }
 
-    function addItemToBucket(bucketId, itemId) {
-        bucketService.getBucket(bucketId)
-            .then(bucket => pushItemToBucket(bucket, itemId))
-    }
+    // function addItemToBucket(bucketId, itemId) {
+    //     bucketService.getBucket(bucketId)
+    //         .then(bucket => pushItemToBucket(bucket, itemId))
+    // }
 
-    function addItemToBuckets(item) {
-        bucketService.getBucket(item.room)
-            .then(room => pushItemToBucket(room, item._id))
-            // .then(room => bucketService.updateBucket(room._id, room))
+    // function addItemToBuckets(item) {
+    //     bucketService.getBucket(item.room)
+    //         .then(room => pushItemToBucket(room, item._id))
+    //         // .then(room => bucketService.updateBucket(room._id, room))
 
-        bucketService.getBucket(item.category)
-            .then(category => pushItemToBucket(category, item._id))
-            // .then(category => bucketService.updateBucket(category._id, category))
-    }
+    //     bucketService.getBucket(item.category)
+    //         .then(category => pushItemToBucket(category, item._id))
+    //         // .then(category => bucketService.updateBucket(category._id, category))
+    // }
 
     return (
         <div>

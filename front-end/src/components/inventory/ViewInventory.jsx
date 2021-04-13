@@ -16,6 +16,28 @@ import {
 } from '@material-ui/core'
 import Popup from '../Popup'
 
+////////////////////////////////////////////////////////////
+// HELPER FUNCTIONS
+////////////////////////////////////////////////////////////
+
+    function toTitleCase(string) {
+        return string.replace(
+            /\w\S*/g,
+            function(text) {
+                return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase()
+            }
+        )
+    }
+
+    function useForceUpdate() {
+        const [value, setValue] = useState(0)
+        return () => setValue(value => value + 1)
+    }
+
+////////////////////////////////////////////////////////////
+// COMPONENT
+////////////////////////////////////////////////////////////
+
 function ViewInventory() {
     const { id } = useParams()
     const [items, setItems] = useState([])
@@ -29,11 +51,17 @@ function ViewInventory() {
     const [bucketObject, setBucketObject] = useState()
     const [bucketType, setBucketType] = useState()
 
+    const forceUpdate = useForceUpdate()
+
     useEffect(() => {
         getItems()
         getRooms()
         getCategories()
     }, [])
+
+////////////////////////////////////////////////////////////
+// SETUP LOGIC
+////////////////////////////////////////////////////////////
 
     function getItems() {
         itemService.getItemsByInventory(id)
@@ -49,24 +77,76 @@ function ViewInventory() {
         bucketService.getBucketsByInventory(id)
             .then(response => setCategories(response.filter(bucket => bucket.bucketType === 'category')))
     }
-    
-    function toTitleCase(string) {
-        return string.replace(
-            /\w\S*/g,
-            function(text) {
-                return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase()
-            }
-        )
-    }
+
+////////////////////////////////////////////////////////////
+// ITEM LOGIC
+////////////////////////////////////////////////////////////
 
     function submitItem(data) {
         if (itemObject) {
-            itemService.updateItem(itemObject._id, data)
+            updateItem(itemObject._id, data)
         } else {
-            itemService.createItem(data)
+            createItem(data)
         }
         setOpenItemPopup(false)
     }
+
+    function updateItem(id, data) {
+        if (data.room !== itemObject.room) {
+            removeItemFromBucket(itemObject.room)
+            addItemToBucket(data.room, itemObject._id)
+        }
+        if (data.category !== itemObject.category) {
+            removeItemFromBucket(itemObject.category)
+            addItemToBucket(data.category, itemObject._id)
+        }
+        return itemService.updateItem(id, data)
+    }
+
+    function createItem(data) {
+        itemService.createItem(data)
+            .then(response => {addItemToBuckets(response)})
+    }
+
+    function deleteItem() {
+        itemService.deleteItem(itemObject._id)
+        setOpenItemPopup(false)
+    }
+
+    function spliceItemFromBucket(bucket) {
+        const itemIndex = bucket.items.indexOf(itemObject._id)
+        bucket.items.splice(itemIndex, 1)
+        bucketService.updateBucket(bucket._id, bucket)
+    }
+
+    function removeItemFromBucket(bucketId) {
+        bucketService.getBucket(bucketId)
+            .then(bucket => spliceItemFromBucket(bucket))
+    }
+        
+    function pushItemToBucket(bucket, itemId) {
+        bucket['items'].push(itemId)
+        bucketService.updateBucket(bucket._id, bucket)
+    }
+
+    function addItemToBucket(bucketId, itemId) {
+        bucketService.getBucket(bucketId)
+            .then(bucket => pushItemToBucket(bucket, itemId))
+    }
+
+    function addItemToBuckets(item) {
+        bucketService.getBucket(item.room)
+            .then(room => pushItemToBucket(room, item._id))
+            // .then(room => bucketService.updateBucket(room._id, room))
+
+        bucketService.getBucket(item.category)
+            .then(category => pushItemToBucket(category, item._id))
+            // .then(category => bucketService.updateBucket(category._id, category))
+    }
+
+////////////////////////////////////////////////////////////
+// BUCKET LOGIC
+////////////////////////////////////////////////////////////
 
     function submitBucket(data) {
         if (bucketObject) {
@@ -80,17 +160,18 @@ function ViewInventory() {
     }
 
     function addBucketToInventory(data) {
-        
         function pushToInventory(inventory) {
             inventory['buckets'].push(data._id)
             return inventory
         }
-
         inventoryService.getInventory(data.inventory)
             .then(inventory => pushToInventory(inventory))
             .then(inventory => inventoryService.updateInventory(inventory._id, inventory))
     }
 
+////////////////////////////////////////////////////////////
+// RENDER LOGIC
+////////////////////////////////////////////////////////////
 
     return (
         <div className='container'>
@@ -104,6 +185,7 @@ function ViewInventory() {
                             variant='outlined'
                             color='primary'
                             onClick={()=>{
+                                forceUpdate()
                                 setItemObject(null)
                                 setOpenItemPopup(true);
                             }}
@@ -183,6 +265,7 @@ function ViewInventory() {
                 <ItemForm
                     itemObject={itemObject}
                     submitItem={submitItem}
+                    deleteItem={deleteItem}
                 />
             </Popup>
             <Popup id='bucket-popup'
