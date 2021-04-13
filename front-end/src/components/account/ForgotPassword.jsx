@@ -2,7 +2,7 @@ import React from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import { Button } from '@material-ui/core'
 
-import * as Yup from 'yup'
+import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import FormInput from '../form-controls/FormInput'
@@ -10,8 +10,8 @@ import FormInput from '../form-controls/FormInput'
 import { accountService } from '../../services/account'
 import { alertService } from '../../services/alert'
     
-const validationSchema = Yup.object().shape({
-    email: Yup.string()
+const validationSchema = yup.object().shape({
+    email: yup.string()
         .email('Email is invalid')
         .required('Email is required')
 })
@@ -33,7 +33,7 @@ function ForgotPassword({ history }) {
     return (
         <div>
             <FormProvider {...methods}>
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <FormInput
                         name='email'
                         label='Email'
@@ -41,22 +41,18 @@ function ForgotPassword({ history }) {
                         required={true}
                         errorObj={errors}
                     />
+                    <Button
+                        type='submit'
+                        variant='contained'
+                        color='primary'
+                    >Submit</Button>
+                    <Button
+                        variant='text'
+                        color='primary'
+                        onClick={() => history.push('/login')}
+                    >Cancel</Button>
                 </form>
             </FormProvider>
-            <Button
-                variant='contained'
-                color='primary'
-                onClick={handleSubmit(onSubmit)}
-            >
-                Submit
-            </Button>
-            <Button
-                variant='outlined'
-                color='primary'
-                onClick={() => history.push('/login')}
-            >
-                Cancel
-            </Button>
         </div>
     )
 }

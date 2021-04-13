@@ -8,16 +8,21 @@ const accountService = require('../services/account')
 
 accounts.post('/authenticate', authenticateSchema, authenticate)
 accounts.post('/refresh-token', refreshToken)
-accounts.post('/revoke-token', authorize(), revokeTokenSchema, revokeToken)
+accounts.post('/revoke-token', revokeTokenSchema, revokeToken)
+// accounts.post('/revoke-token', authorize(), revokeTokenSchema, revokeToken)
 accounts.post('/register', registerSchema, register)
 accounts.post('/verify-email', verifyEmailSchema, verifyEmail)
 accounts.post('/forgot-password', forgotPasswordSchema, forgotPassword)
 accounts.post('/validate-reset-token', validateResetTokenSchema, validateResetToken)
 accounts.post('/reset-password', resetPasswordSchema, resetPassword)
-accounts.get('/:id', authorize(), getById)
-accounts.put('/:id', authorize(), updateAccountSchema, updateAccount)
-accounts.post('/', authorize(Role.Owner), createAccountSchema, createAccount)
+accounts.get('/:id', getById)
+accounts.put('/:id', updateAccountSchema, updateAccount)
+accounts.post('/', createAccountSchema, createAccount)
 accounts.delete('/:id', authorize(), _delete)
+// accounts.get('/:id', authorize(), getById)
+// accounts.put('/:id', authorize(), updateAccountSchema, updateAccount)
+// accounts.post('/', authorize(Role.Owner), createAccountSchema, createAccount)
+// accounts.delete('/:id', authorize(), _delete)
 
 module.exports = accounts
 
@@ -64,10 +69,6 @@ function revokeToken(req, res, next) {
 
     if (!token) {
         return res.status(400).json({ message: 'Token is required' })
-    }
-
-    if (!req.user.ownsToken(token) && req.user.role !== Role.Owner) {
-        return res.status(401).json({ message: 'Unauthorized' })
     }
 
     accountService.revokeToken({ token, ipAddress })

@@ -1,38 +1,70 @@
 import React, { useEffect, useState } from 'react'
-import AddItem from './AddItem'
-import { fetchWrapper } from '../utils/fetch-wrapper'
+import { Link, useLocation } from 'react-router-dom'
+import {
+    Card
+} from '@material-ui/core'
+import { inventoryService } from '../services/inventory'
+import { accountService } from '../services/account'
+import { history } from '../utils/history'
 
 function Dashboard() {
-    const [itemList, setItemList] = useState([])
+    const [ownerInventories, setOwnerInventories] = useState([])
+    const [userInventories, setUserInventories] = useState([])
+    const user = accountService.userValue
+    const location = useLocation()
 
-    useEffect(() => getItems(), itemList)
+    useEffect(() => {
+        getOwnerInventories()
+        getUserInventories()
+        history.replace()
+    }, [location.pathname])
 
-    function getItems() {
-        fetchWrapper.get('/items')
-        .then(response => {
-            console.log(response)
-            setItemList(response.data)
-        })
-        .catch(error => {
-            console.log(error)
-        })
+    function getOwnerInventories() {
+        inventoryService.getInventoriesByAccount(user.id)
+            .then(response => setOwnerInventories(response.ownerInventories))
     }
 
-    return(
-        <div>
-            Testing deployment of react app
-            <AddItem />
-            {itemList.map((item) => {
-                if (item) {
-                    return (
-                        <div>
-                            <p>{item.name}</p>
-                        </div>
-                    )
-                }
-            })}
-        </div>
-    )
+    function getUserInventories() {
+        inventoryService.getInventoriesByAccount(user.id)
+            .then(response => setUserInventories(response.userInventories))
+    }
+
+    if (ownerInventories) {
+        return(
+            <div>
+                <div id='my-inventories'>
+                    <h1>My Inventories</h1>
+                    {ownerInventories.map((x) => {
+                        return (
+                            <Card key={x._id}>
+                                <Link to={{
+                                    pathname: `/view-inventory/${x._id}`,
+                                    state: {
+                                        inventory: x
+                                    }
+                                }}>{x.name}</Link>
+                            </Card>
+                        )
+                    })}
+                </div>
+                <div id='shared-inventories'>
+                    <h2>Shared Inventories</h2>
+                    {userInventories.map((x) => {
+                        return (
+                            <Card>
+                                <Link key={x._id} to={{
+                                    pathname: '/view-inventory',
+                                    state: {
+                                        inventory: x
+                                    }
+                                }}>{x.name}</Link>
+                            </Card>
+                        )
+                    })}
+                </div>
+            </div>
+        )
+    }
 }
 
 export default Dashboard

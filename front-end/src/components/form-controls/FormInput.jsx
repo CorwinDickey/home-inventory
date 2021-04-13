@@ -4,12 +4,11 @@ import { TextField } from '@material-ui/core'
 
 function FormInput(props) {
     const { control } = useFormContext()
-    const { name, label, required, errorObj, variant, type } = props
     let isError = false
     let errorMessage = ''
-    if (errorObj && errorObj.hasOwnProperty(name)) {
+    if (props.errorObj && props.errorObj.hasOwnProperty(props.name)) {
         isError = true
-        errorMessage = errorObj[name].message
+        errorMessage = props.errorObj[props.name].message
     }
 
     return (
@@ -17,23 +16,27 @@ function FormInput(props) {
             render={
                 ({ field }) => (
                     <TextField 
-                        variant={variant ? variant : 'outlined'}
-                        label={label}
-                        type={type ? type : 'text'}
-                        required={required}
+                        variant={props.variant && props.variant}
+                        label={props.label}
+                        type={props.type ? props.type : 'text'}
+                        required={props.required}
                         error={isError}
                         helperText={errorMessage}
+                        InputLabelProps={{
+                            shrink: props.shrink || true
+                        }}
+                        {...props}
                         {...field} 
                     />
                 )
             }
-            name={name}
+            name={props.name}
             control={control}
-            defaultValue=''
+            defaultValue={props.defaultValue ? props.defaultValue : ''}
             fullWidth={true}
             InputLabelProps={{
-                className: required ? 'required-label' : '',
-                required: required || false
+                className: props.required ? 'required-label' : '',
+                required: props.required || false
             }}
             {...props}
         />

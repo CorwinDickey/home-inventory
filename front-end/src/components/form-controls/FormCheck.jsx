@@ -4,13 +4,7 @@ import { Checkbox, FormControlLabel } from '@material-ui/core'
 
 function FormCheck(props) {
     const { control } = useFormContext()
-    const { name, label, required, errorObj, color } = props
-    let isError = false
-    let errorMessage = ''
-    if (errorObj && errorObj.hasOwnProperty(name)) {
-        isError = true
-        errorMessage = errorObj[name].message
-    }
+    const { name, label, required, color } = props
 
     return (
         <Controller

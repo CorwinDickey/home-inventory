@@ -1,6 +1,5 @@
 import { BehaviorSubject } from 'rxjs'
 
-import { history } from '../utils/history'
 import { fetchWrapper } from '../utils/fetch-wrapper'
 
 const userSubject = new BehaviorSubject(null)
@@ -22,11 +21,10 @@ export const accountService = {
     get userValue () { return userSubject.value }
 }
 
-const baseUrl = process.env.REACT_APP_SERVER_URL + '/accounts'
-const route = '/accounts'
+const baseUrl = '/accounts'
 
 function login(email, password) {
-    return fetchWrapper.post(route + '/authenticate', { email, password })
+    return fetchWrapper.post(baseUrl + '/authenticate', { email, password })
         .then(user => {
             userSubject.next(user)
             startRefreshTokenTimer()
@@ -38,7 +36,7 @@ function logout() {
     fetchWrapper.post(baseUrl + '/revoke-token', {})
     stopRefreshTokenTimer()
     userSubject.next(null)
-    history.push('/')
+    // history.push('/')
 }
 
 function refreshToken() {

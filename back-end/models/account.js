@@ -21,9 +21,8 @@ const accountSchema = new mongoose.Schema({
     acceptTerms: {
         type: Boolean
     },
-    role: {
-        type: String,
-        required: true
+    inventories: {
+        type: [mongoose.Schema.Types.ObjectId]
     },
     verificationToken: {
         type: String

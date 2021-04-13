@@ -77,8 +77,6 @@ async function register(params, origin) {
 
     const account = new Account(params)
 
-    const isFirstAccount = (await Account.countDocuments({})) === 0
-    account.role = isFirstAccount ? Role.Owner : Role.User
     account.verificationToken = randomTokenString()
 
     account.password = hash(params.password)
@@ -256,7 +254,7 @@ function basicDetails(account) {
 async function sendVerificationEmail(account, origin) {
     let message
     if (origin) {
-        const verifyUrl = `${origin}/account/verify-email?token=${account.verificationToken}`
+        const verifyUrl = `${origin}/accounts/verify-email?token=${account.verificationToken}`
         message = `<p>Please click the link below to verify your email address:</p>
                    <p><a href="${verifyUrl}">${verifyUrl}</a></p>`
     } else {

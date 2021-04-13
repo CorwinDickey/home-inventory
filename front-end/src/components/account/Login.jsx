@@ -1,27 +1,25 @@
 import React from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
-import { Button } from '@material-ui/core'
+import { Button, Card } from '@material-ui/core'
 
-import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
+// import * as yup from 'yup'
+// import { yupResolver } from '@hookform/resolvers/yup'
 
 import FormInput from '../form-controls/FormInput'
 
 import { accountService } from '../../services/account'
 import { alertService } from '../../services/alert'
 
-const validationSchema = yup.object().shape({
-    email: yup.string()
-        .email('Email is invalid')
-        .required('Email is required'),
-    password: yup.string()
-        .required('Password is required')
-})
+// const validationSchema = yup.object().shape({
+//     email: yup.string()
+//         .email('Email is invalid')
+//         .required('Email is required'),
+//     password: yup.string()
+//         .required('Password is required')
+// })
 
-function Login({ history, location }) {
-    const methods = useForm({
-        resolver: yupResolver(validationSchema)
-    })
+function Login({ history }) {
+    const methods = useForm()
 
     const { handleSubmit, errors } = methods
 
@@ -37,9 +35,9 @@ function Login({ history, location }) {
     }
 
     return (
-        <div>
+        <Card>
             <FormProvider {...methods}>
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <FormInput
                         name='email'
                         label='Email'
@@ -54,24 +52,24 @@ function Login({ history, location }) {
                         required={true}
                         errorObj={errors}
                     />
+                    <Button
+                        type='submit'
+                        variant='contained'
+                        color='primary'
+                    >Login</Button>
+                    <Button
+                        variant='text'
+                        color='primary'
+                        onClick={() => history.push('/register')}
+                    >Register</Button>
+                    <Button
+                        variant='text'
+                        color='primary'
+                        onClick={() => history.push('/forgot-password')}
+                    >Forgot Password</Button>
                 </form>
             </FormProvider>
-            <Button
-                variant='contained'
-                color='primary'
-                onClick={handleSubmit(onSubmit)}
-            >Login</Button>
-            <Button
-                variant='outlined'
-                color='primary'
-                onClick={() => history.push('/register')}
-            >Register</Button>
-            <Button
-                variant='outlined'
-                color='primary'
-                onClick={() => history.push('/forgot-password')}
-            >Forgot Password</Button>
-        </div>
+        </Card>
     )
 }
 

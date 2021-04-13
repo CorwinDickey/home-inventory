@@ -15,6 +15,7 @@ function App() {
 
     return (
         <div>
+            {/* {console.log('logging user', user)} */}
             <Alert />
             { user
                 ? <AuthApp />

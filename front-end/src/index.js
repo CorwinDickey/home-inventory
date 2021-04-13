@@ -4,7 +4,14 @@ import { Router } from 'react-router-dom'
 import App from './App';
 
 import { history } from './utils/history';
-// import { accountService } from './services/account'
+import { accountService } from './services/account'
+
+const user = accountService.userValue
+// console.log(accountService)
+
+// if (!user) {
+//     startApp()
+// }
 
 // accountService.refreshToken().finally(startApp)
 
