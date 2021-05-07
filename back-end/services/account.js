@@ -71,7 +71,9 @@ async function revokeToken({ token, ipAddress }) {
 }
 
 async function register(params, origin) {
+    // check if email is already registered
     if (await Account.findOne({ email: params.email })) {
+        // send email stating email is already registered
         return await sendAlreadyRegisteredEmail(params.email, origin)
     }
 
@@ -273,6 +275,7 @@ async function sendVerificationEmail(account, origin) {
 
 async function sendAlreadyRegisteredEmail(email, origin) {
     let message
+    console.log(origin)
     if (origin) {
         message = `<p>If you don't know your password please visit the <a href="${origin}/accounts/forgot-password">forgot password</a> page.</p>`
     } else{
@@ -293,7 +296,7 @@ async function sendPasswordResetEmail(account, origin) {
     if (origin) {
         const resetUrl = `${origin}/reset-password?token=${account.resetToken.token}`
         message = `<p>Please click the below link to reset your password, the link will be valid for 1 day:</p>
-                   <p><a href="${resetUrl}">${resetUrl}</a></p>` 
+                   <p><a href="${resetUrl}">${resetUrl}</a></p>`
     } else {
         message = `<p>Please use the below token to reset your password with the <code>/accounts/reset-password</code> api route:</p>
                    <p><code>${account.resetToken.token}</code></p>`

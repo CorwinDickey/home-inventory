@@ -149,6 +149,7 @@ function resetPassword(req, res, next) {
 }
 
 function getById(req, res, next) {
+    console.log(req.params)
     if (req.params.id !== req.user.id && req.user.role !== Role.Owner) {
         return res.status(401).json({ message: 'Unauthorized' })
     }

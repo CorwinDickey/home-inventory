@@ -28,8 +28,7 @@ const accountSchema = new mongoose.Schema({
         type: String
     },
     verified: {
-        type: Date,
-        default: Date.now()
+        type: Date
     },
     resetToken: {
         token: String,
@@ -40,7 +39,7 @@ const accountSchema = new mongoose.Schema({
     },
     created: {
         type: Date,
-        default: Date.now
+        default: Date.now()
     },
     updated: Date
 })

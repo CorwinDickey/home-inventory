@@ -5,11 +5,11 @@ const smtpConfig = {
     // "secret": process.env.SECRET,
     // "emailFrom": process.env.EMAIL_FROM,
     // smtpOptions: {
-        host: "smtp.ethereal.email",
+        host: process.env.SMTP_SERVER,
         port: 587,
         auth: {
-            user: process.env.ETHEREAL_USER,
-            pass: process.env.ETHEREAL_PASS
+            user: process.env.EMAIL_LOGIN,
+            pass: process.env.EMAIL_PASS
         }
     // }
 }

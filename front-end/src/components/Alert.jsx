@@ -17,6 +17,7 @@ const defaultProps = {
 function Alert({ sev, fade }) {
     const [alerts, setAlerts] = useState([])
 
+    // when component is first loaded, begin listening for alert events
     useEffect(() => {
         const subscription = alertService.onAlert(sev)
             .subscribe(alert => {
