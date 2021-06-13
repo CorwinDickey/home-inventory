@@ -14,7 +14,8 @@ accounts.post('/register', registerSchema, register)
 accounts.post('/verify-email', verifyEmailSchema, verifyEmail)
 accounts.post('/forgot-password', forgotPasswordSchema, forgotPassword)
 accounts.post('/validate-reset-token', validateResetTokenSchema, validateResetToken)
-accounts.post('/reset-password', resetPasswordSchema, resetPassword)
+// accounts.post('/reset-password', resetPasswordSchema, resetPassword)
+accounts.post('/reset-password', resetPassword)
 accounts.get('/:id', getById)
 accounts.put('/:id', updateAccountSchema, updateAccount)
 accounts.post('/', createAccountSchema, createAccount)
@@ -143,6 +144,7 @@ function resetPasswordSchema(req, res, next) {
 }
 
 function resetPassword(req, res, next) {
+    console.log('testing', req.body)
     accountService.resetPassword(req.body)
         .then(() => res.json({ message: 'Password reset successful, you can now login' }))
         .catch(next)

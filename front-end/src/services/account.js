@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs'
 import { fetchWrapper } from '../utils/fetch-wrapper'
 
 const userSubject = new BehaviorSubject(null)
+const baseUrl = '/accounts'
 
 export const accountService = {
     login,
@@ -21,7 +22,6 @@ export const accountService = {
     get userValue () { return userSubject.value }
 }
 
-const baseUrl = '/accounts'
 
 function login(email, password) {
     return fetchWrapper.post(baseUrl + '/authenticate', { email, password })
@@ -65,6 +65,7 @@ function validateResetToken(token) {
 }
 
 function resetPassword({ token, password, confirmPassword }) {
+    console.log('testing front-end account services')
     return fetchWrapper.post(baseUrl + '/reset-password', { token, password, confirmPassword })
 }
 

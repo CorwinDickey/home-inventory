@@ -4,7 +4,7 @@ const crypto = require('crypto')
 const mongoose = require('mongoose')
 
 const sendEmail = require('../utils/send-email')
-const Role = require('../utils/role')
+// const Role = require('../utils/role')
 const Account = require('../models/account')
 const RefreshToken = require('../models/refresh-token')
 
@@ -126,6 +126,7 @@ async function validateResetToken({ token }) {
 }
 
 async function resetPassword({ token, password }) {
+    console.log('token', token)
     const account = await Account.findOne({
         'resetToken.token': token,
         'resetToken.expires': { $gt: Date.now() }
@@ -294,7 +295,7 @@ async function sendAlreadyRegisteredEmail(email, origin) {
 async function sendPasswordResetEmail(account, origin) {
     let message
     if (origin) {
-        const resetUrl = `${origin}/reset-password?token=${account.resetToken.token}`
+        const resetUrl = `${origin}/accounts/reset-password?token=${account.resetToken.token}`
         message = `<p>Please click the below link to reset your password, the link will be valid for 1 day:</p>
                    <p><a href="${resetUrl}">${resetUrl}</a></p>`
     } else {

@@ -1,10 +1,10 @@
 import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
-import Login from '../account/Login'
-import Register from '../account/Register'
-import ForgotPassword from '../account/ForgotPassword'
-import ResetPassword from '../account/ResetPassword'
+import { Login } from '../account/Login'
+import { Register } from '../account/Register'
+import { ForgotPassword } from '../account/ForgotPassword'
+import { ResetPassword } from '../account/ResetPassword'
 
 function UnauthRoutes(props) {
 
@@ -13,9 +13,6 @@ function UnauthRoutes(props) {
             <Switch>
                 <Route
                     path='/' exact
-                    // render={(props) => {
-                    //     <Login setUser={props.setUser} />
-                    // }}
                     component={Login}
                 />
                 <Route
