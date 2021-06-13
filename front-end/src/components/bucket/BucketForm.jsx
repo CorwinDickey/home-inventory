@@ -41,7 +41,7 @@ function BucketForm({ bucketType, bucketObject, submitBucket }) {
                         name='name'
                         label={(bucketType + ' Name').toUpperCase()}
                         required={true}
-                        errorObj={errors}
+                        // errorObj={errors}
                     />
                     <Button
                         type='submit'

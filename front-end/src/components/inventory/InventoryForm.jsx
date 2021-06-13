@@ -55,7 +55,7 @@ function InventoryForm({ submitInventory, inventoryObject }) {
                         name='name'
                         label='Inventory Name'
                         required={true}
-                        // errorObj={errors}
+                        // errorobj={errors}
                     />
                     <Button
                         type='submit'
