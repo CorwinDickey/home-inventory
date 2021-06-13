@@ -55,7 +55,7 @@ function Login({ history }) {
                             label='Email'
                             type='email'
                             required={true}
-                            errorObj={errors}
+                            // errorObj={errors}
                             fullWidth
                         />
                         <FormInput
@@ -64,7 +64,7 @@ function Login({ history }) {
                             label='Password'
                             type='password'
                             required={true}
-                            errorObj={errors}
+                            // errorObj={errors}
                             fullWidth
                         />
                     </div>
@@ -91,4 +91,4 @@ function Login({ history }) {
     )
 }
 
-export default Login
+export { Login }

@@ -56,13 +56,13 @@ function Register({ history }) {
                             name='firstName'
                             label='First Name'
                             required={true}
-                            errorObj={errors}
+                            // errorObj={errors}
                         />
                         <FormInput
                             name='lastName'
                             label='Last Name'
                             required={true}
-                            errorObj={errors}
+                            // errorObj={errors}
                         />
                     </div>
                     <FormInput
@@ -70,7 +70,7 @@ function Register({ history }) {
                         label='Email'
                         type='email'
                         required={true}
-                        errorObj={errors}
+                        // errorObj={errors}
                     />
                     <div>
                         <FormInput
@@ -78,21 +78,21 @@ function Register({ history }) {
                             label='Password'
                             type='password'
                             required={true}
-                            errorObj={errors}
+                            // errorObj={errors}
                         />
                         <FormInput
                             name='confirmPassword'
                             label='Confirm Password'
                             type='password'
                             required={true}
-                            errorObj={errors}
+                            // errorObj={errors}
                         />
                     </div>
                     <FormCheck
                         name='acceptTerms'
                         label='I accept the Terms and Conditions'
                         required={true}
-                        errorObj={errors}
+                        // errorObj={errors}
                         color='primary'
                     />
                     <Button
@@ -111,4 +111,4 @@ function Register({ history }) {
     )
 }
 
-export default Register
+export { Register }

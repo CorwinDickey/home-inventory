@@ -75,14 +75,14 @@ function ResetPassword({ history, location }) {
                             label='Password'
                             type='password'
                             required={true}
-                            errorObj={errors}
+                            // errorObj={errors}
                         />
                         <FormInput
                             name='confirmPassword'
                             label='Confirm Password'
                             type='password'
                             required={true}
-                            errorObj={errors}
+                            // errorObj={errors}
                         />
                         <Button
                             type='submit'
@@ -110,4 +110,4 @@ function ResetPassword({ history, location }) {
     }
 }
 
-export default ResetPassword
+export { ResetPassword }

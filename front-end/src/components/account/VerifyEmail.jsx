@@ -14,9 +14,9 @@ function VerifyEmail({ history }) {
     const [emailStatus, setEmailStatus] = useState(EmailStatus.Verifying)
 
     useEffect(() => {
-        const { token } = queryString.parse(location.search)
+        const { token } = queryString.parse(window.location.search)
 
-        history.replace(location.pathname)
+        history.replace(window.location.pathname)
 
         accountService.verifyEmail(token)
             .then(() => {
@@ -45,4 +45,4 @@ function VerifyEmail({ history }) {
     )
 }
 
-export default VerifyEmail
+export { VerifyEmail }

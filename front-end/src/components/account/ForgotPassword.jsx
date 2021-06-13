@@ -39,7 +39,7 @@ function ForgotPassword({ history }) {
                         label='Email'
                         type='email'
                         required={true}
-                        errorObj={errors}
+                        // errorObj={errors}
                     />
                     <Button
                         type='submit'
@@ -57,4 +57,4 @@ function ForgotPassword({ history }) {
     )
 }
 
-export default ForgotPassword
+export { ForgotPassword }
