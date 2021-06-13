@@ -29,12 +29,6 @@ import { bucketService } from '../../services/bucket'
 //     creator: yup.string()
 // })
 
-const useStyles = makeStyles(theme => ({
-    inputStyle: {
-        margin: '10px',
-    }
-}))
-
 function ItemForm({ itemObject, submitItem, deleteItem }) {
     const [bucketList, setBucketList] = useState([])
     const isAddMode = !itemObject

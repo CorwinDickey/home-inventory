@@ -29,6 +29,11 @@ import Popup from '../Popup'
         )
     }
 
+    function useForceUpdate() {
+        const [value, setValue] = useState(0)
+        return () => setValue(value => value + 1)
+    }
+
 ////////////////////////////////////////////////////////////
 // COMPONENT
 ////////////////////////////////////////////////////////////
@@ -45,6 +50,8 @@ function ViewInventory() {
     const [openBucketPopup, setOpenBucketPopup] = useState(false)
     const [bucketObject, setBucketObject] = useState()
     const [bucketType, setBucketType] = useState()
+
+    const forceUpdate = useForceUpdate()
 
     useEffect(() => {
         getItems()
@@ -81,6 +88,28 @@ function ViewInventory() {
         } else {
             createItem(data)
         }
+        setOpenItemPopup(false)
+    }
+
+    function updateItem(id, data) {
+        if (data.room !== itemObject.room) {
+            removeItemFromBucket(itemObject.room)
+            addItemToBucket(data.room, itemObject._id)
+        }
+        if (data.category !== itemObject.category) {
+            removeItemFromBucket(itemObject.category)
+            addItemToBucket(data.category, itemObject._id)
+        }
+        return itemService.updateItem(id, data)
+    }
+
+    function createItem(data) {
+        itemService.createItem(data)
+            .then(response => {addItemToBuckets(response)})
+    }
+
+    function deleteItem() {
+        itemService.deleteItem(itemObject._id)
         setOpenItemPopup(false)
     }
 
@@ -178,6 +207,7 @@ function ViewInventory() {
                             variant='outlined'
                             color='primary'
                             onClick={()=>{
+                                forceUpdate()
                                 setItemObject(null)
                                 setOpenItemPopup(true);
                             }}
