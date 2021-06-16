@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 import App from './App';
 
-import { history } from './utils/history';
-import { accountService } from './services/account'
+// import { history } from './utils/history';
+// import { accountService } from './services/account'
 
-const user = accountService.userValue
+// const user = accountService.userValue
 // console.log(accountService)
 
 // if (!user) {
@@ -17,11 +17,11 @@ const user = accountService.userValue
 
 // function startApp() {
     ReactDOM.render(
-        <Router history={history}>
+        <BrowserRouter>
             <React.StrictMode>
                 <App />
             </React.StrictMode>
-        </Router>,
+        </BrowserRouter>,
         document.getElementById('root')
     )
 // }

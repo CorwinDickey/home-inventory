@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-import { alertService } from '../services/alert'
-import { history } from '../utils/history'
+import { alertService } from '../_services/alert'
+import { history } from '../_utils/history'
 
 const propTypes = {
     sev: PropTypes.string,

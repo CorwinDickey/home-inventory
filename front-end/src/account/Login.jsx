@@ -5,10 +5,10 @@ import { Button, Typography, makeStyles } from '@material-ui/core'
 // import * as yup from 'yup'
 // import { yupResolver } from '@hookform/resolvers/yup'
 
-import FormInput from '../form-controls/FormInput'
+import FormInput from '../_components/form-controls/FormInput'
 
-import { accountService } from '../../services/account'
-import { alertService } from '../../services/alert'
+import { accountService } from '../_services/account'
+import { alertService } from '../_services/alert'
 
 // const validationSchema = yup.object().shape({
 //     email: yup.string()

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { itemService } from '../../services/item'
+import { itemService } from '../services/item'
 import ShowList from './ShowList'
-import ItemForm from '../item/ItemForm'
+import ItemForm from '../components/item/ItemForm'
 import BucketForm from '../bucket/BucketForm'
-import { bucketService } from '../../services/bucket'
-import { inventoryService } from '../../services/inventory'
+import { bucketService } from '../services/bucket'
+import { inventoryService } from '../services/inventory'
 import {
     Button,
     Typography,
@@ -14,7 +14,7 @@ import {
     ListItem,
     ListItemText
 } from '@material-ui/core'
-import Popup from '../Popup'
+import Popup from '../components/Popup'
 
 ////////////////////////////////////////////////////////////
 // HELPER FUNCTIONS

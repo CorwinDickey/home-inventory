@@ -1,4 +1,4 @@
-import { fetchWrapper } from '../utils/fetch-wrapper'
+import { fetchWrapper } from '../_utils/fetch-wrapper'
 
 export const inventoryService = {
     createInventory,

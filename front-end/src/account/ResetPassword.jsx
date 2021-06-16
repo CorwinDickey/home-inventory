@@ -6,10 +6,10 @@ import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import { Button } from '@material-ui/core'
-import FormInput from '../form-controls/FormInput'
+import FormInput from '../_components/form-controls/FormInput'
 
-import { accountService } from '../../services/account'
-import { alertService } from '../../services/alert'
+import { accountService } from '../_services/account'
+import { alertService } from '../_services/alert'
 
 function ResetPassword({ history, location }) {
     const TokenStatus = {

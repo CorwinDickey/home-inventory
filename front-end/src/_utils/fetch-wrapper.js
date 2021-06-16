@@ -1,4 +1,4 @@
-import { accountService } from '../services/account'
+import { accountService } from '../_services/account'
 
 export const fetchWrapper = {
     get,

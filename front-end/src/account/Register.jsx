@@ -5,11 +5,11 @@ import { Button } from '@material-ui/core'
 import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 
-import FormInput from '../form-controls/FormInput'
-import FormCheck from '../form-controls/FormCheck'
+import FormInput from '../_components/form-controls/FormInput'
+import FormCheck from '../_components/form-controls/FormCheck'
 
-import { accountService } from '../../services/account'
-import { alertService } from '../../services/alert'
+import { accountService } from '../_services/account'
+import { alertService } from '../_services/alert'
 
     const validationSchema = Yup.object().shape({
         firstName: Yup.string()

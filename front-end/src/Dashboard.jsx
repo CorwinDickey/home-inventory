@@ -4,9 +4,9 @@ import {
     Card,
     Typography
 } from '@material-ui/core'
-import { inventoryService } from '../services/inventory'
-import { accountService } from '../services/account'
-import { history } from '../utils/history'
+import { inventoryService } from './_services/inventory'
+import { accountService } from './_services/account'
+import { history } from './_utils/history'
 
 function Dashboard() {
     const [ownerInventories, setOwnerInventories] = useState([])

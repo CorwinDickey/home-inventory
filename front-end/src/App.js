@@ -1,26 +1,32 @@
 import React, { useState, useEffect } from 'react'
+import { Switch, Route, useLocation, Redirect } from 'react-router-dom'
 
-import Alert from './components/Alert'
-import AuthApp from './components/auth/AuthApp'
-import UnauthApp from './components/auth/UnauthApp'
-import { accountService } from './services/account'
+import Alert from './_components/Alert'
+import PrivateRoute from './_components/PrivateRoute'
+import Dashboard from './Dashboard'
+import { Account } from './account'
+import { accountService } from './_services/account'
 
 
 function App() {
+    const { pathname } = useLocation()
     const [user, setUser] = useState({})
 
     useEffect(() => {
-        accountService.user.subscribe(x => setUser(x))
+        const subscription = accountService.user.subscribe(x => setUser(x))
+        return subscription.unsubscribe
     }, [])
 
     return (
         <div>
-            {/* {console.log('logging user', user)} */}
             <Alert />
-            { user
-                ? <AuthApp />
-                : <UnauthApp setUser={setUser} />
-            }
+            <Switch>
+                <Redirect from='/:url*(/+)' to={pathname.slice(0, -1)} />
+                <PrivateRoute exact path='/' component={Dashboard} />
+                {/* <PrivateRoute path='/profile' component={Profile} /> */}
+                <Route path='/account' component={Account} />
+                <Redirect from='*' to='/' />
+            </Switch>
         </div>
     )
 }

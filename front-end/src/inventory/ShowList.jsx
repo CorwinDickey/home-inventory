@@ -4,9 +4,9 @@ import {
     ListItem,
     ListItemText
 } from '@material-ui/core'
-import Popup from '../Popup'
+import Popup from '../components/Popup'
 import BucketForm from '../bucket/BucketForm'
-import { bucketService } from '../../services/bucket'
+import { bucketService } from '../services/bucket'
 
 function BucketList({ items, buckets }) {
     const [bucketObject, setBucketObject] = useState()

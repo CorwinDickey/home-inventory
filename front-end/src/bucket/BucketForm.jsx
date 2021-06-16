@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 
 import { Button } from '@material-ui/core'
 
-import Controls from '../form-controls'
+import Controls from '../components/form-controls'
 
 function BucketForm({ bucketType, bucketObject, submitBucket }) {
     const isAddMode = !bucketObject

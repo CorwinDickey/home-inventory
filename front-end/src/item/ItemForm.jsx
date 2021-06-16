@@ -6,7 +6,7 @@ import { Button, makeStyles } from '@material-ui/core'
 // import * as yup from 'yup'
 // import { yupResolver } from '@hookform/resolvers/yup'
 
-import Controls from '../form-controls'
+import Controls from '../_components/form-controls'
 import { accountService } from '../../services/account'
 import { itemService } from '../../services/item'
 // import { alertService } from '../../services/alert'
@@ -28,6 +28,12 @@ import { bucketService } from '../../services/bucket'
 //     inventory: yup.string(),
 //     creator: yup.string()
 // })
+
+const useStyles = makeStyles(theme => ({
+    inputStyle: {
+        margin: '10px',
+    }
+}))
 
 function ItemForm({ itemObject, submitItem, deleteItem }) {
     const [bucketList, setBucketList] = useState([])

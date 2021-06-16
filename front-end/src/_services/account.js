@@ -1,6 +1,6 @@
 import { BehaviorSubject } from 'rxjs'
 
-import { fetchWrapper } from '../utils/fetch-wrapper'
+import { fetchWrapper } from '../_utils/fetch-wrapper'
 
 const userSubject = new BehaviorSubject(null)
 const baseUrl = '/accounts'
