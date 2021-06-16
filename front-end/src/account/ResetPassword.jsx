@@ -100,14 +100,22 @@ function ResetPassword({ history, location }) {
         )
     }
 
-    switch (tokenStatus) {
-        case TokenStatus.Valid:
-            return <PasswordResetForm />
-        case TokenStatus.Invalid:
-            return <div>Token validation failed, if the token has expired you can get a new one at the <Link to='forgot-password'>forgot password</Link> page.</div>
-        case TokenStatus.Validating:
-            return <div>Validating token...</div>
+    function getBody() {
+        switch (tokenStatus) {
+            case TokenStatus.Valid:
+                return PasswordResetForm()
+            case TokenStatus.Invalid:
+                return <div>Token validation failed, if the token has expired you can get a new one at the <Link to='forgot-password'>forgot password</Link> page.</div>
+            case TokenStatus.Validating:
+                return <div>Validating token...</div>
+        }
     }
+
+    return (
+        <div>
+            {getBody()}
+        </div>
+    )
 }
 
 export { ResetPassword }

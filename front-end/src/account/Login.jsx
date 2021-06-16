@@ -1,6 +1,7 @@
 import React from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
-import { Button, Typography, makeStyles } from '@material-ui/core'
+import { Button, Typography, makeStyles, Link } from '@material-ui/core'
+import { Link as RouterLink } from 'react-router-dom'
 
 // import * as yup from 'yup'
 // import { yupResolver } from '@hookform/resolvers/yup'
@@ -74,17 +75,18 @@ function Login({ history }) {
                             variant='contained'
                             color='primary'
                         >Login</Button>
-                        <Button
-                            variant='text'
-                            color='primary'
-                            onClick={() => history.push('/register')}
-                        >Register</Button>
+                        <Link
+                            component={RouterLink}
+                            to='register'
+                            variant='button'
+                        >Register</Link>
+                        
                     </div>
-                    <Button
-                        variant='text'
-                        color='primary'
-                        onClick={() => history.push('/forgot-password')}
-                    >Forgot Password</Button>
+                    <Link
+                        component={RouterLink}
+                        to='forgot-password'
+                        variant='button'
+                    >Forgot Password</Link>
                 </form>
             </FormProvider>
         </div>

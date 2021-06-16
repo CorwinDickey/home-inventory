@@ -1,6 +1,7 @@
 import React from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
-import { Button } from '@material-ui/core'
+import { Button, Link } from '@material-ui/core'
+import { Link as RouterLink, Redirect } from 'react-router-dom'
 
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -28,6 +29,7 @@ function ForgotPassword({ history }) {
         accountService.forgotPassword(email)
             .then(() => alertService.success('Please check your email for password reset instructions'))
             .catch(error => alertService.error(error))
+        history.push('/')
     }
 
     return (
@@ -46,11 +48,11 @@ function ForgotPassword({ history }) {
                         variant='contained'
                         color='primary'
                     >Submit</Button>
-                    <Button
-                        variant='text'
-                        color='primary'
-                        onClick={() => history.push('/login')}
-                    >Cancel</Button>
+                    <Link
+                        component={RouterLink}
+                        to='login'
+                        variant='button'
+                    >Cancel</Link>
                 </form>
             </FormProvider>
         </div>
