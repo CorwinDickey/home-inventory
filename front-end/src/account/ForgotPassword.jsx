@@ -29,7 +29,7 @@ function ForgotPassword({ history }) {
         accountService.forgotPassword(email)
             .then(() => alertService.success('Please check your email for password reset instructions'))
             .catch(error => alertService.error(error))
-        history.push('/')
+        // history.push('/')
     }
 
     return (

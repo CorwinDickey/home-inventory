@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs'
 import { fetchWrapper } from '../_utils/fetch-wrapper'
 
 const userSubject = new BehaviorSubject(null)
-const baseUrl = '/accounts'
+const baseUrl = '/account'
 
 export const accountService = {
     login,
